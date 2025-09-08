@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>auv_description</name>
+  <version>24.1.0</version>
+  <description>The auv_description package</description>
+  <maintainer email="cirs-repositories@udg.edu">CIRS UdG</maintainer>
+  <license>GPL-3.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- ROS Dependencies -->
+  <depend>robot_state_publisher</depend>
+
+  <!-- COLA2 Dependencies -->
+  <depend>cola2_lib_ros</depend>
+
+  <exec_depend>ros2launch</exec_depend>
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
