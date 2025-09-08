@@ -3,3 +3,5 @@ controller_manager:
     update_rate: 100
     my_custom_controller:
       type: auv_controller/BodyVelocityController
+      TAM: [0 0 0 0
+      0 0 0 0]
