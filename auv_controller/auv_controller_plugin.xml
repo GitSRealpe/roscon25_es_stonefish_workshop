@@ -1,0 +1,10 @@
+<library path="auv_controller">
+    <class
+        name="auv_controller/BodyVelocityController"
+        type="auv_controller::BodyVelocityController"
+        base_class_type="controller_interface::ControllerInterface">
+        <description>
+            AUV Controller for ROS 2 control framework.
+        </description>
+    </class>
+</library>
