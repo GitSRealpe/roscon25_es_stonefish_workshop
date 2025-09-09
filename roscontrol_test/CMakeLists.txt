@@ -22,6 +22,7 @@ target_compile_features(ctrl_test PUBLIC c_std_99 cxx_std_17)  # Require C99 and
 # Install launch files and other resources
 install(DIRECTORY
   launch
+  config
   DESTINATION share/${PROJECT_NAME}/
 )
 
