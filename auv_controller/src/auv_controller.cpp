@@ -55,6 +55,6 @@ namespace auv_controller
 
 } // namespace auv_controller
 
-// #include "pluginlib/class_list_macros.hpp"<
+#include "pluginlib/class_list_macros.hpp"
 
-// PLUGINLIB_EXPORT_CLASS(velocity_controllers::JointGroupVelocityController, controller_interface::ControllerInterface)>
+PLUGINLIB_EXPORT_CLASS(auv_controller::BodyVelocityController, controller_interface::ControllerInterface)
