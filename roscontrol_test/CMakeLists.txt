@@ -11,6 +11,7 @@ find_package(ament_cmake REQUIRED)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 find_package(auv_controller REQUIRED)
+find_package(stonefish_hw_interface REQUIRED)
 
 add_executable(ctrl_test src/ctrl_test.cpp)
 ament_target_dependencies(ctrl_test rclcpp auv_controller)

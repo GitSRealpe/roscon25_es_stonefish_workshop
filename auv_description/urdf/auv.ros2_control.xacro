@@ -5,14 +5,14 @@
 
     <ros2_control name="${name}" type="system">
       <!-- hardware interface mock/stonefish/real_thruster -->
-      <hardware>
+      <!-- <hardware>
         <plugin>mock_components/GenericSystem</plugin>
         <param name="calculate_dynamics">true</param>
-      </hardware>
-
-      <!-- <hardware>
-        <plugin>StonefishHardwareInterface/ThrusterCommand</plugin>
       </hardware> -->
+
+      <hardware>
+        <plugin>stonefish_hw_interface/ThrusterGroupHWInterface</plugin>
+      </hardware>
 
       <!-- <thruster>
       <param name="maxSetpoint">300</param>
