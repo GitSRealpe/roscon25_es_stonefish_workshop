@@ -1,0 +1,12 @@
+<library path="stonefish_hw_interface">
+    <class
+        name="stonefish_hw_interface/ThrusterGroupHWInterface"
+        type="stonefish_hw_interface::ThrusterGroupHWInterface"
+        base_class_type="hardware_interface::SystemInterface">
+
+        <description>
+            ROS2 Hardware interface for a group of Stonefish Thrusters.
+        </description>
+
+    </class>
+</library>
