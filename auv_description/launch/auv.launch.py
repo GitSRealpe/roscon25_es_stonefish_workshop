@@ -19,7 +19,7 @@ def generate_launch_description():
         default_value=os.path.join(
             FindPackageShare('auv_description').find('auv_description'), 
             'urdf', 
-            'payload.urdf.xacro'
+            'auv.urdf.xacro'
         ),
         description='Path to the robot Xacro file'
     )
