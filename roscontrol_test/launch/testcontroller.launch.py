@@ -1,32 +1,43 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, Command
+from launch.substitutions import Command, PathJoinSubstitution, FindExecutable
 from launch_ros.substitutions import FindPackageShare
 
-def generate_launch_description():
 
-    robot_xacro_arg = DeclareLaunchArgument(
-        'robot_xacro',
-        default_value=PathJoinSubstitution([FindPackageShare(LaunchConfiguration("robot_description")), 'urdf', 'payload.urdf.xacro']),
-        description='Path to the robot Xacro file'
+def generate_launch_description():
+    xacro_file = PathJoinSubstitution(
+        [FindPackageShare("auv_description"), "urdf", "auv.urdf.xacro"]
+    )
+    controllers_file = PathJoinSubstitution(
+        [FindPackageShare("roscontrol_test"), "config", "controller.yaml"]
     )
 
-    robot_description_arg = Command(['xacro ',' ', LaunchConfiguration("robot_xacro"), ' robot_namespace:=', LaunchConfiguration('robot_name')])
+    # Get URDF via xacro
+    robot_description_content = Command(
+        [PathJoinSubstitution([FindExecutable(name="xacro")]), " ", xacro_file]
+    )
+    robot_description = {"robot_description": robot_description_content}
 
-    return LaunchDescription([
-        robot_xacro_arg,
-        robot_description_arg,
-        Node(
-            package='controller_manager',
-            executable='ros2_control_node',
-            parameters=['robot_description', 'controllers.yaml'],
-            output='screen',
-        ),
-        Node(
-            package='test_controller_pkg',
-            executable='test_node',
-            name='test_node',
-            output='screen',
-        ),
-    ])
+    control_node = Node(
+        package="controller_manager",
+        executable="ros2_control_node",
+        parameters=[controllers_file],  # YAML with your controller definition
+        output="screen",
+    )
+    robot_state_pub_node = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        output="both",
+        parameters=[robot_description],
+    )
+    # Spawn your custom controller (name must match the one in controllers.yaml)
+    robot_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["auv_velocity_controller", "--param-file", controllers_file],
+        output="screen",
+    )
+
+    nodes = [control_node, robot_state_pub_node, robot_controller_spawner]
+
+    return LaunchDescription(nodes)
