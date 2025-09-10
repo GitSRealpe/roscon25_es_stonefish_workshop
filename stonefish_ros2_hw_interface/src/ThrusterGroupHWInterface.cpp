@@ -1,6 +1,6 @@
 #include <stonefish_hw_interface/ThrusterGroupHWInterface.hpp>
 
-namespace stonefish_hardware_interface
+namespace stonefish_hw_interface
 {
     ThrusterGroupHWInterface::ThrusterGroupHWInterface(/* args */)
     {
@@ -37,8 +37,8 @@ namespace stonefish_hardware_interface
         return hardware_interface::return_type::OK;
     }
 
-} // namespace stonefish_hardware_interface
+} // namespace stonefish_hw_interface
 
 #include "pluginlib/class_list_macros.hpp"
 
-PLUGINLIB_EXPORT_CLASS(stonefish_hardware_interface::ThrusterGroupHWInterface, hardware_interface::SystemInterface)
+PLUGINLIB_EXPORT_CLASS(stonefish_hw_interface::ThrusterGroupHWInterface, hardware_interface::SystemInterface)

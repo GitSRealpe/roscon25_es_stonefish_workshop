@@ -4,7 +4,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "hardware_interface/system_interface.hpp"
 
-namespace stonefish_hardware_interface
+namespace stonefish_hw_interface
 {
     class ThrusterGroupHWInterface : public hardware_interface::SystemInterface
     {
