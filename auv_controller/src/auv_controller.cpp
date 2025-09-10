@@ -20,7 +20,27 @@ namespace auv_controller
     controller_interface::CallbackReturn BodyVelocityController::on_configure(const rclcpp_lifecycle::State & /*previous_state*/)
     {
         // parameter are read here
-        std::cout << "on_configure controller\n";
+        twist_sub = get_node()->create_subscription<geometry_msgs::msg::Twist>(
+            "~/body_velocity_command", rclcpp::SystemDefaultsQoS(),
+            [this](const geometry_msgs::msg::Twist::SharedPtr msg)
+            {
+                const auto cmd = *msg;
+                rt_command_.set(cmd);
+            });
+
+        Eigen::MatrixXd tam(6, 2);
+        tam << cos(0.785398), cos(0.785398),
+            sin(0.785398), -sin(0.785398),
+            0, 0,
+            0, 0,
+            0, 0,
+            -0.495, 0.495;
+
+        std::cout << tam.format(CleanFmt) << "\n";
+
+        tam_inv_ = tam.completeOrthogonalDecomposition().pseudoInverse();
+        tam_inv_ = tam_inv_.unaryExpr([](double x)
+                                      { return (abs(x) < 1e-4) ? 0.0 : x; });
         return controller_interface::CallbackReturn::SUCCESS;
     }
 

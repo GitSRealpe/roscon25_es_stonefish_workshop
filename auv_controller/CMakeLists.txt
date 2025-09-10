@@ -8,6 +8,7 @@ endif()
 # Find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
+find_package(Eigen3 REQUIRED)
 
 set(THIS_PACKAGE_INCLUDE_DEPENDS
   controller_interface
