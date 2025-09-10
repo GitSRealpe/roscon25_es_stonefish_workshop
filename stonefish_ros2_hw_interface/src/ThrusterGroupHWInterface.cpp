@@ -13,8 +13,34 @@ namespace stonefish_hw_interface
 
     hardware_interface::CallbackReturn ThrusterGroupHWInterface::on_init(const hardware_interface::HardwareInfo &info)
     {
-        std::cout << "on_init thruster hw interface\n";
-        std::cout << info.name << "\n";
+        RCLCPP_INFO(this->get_logger(), "Initializing hardware interface: %s", info.name.c_str());
+
+        // Store joint names and initialize storage for commands/states
+        joint_names_.clear();
+        velocity_commands_.clear();
+        velocity_states_.clear();
+
+        for (const auto &joint : info.joints)
+        {
+
+            std::cout << joint.name << "\n";
+            joint_names_.push_back(joint.name);
+            velocity_commands_.push_back(0.0); // Initialize velocity command
+            velocity_states_.push_back(0.0);   // Initialize velocity state
+        }
+
+        // Check for thruster write topic
+        auto write_topic_it = info.hardware_parameters.find("thruster_group_write_topic");
+        if (write_topic_it == info.hardware_parameters.end())
+        {
+            RCLCPP_ERROR(this->get_logger(), "Thruster write topic not defined");
+            return hardware_interface::CallbackReturn::ERROR;
+        }
+
+        auto thruster_group_write_topic_ = write_topic_it->second;
+        RCLCPP_INFO(this->get_logger(), "Thruster write topic: %s", thruster_group_write_topic_.c_str());
+        thruster_group_publisher_ = this->get_node()->create_publisher<std_msgs::msg::Float64MultiArray>(thruster_group_write_topic_, 10);
+
         return hardware_interface::CallbackReturn::SUCCESS;
     }
 
@@ -25,15 +51,47 @@ namespace stonefish_hw_interface
         return hardware_interface::CallbackReturn::SUCCESS;
     }
 
+    std::vector<hardware_interface::StateInterface> ThrusterGroupHWInterface::export_state_interfaces()
+    {
+        std::vector<hardware_interface::StateInterface> state_interfaces;
+        for (size_t i = 0; i < joint_names_.size(); ++i)
+        {
+            state_interfaces.emplace_back(
+                hardware_interface::StateInterface(
+                    joint_names_[i], hardware_interface::HW_IF_VELOCITY, &velocity_states_[i]));
+        }
+        return state_interfaces;
+    }
+
+    std::vector<hardware_interface::CommandInterface> ThrusterGroupHWInterface::export_command_interfaces()
+    {
+        std::vector<hardware_interface::CommandInterface> command_interfaces;
+        for (size_t i = 0; i < joint_names_.size(); ++i)
+        {
+            command_interfaces.emplace_back(
+                hardware_interface::CommandInterface(
+                    joint_names_[i], hardware_interface::HW_IF_VELOCITY, &velocity_commands_[i]));
+        }
+        return command_interfaces;
+    }
+
     hardware_interface::return_type ThrusterGroupHWInterface::read(const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
     {
-
+        for (size_t i = 0; i < velocity_states_.size(); ++i)
+        {
+            velocity_states_[i] = 0.0; // Placeholder: Replace with actual sensor data (e.g., RPM)
+            RCLCPP_DEBUG(this->get_logger(), "Read velocity for %s: %f", joint_names_[i].c_str(), velocity_states_[i]);
+        }
         return hardware_interface::return_type::OK;
     }
 
     hardware_interface::return_type ThrusterGroupHWInterface::write(const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
     {
-
+        // Publish velocity commands to thruster topic
+        std_msgs::msg::Float64MultiArray msg;
+        msg.data = velocity_commands_;
+        thruster_group_publisher_->publish(msg);
+        RCLCPP_DEBUG(this->get_logger(), "Published thruster commands: %zu values", msg.data.size());
         return hardware_interface::return_type::OK;
     }
 
