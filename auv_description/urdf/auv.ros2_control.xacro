@@ -12,25 +12,25 @@
 
       <hardware>
         <plugin>stonefish_hw_interface/ThrusterGroupHWInterface</plugin>
+        <param name="thruster_group_write_topic">auv/sf_controller/thruster_setpoints_sim</param>
+        <param name="thruster_group_read_topic">auv/sf_controller/thruster_state</param>
       </hardware>
 
       <!-- <thruster>
       <param name="maxSetpoint">300</param>
       </thruster> -->
 
-      <joint name="${prefix}joint1">
-        <command_interface name="position">
-          <param name="min">-1</param>
-          <param name="max">1</param>
+      <joint name="${prefix}/thruster3_joint">
+        <command_interface name="velocity">
+          <param name="max_setpoint">100</param>
         </command_interface>
-        <state_interface name="position" />
+        <state_interface name="velocity"/>
       </joint>
-      <joint name="${prefix}joint2">
-        <command_interface name="position">
-          <param name="min">-1</param>
-          <param name="max">1</param>
+      <joint name="${prefix}/thruster4_joint">
+        <command_interface name="velocity">
+          <param name="max_setpoint">100</param>
         </command_interface>
-        <state_interface name="position" />
+        <state_interface name="velocity"/>
       </joint>
     </ros2_control>
 
