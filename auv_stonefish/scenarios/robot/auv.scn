@@ -1,149 +1,149 @@
 <?xml version="1.0"?>
 <scenario>
 
-    <looks>
-        <look name="white" roughness="0.3" rgb="0.929 0.929 0.929" />
-        <look name="orange" roughness="0.0" rgb="1.0 0.1 0.0" />
-        <look name="yellow" roughness="1.0" rgb="1 0.5 0.0" />
-        <look name="red" roughness="1.0" rgb="1.0 0.0 0.0" />
-        <look name="wood" roughness="1.0" rgb="0.412 0.325 0.094" />
-    </looks>
+  <looks>
+    <look name="white" roughness="0.3" rgb="0.929 0.929 0.929"/>
+    <look name="orange" roughness="0.0" rgb="1.0 0.1 0.0"/>
+    <look name="yellow" roughness="1.0" rgb="1 0.5 0.0"/>
+    <look name="red" roughness="1.0" rgb="1.0 0.0 0.0"/>
+    <look name="wood" roughness="1.0" rgb="0.412 0.325 0.094"/>
+  </looks>
 
-    <robot name="$(arg robot_name)" fixed="false" self_collisions="false">
+  <robot name="$(arg robot_name)" fixed="false" self_collisions="false">
 
-        <base_link name="Vehicle" type="compound" physics="submerged">
+    <base_link name="Vehicle" type="compound" physics="submerged">
 
-            <external_part name="top" type="model" physics="submerged" buoyant="false">
-                <physical>
-                    <mesh filename="robot/top_phy.obj" scale="1.0" />
-                    <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0" />
-                </physical>
-                <visual>
-                    <mesh filename="robot/top.obj" scale="1.0" />
-                    <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0" />
-                </visual>
-                <material name="Fiberglass" />
-                <mass value="10.0" />
-                <look name="red" />
-                <compound_transform rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0" />
-            </external_part>
+      <external_part name="top" type="model" physics="submerged" buoyant="false">
+        <physical>
+          <mesh filename="robot/top_phy.obj" scale="1.0"/>
+          <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        </physical>
+        <visual>
+          <mesh filename="robot/top.obj" scale="1.0"/>
+          <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        </visual>
+        <material name="Fiberglass"/>
+        <mass value="10.0"/>
+        <look name="red"/>
+        <compound_transform rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+      </external_part>
 
-            <external_part name="bottom" type="model" physics="submerged" buoyant="false">
-                <physical>
-                    <mesh filename="robot/bottom_phy.obj" scale="1.0" />
-                    <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0" />
-                </physical>
-                <visual>
-                    <mesh filename="robot/bottom.obj" scale="1.0" />
-                    <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0" />
-                </visual>
-                <material name="Fiberglass" />
-                <mass value="40.0" />
-                <look name="red" />
-                <compound_transform rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0" />
-            </external_part>
+      <external_part name="bottom" type="model" physics="submerged" buoyant="false">
+        <physical>
+          <mesh filename="robot/bottom_phy.obj" scale="1.0"/>
+          <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        </physical>
+        <visual>
+          <mesh filename="robot/bottom.obj" scale="1.0"/>
+          <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        </visual>
+        <material name="Fiberglass"/>
+        <mass value="40.0"/>
+        <look name="red"/>
+        <compound_transform rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+      </external_part>
 
-            <internal_part name="starboard_buoyancy" type="cylinder" physics="submerged"
-                buoyant="true">
-                <dimensions radius="0.15" height="2.0" />
-                <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0" />
-                <material name="Neutral" />
-                <mass value="110" />
-                <look name="Gray" />
-                <compound_transform rpy="0.0 1.57 0.0" xyz="0.0 1.0 -0.2" />
-            </internal_part>
+      <internal_part name="starboard_buoyancy" type="cylinder" physics="submerged"
+        buoyant="true">
+        <dimensions radius="0.15" height="2.0"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        <material name="Neutral"/>
+        <mass value="110"/>
+        <look name="Gray"/>
+        <compound_transform rpy="0.0 1.57 0.0" xyz="0.0 1.0 -0.2"/>
+      </internal_part>
 
-            <internal_part name="port_buoyancy" type="cylinder" physics="submerged" buoyant="true">
-                <dimensions radius="0.15" height="2.0" />
-                <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0" />
-                <material name="Neutral" />
-                <mass value="110" />
-                <look name="Gray" />
-                <compound_transform rpy="0.0 1.57 0.0" xyz="0.0 -1.0 -0.2" />
-            </internal_part>
-        </base_link>
+      <internal_part name="port_buoyancy" type="cylinder" physics="submerged" buoyant="true">
+        <dimensions radius="0.15" height="2.0"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        <material name="Neutral"/>
+        <mass value="110"/>
+        <look name="Gray"/>
+        <compound_transform rpy="0.0 1.57 0.0" xyz="0.0 -1.0 -0.2"/>
+      </internal_part>
+    </base_link>
 
-        <!-- sensors -->
+    <!-- sensors -->
 
-        <sensor name="dynamics" type="odometry" rate="30.0">
-            <link name="Vehicle" />
-            <origin rpy="3.1416 0.0 0.0" xyz="0.0 0.0 0.0" />
-            <ros_publisher topic="/auv/dynamics/odometry_truth" />
-        </sensor>
+    <sensor name="dynamics" type="odometry" rate="30.0">
+      <link name="Vehicle"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+      <ros_publisher topic="/auv/dynamics/odometry_truth"/>
+    </sensor>
 
-        <sensor name="ins" type="ins" rate="5.0">
-            <link name="Vehicle" />
-            <origin rpy="0.0 0.0 0.0" xyz="-0.31 0.0  0.211" />
-            <output_frame rpy="0.0 0.0 0.0" xyz="-0.31 0.0  0.211" />
-            <noise angular_velocity="0.00001745" linear_acceleration="0.0005" />
-            <external_sensors gps="gps" />
-            <ros_publisher topic="/auv/navigator/navigation_sim" />
-        </sensor>
+    <sensor name="ins" type="ins" rate="5.0">
+      <link name="Vehicle"/>
+      <origin rpy="0.0 0.0 0.0" xyz="-0.31 0.0  0.211"/>
+      <output_frame rpy="0.0 0.0 0.0" xyz="-0.31 0.0  0.211"/>
+      <noise angular_velocity="0.00001745" linear_acceleration="0.0005"/>
+      <external_sensors gps="gps"/>
+      <ros_publisher topic="/auv/navigator/navigation_sim"/>
+    </sensor>
 
-        <sensor name="imu_filter" type="imu" rate="20.0">
-            <link name="Vehicle" />
-            <origin rpy="0.0 0.0 0.0" xyz="-0.31 0.0 0.211" />
-            <noise angle="0.000001745" angular_velocity="0.00001745" />
-            <ros_publisher topic="/auv/navigator/imu" />
-        </sensor>
+    <sensor name="imu_filter" type="imu" rate="20.0">
+      <link name="Vehicle"/>
+      <origin rpy="0.0 0.0 0.0" xyz="-0.31 0.0 0.211"/>
+      <noise angle="0.000001745" angular_velocity="0.00001745"/>
+      <ros_publisher topic="/auv/navigator/imu"/>
+    </sensor>
 
-        <sensor name="gps" type="gps" rate="1.0">
-            <link name="Vehicle" />
-            <origin rpy="0.0 0.0 0.0" xyz="-0.238 -0.203 -0.4" />
-            <noise ned_position="0.5" />
-            <ros_publisher topic="/auv/navigator/gps" />
-        </sensor>
+    <sensor name="gps" type="gps" rate="1.0">
+      <link name="Vehicle"/>
+      <origin rpy="0.0 0.0 0.0" xyz="-0.238 -0.203 -0.4"/>
+      <noise ned_position="0.5"/>
+      <ros_publisher topic="/auv/navigator/gps"/>
+    </sensor>
 
-        <!-- motors -->
+    <!-- motors -->
 
-        <actuator name="propeller_starboard" type="thruster">
-            <link name="Vehicle" />
-            <origin rpy="0.0 0.0 0.7068" xyz="-0.35 0.35 0.0" />
-            <propeller diameter="0.289" right="true">
-                <mesh filename="robot/propeller.obj"
-                    scale="1.0" />
-                <material name="Neutral" />
-                <look name="orange" />
-            </propeller>
-            <specs max_setpoint="100" inverted_setpoint="false" normalized_setpoint="true" />
-            <rotor_dynamics type="mechanical_pi">
-                <rotor_inertia value="1" />
-                <kp value="8.0" />
-                <ki value="5.0" />
-                <ilimit value="10.0" />
-            </rotor_dynamics>
-            <thrust_model type="fluid_dynamics">
-                <thrust_coeff forward="0.515" reverse="0.35" />
-                <torque_coeff value="0.06" />
-            </thrust_model>
-        </actuator>
+    <actuator name="propeller_starboard" type="thruster">
+      <link name="Vehicle"/>
+      <origin rpy="0.0 0.0 0.785398" xyz="-0.35 0.35 0.0"/>
+      <propeller diameter="0.289" right="true">
+        <mesh filename="robot/propeller.obj"
+          scale="1.0"/>
+        <material name="Neutral"/>
+        <look name="orange"/>
+      </propeller>
+      <specs max_setpoint="100" inverted_setpoint="false" normalized_setpoint="true"/>
+      <rotor_dynamics type="mechanical_pi">
+        <rotor_inertia value="1"/>
+        <kp value="8.0"/>
+        <ki value="5.0"/>
+        <ilimit value="10.0"/>
+      </rotor_dynamics>
+      <thrust_model type="fluid_dynamics">
+        <thrust_coeff forward="0.515" reverse="0.35"/>
+        <torque_coeff value="0.06"/>
+      </thrust_model>
+    </actuator>
 
-        <actuator name="propeller_port" type="thruster">
-            <link name="Vehicle" />
-            <origin rpy="0.0 0.0 -0.7068" xyz="-0.35 -0.35 0.0" />
-            <propeller diameter="0.289" right="true">
-                <mesh filename="robot/propeller.obj"
-                    scale="1.0" />
-                <material name="Neutral" />
-                <look name="orange" />
-            </propeller>
-            <specs max_setpoint="100" inverted_setpoint="false" normalized_setpoint="true" />
-            <rotor_dynamics type="mechanical_pi">
-                <rotor_inertia value="1" />
-                <kp value="8.0" />
-                <ki value="5.0" />
-                <ilimit value="10.0" />
-            </rotor_dynamics>
-            <thrust_model type="fluid_dynamics">
-                <thrust_coeff forward="0.515" reverse="0.35" />
-                <torque_coeff value="0.06" />
-            </thrust_model>
-        </actuator>
+    <actuator name="propeller_port" type="thruster">
+      <link name="Vehicle"/>
+      <origin rpy="0.0 0.0 -0.785398" xyz="-0.35 -0.35 0.0"/>
+      <propeller diameter="0.289" right="true">
+        <mesh filename="robot/propeller.obj"
+          scale="1.0"/>
+        <material name="Neutral"/>
+        <look name="orange"/>
+      </propeller>
+      <specs max_setpoint="100" inverted_setpoint="false" normalized_setpoint="true"/>
+      <rotor_dynamics type="mechanical_pi">
+        <rotor_inertia value="1"/>
+        <kp value="8.0"/>
+        <ki value="5.0"/>
+        <ilimit value="10.0"/>
+      </rotor_dynamics>
+      <thrust_model type="fluid_dynamics">
+        <thrust_coeff forward="0.515" reverse="0.35"/>
+        <torque_coeff value="0.06"/>
+      </thrust_model>
+    </actuator>
 
-        <world_transform rpy="0.0 0.0 $(arg yaw)" xyz="$(arg position)" />
+    <world_transform rpy="0.0 0.0 $(arg yaw)" xyz="$(arg position)"/>
 
-        <ros_subscriber thrusters="/auv/sf_controller/thruster_setpoints_sim" />
-        <ros_publisher thrusters="/auv/sf_controller/thruster_state" />
-    </robot>
+    <ros_subscriber thrusters="/auv/sf_controller/thruster_setpoints_sim"/>
+    <ros_publisher thrusters="/auv/sf_controller/thruster_state"/>
+  </robot>
 
 </scenario>
