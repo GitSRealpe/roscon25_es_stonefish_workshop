@@ -47,6 +47,9 @@ namespace auv_controller
     controller_interface::InterfaceConfiguration BodyVelocityController::command_interface_configuration() const
     {
         controller_interface::InterfaceConfiguration command_interfaces_config;
+        command_interfaces_config.type = controller_interface::interface_configuration_type::INDIVIDUAL;
+        command_interfaces_config.names = {"auv/thruster3_joint/velocity",
+                                           "auv/thruster4_joint/velocity"};
         return command_interfaces_config;
     }
 
