@@ -1,5 +1,8 @@
 #include <auv_controller/auv_controller.hpp>
 
+using std::placeholders::_1;
+
+Eigen::IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
 namespace auv_controller
 {
     BodyVelocityController::BodyVelocityController(/* args */)
@@ -72,6 +75,28 @@ namespace auv_controller
 
     controller_interface::return_type BodyVelocityController::update(const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
     {
+        auto twist_command_op = rt_command_.try_get();
+        if (twist_command_op.has_value())
+        {
+            twist_command = twist_command_op.value();
+        }
+
+        Eigen::VectorXd command = Eigen::VectorXd::Zero(6);
+        command << twist_command.linear.x,
+            twist_command.linear.y,
+            twist_command.linear.z,
+            twist_command.angular.x,
+            twist_command.angular.y,
+            twist_command.angular.z;
+
+        Eigen::VectorXd setpoints = tam_inv_ * command;
+
+        // Write commands to the hardware interface
+        for (size_t i = 0; i < command_interfaces_.size(); ++i)
+        {
+            // casting to void to avoid compiler warning
+            static_cast<void>(command_interfaces_[i].set_value(setpoints[i]));
+        }
 
         return controller_interface::return_type::OK;
     }
