@@ -11,9 +11,6 @@
   <!-- ROS Dependencies -->
   <depend>robot_state_publisher</depend>
 
-  <!-- COLA2 Dependencies -->
-  <depend>cola2_lib_ros</depend>
-
   <exec_depend>ros2launch</exec_depend>
   <export>
     <build_type>ament_cmake</build_type>

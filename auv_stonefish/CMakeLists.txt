@@ -13,11 +13,7 @@ find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(std_msgs REQUIRED)
-find_package(cola2_msgs REQUIRED)
 find_package(stonefish_ros2 REQUIRED)
-
-# Declare the executable
-add_executable(auv_stonefish_node src/auv_stonefish_node.cpp)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -49,17 +45,17 @@ install(PROGRAMS
   DESTINATION lib/${PROJECT_NAME}
 )
 
+# Declare the executable
+# add_executable(auv_stonefish_node src/auv_stonefish_node.cpp)
 # Specify the dependencies for the executable
-ament_target_dependencies(auv_stonefish_node
-  rclcpp
-  std_msgs
-  cola2_msgs
-  stonefish_ros2
-)
-
+# ament_target_dependencies(auv_stonefish_node
+#   rclcpp
+#   std_msgs
+#   stonefish_ros2
+# )
 # Install the executable
-install(TARGETS auv_stonefish_node
-  DESTINATION lib/${PROJECT_NAME}
-)
+# install(TARGETS auv_stonefish_node
+#   DESTINATION lib/${PROJECT_NAME}
+# )
 
 ament_package()
