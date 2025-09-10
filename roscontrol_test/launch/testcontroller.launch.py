@@ -1,5 +1,6 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
+from launch.actions import SetEnvironmentVariable
 from launch.substitutions import Command, PathJoinSubstitution, FindExecutable
 from launch_ros.substitutions import FindPackageShare
 
@@ -38,6 +39,11 @@ def generate_launch_description():
         output="screen",
     )
 
-    nodes = [control_node, robot_state_pub_node, robot_controller_spawner]
+    nodes = [
+        SetEnvironmentVariable(name="RCUTILS_COLORIZED_OUTPUT", value="1"),
+        control_node,
+        robot_state_pub_node,
+        robot_controller_spawner,
+    ]
 
     return LaunchDescription(nodes)
