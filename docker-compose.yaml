@@ -1,0 +1,72 @@
+name: roscon25-stonefish-docker
+
+services:
+  # Base image containing dependencies.
+  base:
+    image: roscon25-stonefish:base
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ROS_DISTRO: "jazzy"
+      target: base
+    # Interactive shell
+    stdin_open: true
+    tty: true
+    # Networking and IPC for ROS
+    network_mode: bridge
+    hostname: roscon25-stonefish-docker
+    ipc: host
+    # Needed to display graphical applications
+    privileged: True
+    environment:
+      # Allows graphical programs in the container.
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      # Allows graphical programs in the container.
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
+
+  # # Developer container
+  dev:
+    extends: base
+    image: roscon25-stonefish:dev
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all 
+              capabilities: [ gpu ]
+    user: developer
+    environment:
+      - DISPLAY=${DISPLAY}
+      - TERM=xterm-256color
+      - DEBUG_COLORS=true
+      - COLORTERM=truecolor
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all 
+    network_mode: host
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    # args:
+    #   - UID=${UID:-1000}
+    #   - GID=${UID:-1000}
+    #   - USERNAME=dev
+    volumes:
+      # Allows graphical programs in the container.
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
+      # Mount the source code
+      - ./auv_description:/home/developer/ros2_ws/src/auv_description/:rw
+      - ./auv_stonefish:/home/developer/ros2_ws/src/auv_stonefish/:rw
+    # - ~/ros_ws/doc_ws/src/coperamos_things/cooperamos_ai:/home/dev/ros_ws/src/cooperamos_ai:rw
+    # - ~/ros_ws/doc_ws/src/cola/cola2/cola2_msgs:/home/dev/ros_ws/src/cola2/cola2_msgs:rw
+    # - ~/ros_ws/doc_ws/src/cirs/iauv/iauv_kinematic_control:/home/dev/ros_ws/src/iauv_kinematic_control:rw
+    # - ~/ros_ws/doc_ws/src/packs/ros_numpy:/home/dev/ros_ws/src/ros_numpy:rw
+    # - ~/ros_ws/doc_ws/src/coperamos_things/cooperamos_architecture/cooperamos_msgs:/home/dev/ros_ws/src/cooperamos_msgs:rw
+    # - ~/ros_ws/doc_ws/src/cola/cola2/cola2_lib_ros:/home/dev/ros_ws/src/cola2/cola2_lib_ros:rw
+    command: sleep infinity
