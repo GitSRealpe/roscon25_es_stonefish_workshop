@@ -1,0 +1,1 @@
+-[] install nvidia container toolkit to be able to use stonefish in the docker
