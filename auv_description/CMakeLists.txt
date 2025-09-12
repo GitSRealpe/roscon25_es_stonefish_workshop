@@ -13,7 +13,7 @@ install(TARGETS
   DESTINATION lib/${PROJECT_NAME}
 )
 
-install(DIRECTORY launch meshes urdf DESTINATION share/${PROJECT_NAME})
+install(DIRECTORY launch urdf DESTINATION share/${PROJECT_NAME})
 
 # Declare ament package
 ament_package()
