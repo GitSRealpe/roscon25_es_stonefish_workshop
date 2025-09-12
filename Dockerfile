@@ -22,7 +22,6 @@ ARG USERNAME=developer
 # Create new user and home directory
 RUN groupadd -g $GID ${USERNAME}
 RUN useradd -rm -d /home/${USERNAME} -s /bin/bash -g $GID -G sudo -u $UID ${USERNAME} -p "$(openssl passwd -1 ${USERNAME})"
-# WORKDIR /home/${USERNAME}
 
 RUN rm /etc/apt/apt.conf.d/docker-clean &&\
     apt-get update
@@ -48,8 +47,9 @@ RUN mkdir -p /home/${USERNAME}/ros2_ws/src
 RUN cd ros2_ws/src && git clone https://github.com/patrykcieslak/stonefish_ros2.git
 
 WORKDIR /home/${USERNAME}/ros2_ws
-RUN source /opt/ros/${ROS_DISTRO}/setup.bash && \
-    colcon build
+RUN . /opt/ros/${ROS_DISTRO}/setup.sh \
+    && colcon build \
+    && . install/setup.sh
 
 # RUN apt-get update && apt-get install ros-noetic-controller-manager -y
 
@@ -61,7 +61,7 @@ ENTRYPOINT [ "/entrypoint.sh" ]
 #####################
 FROM base AS dev
 
-# # Install extra tools for development
+# Install extra tools for development
 USER root
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gdb gdbserver nano iputils-ping byobu 
@@ -77,13 +77,13 @@ RUN echo "export __NV_PRIME_RENDER_OFFLOAD=1" >> ~/.bashrc && \
     echo "export __GLX_VENDOR_LIBRARY_NAME=nvidia" >> ~/.bashrc && \
     echo "export DRI_PRIME=1" >> ~/.bashrc
 
-RUN source ~/.bashrc
-
 WORKDIR /home/${USERNAME}/ros2_ws
 COPY ./auv_stonefish /home/${USERNAME}/ros2_ws/src/auv_stonefish
-# RUN colcon build
+RUN . /opt/ros/jazzy/setup.sh \
+    && colcon build \
+    && . install/setup.sh
 
-# # Set up the entrypoint
+# Set up the entrypoint
 COPY ./entrypoint.sh /
 ENTRYPOINT [ "/entrypoint.sh" ]
 
