@@ -10,11 +10,11 @@ find_package(ament_cmake REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
-find_package(auv_controller REQUIRED)
+find_package(auv_controllers REQUIRED)
 find_package(stonefish_hw_interface REQUIRED)
 
 add_executable(ctrl_test src/ctrl_test.cpp)
-ament_target_dependencies(ctrl_test rclcpp auv_controller)
+ament_target_dependencies(ctrl_test rclcpp auv_controllers)
 target_include_directories(ctrl_test PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)

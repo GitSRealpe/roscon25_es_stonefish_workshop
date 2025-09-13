@@ -2,5 +2,5 @@ controller_manager:
   ros__parameters:
     update_rate: 50
     auv_velocity_controller:
-      type: auv_controller/BodyVelocityController
+      type: auv_controllers/BodyVelocityController
       thruster_allocation_matrix: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
