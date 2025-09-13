@@ -1,12 +1,12 @@
 #include <rclcpp/rclcpp.hpp>
-#include <auv_controller/auv_controller.hpp>
+#include <auv_controllers/BodyVelocityController.hpp>
 
 int main(int argc, char *argv[])
 {
     rclcpp::init(argc, argv);
     std::cout << "starting test\n";
 
-    auv_controller::BodyVelocityController ctrl;
+    auv_controllers::BodyVelocityController ctrl;
 
     rclcpp::shutdown();
 

@@ -1,9 +1,9 @@
-#include <auv_controller/auv_controller.hpp>
+#include <auv_controllers/BodyVelocityController.hpp>
 
 using std::placeholders::_1;
 
 Eigen::IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
-namespace auv_controller
+namespace auv_controllers
 {
     BodyVelocityController::BodyVelocityController(/* args */)
     {
@@ -101,8 +101,8 @@ namespace auv_controller
         return controller_interface::return_type::OK;
     }
 
-} // namespace auv_controller
+} // namespace auv_controllers
 
 #include "pluginlib/class_list_macros.hpp"
 
-PLUGINLIB_EXPORT_CLASS(auv_controller::BodyVelocityController, controller_interface::ControllerInterface)
+PLUGINLIB_EXPORT_CLASS(auv_controllers::BodyVelocityController, controller_interface::ControllerInterface)

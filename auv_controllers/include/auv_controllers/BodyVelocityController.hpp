@@ -7,7 +7,7 @@
 #include "realtime_tools/realtime_thread_safe_box.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include <eigen3/Eigen/Dense>
-namespace auv_controller
+namespace auv_controllers
 {
     class BodyVelocityController : public controller_interface::ControllerInterface
     {

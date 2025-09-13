@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(auv_controller)
+project(auv_controllers)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -27,7 +27,6 @@ endforeach()
 
 # Install launch files and other resources
 install(DIRECTORY
-  config
   DESTINATION share/${PROJECT_NAME}/
 )
 
@@ -41,7 +40,7 @@ install(PROGRAMS
 
 # Build the controller library
 add_library(${PROJECT_NAME} SHARED
-  src/auv_controller.cpp
+  src/BodyVelocityController.cpp
 )
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
@@ -54,7 +53,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS})
 
 # Export the controller as a plugin
-pluginlib_export_plugin_description_file(controller_interface auv_controller_plugin.xml)
+pluginlib_export_plugin_description_file(controller_interface auv_controllers_plugin.xml)
 
 # Build the test executable
 add_executable(test_ctrl scripts/testing_controller.cpp)
@@ -74,7 +73,7 @@ install(TARGETS test_ctrl
 
 # Install the controller library
 install(TARGETS ${PROJECT_NAME}
-  EXPORT export_auv_controller
+  EXPORT export_auv_controllers
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
@@ -82,7 +81,7 @@ install(TARGETS ${PROJECT_NAME}
 )
 
 # Export targets and dependencies
-ament_export_targets(export_auv_controller HAS_LIBRARY_TARGET)
+ament_export_targets(export_auv_controllers HAS_LIBRARY_TARGET)
 ament_export_dependencies(${THIS_PACKAGE_INCLUDE_DEPENDS})
 
 ament_package()
