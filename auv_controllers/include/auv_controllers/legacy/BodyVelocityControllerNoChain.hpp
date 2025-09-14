@@ -3,19 +3,17 @@
 
 #include <memory>
 #include "rclcpp/rclcpp.hpp"
-#include "controller_interface/chainable_controller_interface.hpp"
+#include "controller_interface/controller_interface.hpp"
 #include "realtime_tools/realtime_thread_safe_box.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include <eigen3/Eigen/Dense>
 namespace auv_controllers
 {
-    class BodyVelocityController : public controller_interface::ChainableControllerInterface
+    class BodyVelocityController : public controller_interface::ControllerInterface
     {
     private:
         Eigen::MatrixXd tam_inv_;
-        Eigen::VectorXd command;
         geometry_msgs::msg::Twist twist_command;
-        geometry_msgs::msg::Twist twist_state;
         realtime_tools::RealtimeThreadSafeBox<geometry_msgs::msg::Twist> rt_command_;
         rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr twist_sub;
 
@@ -33,20 +31,8 @@ namespace auv_controllers
 
         controller_interface::CallbackReturn on_deactivate(const rclcpp_lifecycle::State &previous_state) override;
 
-        // call when controller
-        bool on_set_chained_mode(bool activate) override;
+        controller_interface::return_type update(const rclcpp::Time &time, const rclcpp::Duration &period) override;
 
-        std::vector<hardware_interface::StateInterface> on_export_state_interfaces() override;
-
-        std::vector<hardware_interface::CommandInterface> on_export_reference_interfaces() override;
-
-        // Chainable controller replaces update() with the following two functions
-        controller_interface::return_type update_reference_from_subscribers(
-            const rclcpp::Time &time, const rclcpp::Duration &period) override;
-
-        controller_interface::return_type update_and_write_commands(
-            const rclcpp::Time &time, const rclcpp::Duration &period) override;
-        // configure the interface to write commands to (HW)
         controller_interface::InterfaceConfiguration command_interface_configuration() const override;
 
         controller_interface::InterfaceConfiguration state_interface_configuration() const override;

@@ -2,9 +2,9 @@
     <class
         name="auv_controllers/BodyVelocityController"
         type="auv_controllers::BodyVelocityController"
-        base_class_type="controller_interface::ControllerInterface">
+        base_class_type="controller_interface::ChainableControllerInterface">
         <description>
-            AUV Controller for ROS 2 control framework.
+            AUV Body Velocity Controller for ROS 2 control framework.
         </description>
     </class>
 </library>

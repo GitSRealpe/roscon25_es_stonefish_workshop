@@ -1,4 +1,5 @@
 #include <auv_controllers/BodyVelocityController.hpp>
+#include "hardware_interface/system_interface.hpp"
 
 using std::placeholders::_1;
 
@@ -31,6 +32,9 @@ namespace auv_controllers
                 rt_command_.set(cmd);
             });
 
+        // Allocate reference interfaces if needed
+        reference_interfaces_.resize(2, std::numeric_limits<double>::quiet_NaN());
+
         Eigen::MatrixXd tam(6, 2);
         tam << cos(0.785398), cos(0.785398),
             sin(0.785398), -sin(0.785398),
@@ -58,7 +62,20 @@ namespace auv_controllers
 
     controller_interface::InterfaceConfiguration BodyVelocityController::state_interface_configuration() const
     {
-        return controller_interface::InterfaceConfiguration{controller_interface::interface_configuration_type::NONE};
+        // if (params_.open_loop)
+        if (true)
+        {
+            return {controller_interface::interface_configuration_type::NONE, {}};
+        }
+
+        std::vector<std::string> conf_names;
+
+        conf_names.push_back(get_node()->get_name() + std::string("/x/") + hardware_interface::HW_IF_VELOCITY);
+        conf_names.push_back(get_node()->get_name() + std::string("/yaw/") + hardware_interface::HW_IF_VELOCITY);
+
+        return {controller_interface::interface_configuration_type::INDIVIDUAL, conf_names};
+
+        // return controller_interface::InterfaceConfiguration{controller_interface::interface_configuration_type::NONE};
     }
 
     controller_interface::CallbackReturn BodyVelocityController::on_activate(const rclcpp_lifecycle::State & /*previous_state*/)
@@ -73,7 +90,50 @@ namespace auv_controllers
         return controller_interface::CallbackReturn::SUCCESS;
     }
 
-    controller_interface::return_type BodyVelocityController::update(const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
+    bool BodyVelocityController::on_set_chained_mode(bool /*chained_mode*/)
+    {
+        RCLCPP_INFO(get_node()->get_logger(), "controller is now in chained mode");
+        return true;
+    }
+
+    std::vector<hardware_interface::StateInterface> BodyVelocityController::on_export_state_interfaces()
+    {
+        std::vector<hardware_interface::StateInterface> exported_state_interfaces;
+
+        std::string export_prefix = get_node()->get_name();
+        twist_state.linear.x = 3.0;
+        twist_state.angular.z = 1.0;
+
+        exported_state_interfaces.emplace_back(
+            hardware_interface::StateInterface(
+                export_prefix, std::string("x/") + hardware_interface::HW_IF_VELOCITY, &twist_state.linear.x));
+        exported_state_interfaces.emplace_back(
+            hardware_interface::StateInterface(
+                export_prefix, std::string("yaw/") + hardware_interface::HW_IF_VELOCITY, &twist_state.angular.z));
+
+        return exported_state_interfaces;
+    }
+
+    std::vector<hardware_interface::CommandInterface> BodyVelocityController::on_export_reference_interfaces()
+    {
+        std::vector<hardware_interface::CommandInterface> reference_interfaces;
+        reference_interfaces.reserve(reference_interfaces_.size());
+
+        reference_interfaces.push_back(
+            hardware_interface::CommandInterface(
+                get_node()->get_name() + std::string("/x"), hardware_interface::HW_IF_VELOCITY,
+                &reference_interfaces_[0]));
+
+        reference_interfaces.push_back(
+            hardware_interface::CommandInterface(
+                get_node()->get_name() + std::string("/yaw"), hardware_interface::HW_IF_VELOCITY,
+                &reference_interfaces_[1]));
+
+        return reference_interfaces;
+    }
+
+    controller_interface::return_type BodyVelocityController::update_reference_from_subscribers(
+        const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
     {
         auto twist_command_op = rt_command_.try_get();
         if (twist_command_op.has_value())
@@ -81,7 +141,7 @@ namespace auv_controllers
             twist_command = twist_command_op.value();
         }
 
-        Eigen::VectorXd command = Eigen::VectorXd::Zero(6);
+        command = Eigen::VectorXd::Zero(6);
         command << twist_command.linear.x,
             twist_command.linear.y,
             twist_command.linear.z,
@@ -89,6 +149,12 @@ namespace auv_controllers
             twist_command.angular.y,
             twist_command.angular.z;
 
+        return controller_interface::return_type::OK;
+    }
+
+    controller_interface::return_type BodyVelocityController::update_and_write_commands(
+        const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
+    {
         Eigen::VectorXd setpoints = tam_inv_ * command;
 
         // Write commands to the hardware interface
@@ -105,4 +171,4 @@ namespace auv_controllers
 
 #include "pluginlib/class_list_macros.hpp"
 
-PLUGINLIB_EXPORT_CLASS(auv_controllers::BodyVelocityController, controller_interface::ControllerInterface)
+PLUGINLIB_EXPORT_CLASS(auv_controllers::BodyVelocityController, controller_interface::ChainableControllerInterface)
