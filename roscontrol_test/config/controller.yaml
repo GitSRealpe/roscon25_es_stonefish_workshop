@@ -4,16 +4,20 @@ controller_manager:
 
     auv_velocity_controller:
       type: auv_controllers/BodyVelocityController
-      thruster_allocation_matrix: 
-        [0, 0,   # X
-         0, 0,   # Y
-         0, 0,   # Z
-         0, 0,   # roll
-         0, 0,   # pitch
-         0, 0]   # yaw
-
+      
     pid_controller:
       type: pid_controller/PidController
+
+auv_velocity_controller:
+  ros__parameters:
+    num_thrusters: 2
+    thruster_allocation_matrix: 
+      [0.707107, 0.707107,      # X
+       0.707107, -0.707107,     # Y
+       0.0, 0.0,                # Z
+       0.0, 0.0,                # roll
+       0.0, 0.0,                # pitch
+       -0.495, 0.495]           # yaw
 
 pid_controller:
   ros__parameters:
@@ -26,5 +30,3 @@ pid_controller:
     gains:
       # control the velocity, no d term
       auv_velocity_controller/x: {"p": 0.5, "i": 2.5, "d": 0.0}
-      
-

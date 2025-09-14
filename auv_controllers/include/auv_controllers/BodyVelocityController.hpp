@@ -7,6 +7,7 @@
 #include "realtime_tools/realtime_thread_safe_box.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include <eigen3/Eigen/Dense>
+#include <auv_controllers/auv_controllers_params.hpp>
 namespace auv_controllers
 {
     class BodyVelocityController : public controller_interface::ChainableControllerInterface
@@ -19,7 +20,9 @@ namespace auv_controllers
         realtime_tools::RealtimeThreadSafeBox<geometry_msgs::msg::Twist> rt_command_;
         rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr twist_sub;
 
-        // void twist_command_callback(const geometry_msgs::msg::Twist::SharedPtr msg);
+        // Parameters from ROS for
+        std::shared_ptr<ParamListener> param_listener_;
+        Params params_;
 
     public:
         BodyVelocityController(/* args */);

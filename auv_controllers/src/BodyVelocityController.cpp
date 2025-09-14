@@ -17,12 +17,44 @@ namespace auv_controllers
 
     controller_interface::CallbackReturn BodyVelocityController::on_init()
     {
-        std::cout << "on_init controller\n";
+        try
+        {
+            // Create the parameter listener and get the parameters
+            param_listener_ = std::make_shared<ParamListener>(get_node());
+            params_ = param_listener_->get_params();
+        }
+        catch (const std::exception &e)
+        {
+            fprintf(stderr, "Exception thrown during init stage with message: %s \n", e.what());
+            return controller_interface::CallbackReturn::ERROR;
+        }
+
         return controller_interface::CallbackReturn::SUCCESS;
     }
 
     controller_interface::CallbackReturn BodyVelocityController::on_configure(const rclcpp_lifecycle::State & /*previous_state*/)
     {
+        Eigen::MatrixXd tam(6, params_.num_thrusters);
+        for (int row = 0; row < 6; row++)
+        {
+            for (int col = 0; col < params_.num_thrusters; col++)
+            {
+                tam(row, col) = params_.thruster_allocation_matrix[row * params_.num_thrusters + col];
+            }
+        }
+        // Eigen::MatrixXd tam(6, 2);
+        // tam << cos(0.785398), cos(0.785398),
+        //     sin(0.785398), -sin(0.785398),
+        //     0, 0,
+        //     0, 0,
+        //     0, 0,
+        //     -0.495, 0.495;
+        std::cout << tam.format(CleanFmt) << "\n";
+
+        tam_inv_ = tam.completeOrthogonalDecomposition().pseudoInverse();
+        tam_inv_ = tam_inv_.unaryExpr([](double x)
+                                      { return (abs(x) < 1e-4) ? 0.0 : x; });
+
         // parameter are read here
         twist_sub = get_node()->create_subscription<geometry_msgs::msg::Twist>(
             "~/body_velocity_command", rclcpp::SystemDefaultsQoS(),
@@ -35,19 +67,6 @@ namespace auv_controllers
         // Allocate reference interfaces if needed
         reference_interfaces_.resize(2, std::numeric_limits<double>::quiet_NaN());
 
-        Eigen::MatrixXd tam(6, 2);
-        tam << cos(0.785398), cos(0.785398),
-            sin(0.785398), -sin(0.785398),
-            0, 0,
-            0, 0,
-            0, 0,
-            -0.495, 0.495;
-
-        std::cout << tam.format(CleanFmt) << "\n";
-
-        tam_inv_ = tam.completeOrthogonalDecomposition().pseudoInverse();
-        tam_inv_ = tam_inv_.unaryExpr([](double x)
-                                      { return (abs(x) < 1e-4) ? 0.0 : x; });
         return controller_interface::CallbackReturn::SUCCESS;
     }
 

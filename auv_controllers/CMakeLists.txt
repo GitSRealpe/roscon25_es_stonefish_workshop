@@ -49,8 +49,26 @@ target_include_directories(${PROJECT_NAME} PUBLIC
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
 )
 
+# /////////////////////////////////////////////
+generate_parameter_library(
+  auv_controllers_params # cmake target name for the parameter library
+  src/auv_controllers_parameters.yaml # path to input yaml file
+)
+# //////////////////////////////////////////////////
+
 # Link dependencies for the controller library
-ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS})
+# ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS} auv_controllers_params)
+target_link_libraries(${PROJECT_NAME}
+  PUBLIC
+    auv_controllers_params
+    controller_interface::controller_interface
+    hardware_interface::hardware_interface
+    pluginlib::pluginlib
+    rclcpp::rclcpp
+    rclcpp_lifecycle::rclcpp_lifecycle
+    rcpputils::rcpputils
+    realtime_tools::realtime_tools
+    ${geometry_msgs_TARGETS})
 
 # Export the controller as a plugin
 pluginlib_export_plugin_description_file(controller_interface auv_controllers_plugin.xml)
@@ -72,7 +90,7 @@ install(TARGETS test_ctrl
 )
 
 # Install the controller library
-install(TARGETS ${PROJECT_NAME}
+install(TARGETS ${PROJECT_NAME} auv_controllers_params
   EXPORT export_auv_controllers
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
