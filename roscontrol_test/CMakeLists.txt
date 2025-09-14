@@ -30,6 +30,14 @@ install(DIRECTORY
 install(TARGETS ctrl_test
   DESTINATION lib/${PROJECT_NAME})
 
+# Install Python modules
+ament_python_install_package(${PROJECT_NAME})
+# Install Python executables
+install(PROGRAMS
+  scripts/publish_chain.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights

@@ -39,11 +39,18 @@ def generate_launch_description():
         output="screen",
     )
 
+    # pid_controllers_spawner = Node(
+    #     package="controller_manager",
+    #     executable="spawner",
+    #     arguments=["pid_controller", "--param-file", controllers_file],
+    # )
+
     nodes = [
         SetEnvironmentVariable(name="RCUTILS_COLORIZED_OUTPUT", value="1"),
         control_node,
         robot_state_pub_node,
         robot_controller_spawner,
+        # pid_controllers_spawner,
     ]
 
     return LaunchDescription(nodes)
