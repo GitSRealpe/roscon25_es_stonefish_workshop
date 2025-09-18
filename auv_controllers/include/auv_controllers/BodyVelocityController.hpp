@@ -5,7 +5,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "controller_interface/chainable_controller_interface.hpp"
 #include "realtime_tools/realtime_thread_safe_box.hpp"
-#include "geometry_msgs/msg/twist.hpp"
+#include "geometry_msgs/msg/twist_stamped.hpp"
 #include <eigen3/Eigen/Dense>
 #include <auv_controllers/auv_velocity_controller_params.hpp>
 namespace auv_controllers
@@ -15,10 +15,10 @@ namespace auv_controllers
     private:
         Eigen::MatrixXd tam_inv_;
         Eigen::VectorXd command;
-        geometry_msgs::msg::Twist twist_command;
-        geometry_msgs::msg::Twist twist_state;
-        realtime_tools::RealtimeThreadSafeBox<geometry_msgs::msg::Twist> rt_command_;
-        rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr twist_sub;
+        geometry_msgs::msg::TwistStamped twist_command;
+        geometry_msgs::msg::TwistStamped twist_state;
+        realtime_tools::RealtimeThreadSafeBox<geometry_msgs::msg::TwistStamped> rt_command_;
+        rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::SharedPtr twist_sub;
 
         // Parameters from ROS for
         std::shared_ptr<auv_velocity_controller::ParamListener> param_listener_;
@@ -51,7 +51,7 @@ namespace auv_controllers
             const rclcpp::Time &time, const rclcpp::Duration &period) override;
         // configure the interface to write commands to (HW)
         controller_interface::InterfaceConfiguration command_interface_configuration() const override;
-
+        // configure the interface to read state from (HW)
         controller_interface::InterfaceConfiguration state_interface_configuration() const override;
     };
 

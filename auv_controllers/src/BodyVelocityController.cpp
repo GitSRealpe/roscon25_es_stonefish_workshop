@@ -35,9 +35,9 @@ namespace auv_controllers
         std::cout << "listening for velocity state on: " << params_.body_velocity_state_topic << "\n";
 
         // parameter are read here
-        twist_sub = get_node()->create_subscription<geometry_msgs::msg::Twist>(
+        twist_sub = get_node()->create_subscription<geometry_msgs::msg::TwistStamped>(
             "~/body_velocity_command", rclcpp::SystemDefaultsQoS(),
-            [this](const geometry_msgs::msg::Twist::SharedPtr msg)
+            [this](const geometry_msgs::msg::TwistStamped::SharedPtr msg)
             {
                 const auto cmd = *msg;
                 rt_command_.set(cmd);
@@ -94,6 +94,7 @@ namespace auv_controllers
     bool BodyVelocityController::on_set_chained_mode(bool /*chained_mode*/)
     {
         RCLCPP_INFO(get_node()->get_logger(), "controller is now in chained mode");
+        twist_sub.reset();
         return true;
     }
 
@@ -102,15 +103,15 @@ namespace auv_controllers
         std::vector<hardware_interface::StateInterface> exported_state_interfaces;
 
         std::string export_prefix = get_node()->get_name();
-        twist_state.linear.x = 3.0;
-        twist_state.angular.z = 1.0;
+        twist_state.twist.linear.x = 3.0;
+        twist_state.twist.angular.z = 1.0;
 
         exported_state_interfaces.emplace_back(
             hardware_interface::StateInterface(
-                export_prefix, std::string("x/") + hardware_interface::HW_IF_VELOCITY, &twist_state.linear.x));
+                export_prefix, std::string("x/") + hardware_interface::HW_IF_VELOCITY, &twist_state.twist.linear.x));
         exported_state_interfaces.emplace_back(
             hardware_interface::StateInterface(
-                export_prefix, std::string("yaw/") + hardware_interface::HW_IF_VELOCITY, &twist_state.angular.z));
+                export_prefix, std::string("yaw/") + hardware_interface::HW_IF_VELOCITY, &twist_state.twist.angular.z));
 
         return exported_state_interfaces;
     }
@@ -119,7 +120,6 @@ namespace auv_controllers
     {
         std::vector<hardware_interface::CommandInterface> reference_interfaces;
         reference_interfaces.reserve(reference_interfaces_.size());
-
         reference_interfaces.push_back(
             hardware_interface::CommandInterface(
                 get_node()->get_name() + std::string("/x"), hardware_interface::HW_IF_VELOCITY,
@@ -127,7 +127,7 @@ namespace auv_controllers
 
         reference_interfaces.push_back(
             hardware_interface::CommandInterface(
-                get_node()->get_name() + std::string("/yaw"), hardware_interface::HW_IF_VELOCITY,
+                get_node()->get_name() + std::string("/y"), hardware_interface::HW_IF_VELOCITY,
                 &reference_interfaces_[1]));
 
         reference_interfaces.push_back(
@@ -154,13 +154,22 @@ namespace auv_controllers
     }
 
     controller_interface::return_type BodyVelocityController::update_reference_from_subscribers(
-        const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
+        const rclcpp::Time &time, const rclcpp::Duration & /*period*/)
     {
         auto twist_command_op = rt_command_.try_get();
         if (twist_command_op.has_value())
-        {
             twist_command = twist_command_op.value();
-        }
+
+        // watchdog looking thing
+        if ((time - twist_command.header.stamp).seconds() > 2.0)
+            twist_command = geometry_msgs::msg::TwistStamped();
+        // RCLCPP_INFO(get_node()->get_logger(), "activate successful");
+        reference_interfaces_[0] = twist_command.twist.linear.x;
+        reference_interfaces_[1] = twist_command.twist.linear.y;
+        reference_interfaces_[2] = twist_command.twist.linear.z;
+        reference_interfaces_[3] = twist_command.twist.angular.x;
+        reference_interfaces_[4] = twist_command.twist.angular.y;
+        reference_interfaces_[5] = twist_command.twist.angular.z;
 
         return controller_interface::return_type::OK;
     }
@@ -169,13 +178,11 @@ namespace auv_controllers
         const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
     {
         // Write commands to the hardware interface
-        // for (size_t i = 0; i < command_interfaces_.size(); ++i)
-        // {
-        //     // casting to void to avoid compiler warning
-        //     static_cast<void>(command_interfaces_[i].set_value(setpoints[i]));
-        // }
-        static_cast<void>(command_interfaces_[0].set_value(twist_command.linear.x));
-        static_cast<void>(command_interfaces_[1].set_value(twist_command.angular.z));
+        for (size_t i = 0; i < command_interfaces_.size(); ++i)
+        {
+            // casting to void to avoid compiler warning
+            static_cast<void>(command_interfaces_[i].set_value(reference_interfaces_[i]));
+        }
 
         return controller_interface::return_type::OK;
     }
