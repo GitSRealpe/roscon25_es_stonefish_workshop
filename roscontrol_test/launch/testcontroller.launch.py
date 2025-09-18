@@ -35,8 +35,19 @@ def generate_launch_description():
     robot_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["auv_wrench_controller", "--param-file", controllers_file],
+        arguments=[
+            "auv_wrench_controller",
+            "--param-file",
+            controllers_file,
+            "--activate-as-group",
+        ],
         output="screen",
+    )
+
+    vel_controllers_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["auv_velocity_controller", "--param-file", controllers_file],
     )
 
     # pid_controllers_spawner = Node(
@@ -50,6 +61,7 @@ def generate_launch_description():
         control_node,
         robot_state_pub_node,
         robot_controller_spawner,
+        vel_controllers_spawner,
         # pid_controllers_spawner,
     ]
 
