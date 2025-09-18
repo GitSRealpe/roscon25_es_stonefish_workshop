@@ -32,7 +32,7 @@ auv_wrench_controller:
 auv_velocity_controller:
   ros__parameters:
     num_thrusters: 2
-    body_velocity_state_topic: auv/navigator/velocity
+    body_velocity_state_topic: auv/navigator/body_velocity
     # chain parameters
     dof_names:
       - auv_wrench_controller/x

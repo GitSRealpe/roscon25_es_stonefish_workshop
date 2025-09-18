@@ -32,7 +32,6 @@ namespace auv_controllers
 
     controller_interface::CallbackReturn BodyVelocityController::on_configure(const rclcpp_lifecycle::State & /*previous_state*/)
     {
-        std::cout << "yes, got num thruters: " << params_.num_thrusters << "\n";
         std::cout << "listening for velocity state on: " << params_.body_velocity_state_topic << "\n";
 
         // parameter are read here
@@ -149,7 +148,6 @@ namespace auv_controllers
     controller_interface::return_type BodyVelocityController::update_and_write_commands(
         const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
     {
-
         // Write commands to the hardware interface
         // for (size_t i = 0; i < command_interfaces_.size(); ++i)
         // {
