@@ -122,17 +122,6 @@ namespace auv_controllers
     {
         // this controller doesnt export any interface state
         std::vector<hardware_interface::StateInterface> exported_state_interfaces;
-        std::string export_prefix = get_node()->get_name();
-        twist_state.linear.x = 3.0;
-        twist_state.angular.z = 1.0;
-
-        exported_state_interfaces.emplace_back(
-            hardware_interface::StateInterface(
-                export_prefix, std::string("x/") + hardware_interface::HW_IF_VELOCITY, &twist_state.linear.x));
-        exported_state_interfaces.emplace_back(
-            hardware_interface::StateInterface(
-                export_prefix, std::string("yaw/") + hardware_interface::HW_IF_VELOCITY, &twist_state.angular.z));
-
         return exported_state_interfaces;
     }
 
