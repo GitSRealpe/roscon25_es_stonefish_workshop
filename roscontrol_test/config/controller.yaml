@@ -8,8 +8,8 @@ controller_manager:
     auv_velocity_controller:
       type: auv_controllers/BodyVelocityController
       
-    pid_controller:
-      type: pid_controller/PidController
+    # pid_controller:
+    #   type: pid_controller/PidController
 
 auv_wrench_controller:
   ros__parameters:
@@ -43,11 +43,11 @@ auv_velocity_controller:
 pid_controller:
   ros__parameters:
     dof_names:
-      - auv_velocity_controller/x
-      - auv_velocity_controller/yaw
+      - auv_wrench_controller/x
+      - auv_wrench_controller/yaw
     command_interface: velocity
     reference_and_state_interfaces: ["velocity"]
 
     gains:
       # control the velocity, no d term
-      auv_velocity_controller/x: {"p": 0.5, "i": 2.5, "d": 0.0}
+      auv_wrench_controller/x: {"p": 0.5, "i": 2.5, "d": 0.0}
