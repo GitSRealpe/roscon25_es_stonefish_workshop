@@ -2,8 +2,6 @@
 #include "hardware_interface/system_interface.hpp"
 
 using std::placeholders::_1;
-
-Eigen::IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
 namespace auv_controllers
 {
     BodyVelocityController::BodyVelocityController(/* args */)
@@ -20,7 +18,7 @@ namespace auv_controllers
         try
         {
             // Create the parameter listener and get the parameters
-            param_listener_ = std::make_shared<ParamListener>(get_node());
+            param_listener_ = std::make_shared<auv_velocity_controller::ParamListener>(get_node());
             params_ = param_listener_->get_params();
         }
         catch (const std::exception &e)
@@ -34,26 +32,8 @@ namespace auv_controllers
 
     controller_interface::CallbackReturn BodyVelocityController::on_configure(const rclcpp_lifecycle::State & /*previous_state*/)
     {
-        Eigen::MatrixXd tam(6, params_.num_thrusters);
-        for (int row = 0; row < 6; row++)
-        {
-            for (int col = 0; col < params_.num_thrusters; col++)
-            {
-                tam(row, col) = params_.thruster_allocation_matrix[row * params_.num_thrusters + col];
-            }
-        }
-        // Eigen::MatrixXd tam(6, 2);
-        // tam << cos(0.785398), cos(0.785398),
-        //     sin(0.785398), -sin(0.785398),
-        //     0, 0,
-        //     0, 0,
-        //     0, 0,
-        //     -0.495, 0.495;
-        std::cout << tam.format(CleanFmt) << "\n";
-
-        tam_inv_ = tam.completeOrthogonalDecomposition().pseudoInverse();
-        tam_inv_ = tam_inv_.unaryExpr([](double x)
-                                      { return (abs(x) < 1e-4) ? 0.0 : x; });
+        std::cout << "yes, got num thruters: " << params_.num_thrusters << "\n";
+        std::cout << "listening for velocity state on: " << params_.body_velocity_state_topic << "\n";
 
         // parameter are read here
         twist_sub = get_node()->create_subscription<geometry_msgs::msg::Twist>(
@@ -160,28 +140,21 @@ namespace auv_controllers
             twist_command = twist_command_op.value();
         }
 
-        command = Eigen::VectorXd::Zero(6);
-        command << twist_command.linear.x,
-            twist_command.linear.y,
-            twist_command.linear.z,
-            twist_command.angular.x,
-            twist_command.angular.y,
-            twist_command.angular.z;
-
         return controller_interface::return_type::OK;
     }
 
     controller_interface::return_type BodyVelocityController::update_and_write_commands(
         const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
     {
-        Eigen::VectorXd setpoints = tam_inv_ * command;
 
         // Write commands to the hardware interface
-        for (size_t i = 0; i < command_interfaces_.size(); ++i)
-        {
-            // casting to void to avoid compiler warning
-            static_cast<void>(command_interfaces_[i].set_value(setpoints[i]));
-        }
+        // for (size_t i = 0; i < command_interfaces_.size(); ++i)
+        // {
+        //     // casting to void to avoid compiler warning
+        //     static_cast<void>(command_interfaces_[i].set_value(setpoints[i]));
+        // }
+        static_cast<void>(command_interfaces_[0].set_value(twist_command.linear.x));
+        static_cast<void>(command_interfaces_[1].set_value(twist_command.angular.z));
 
         return controller_interface::return_type::OK;
     }

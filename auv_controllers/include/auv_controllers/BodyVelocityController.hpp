@@ -1,5 +1,5 @@
-#ifndef AUV_CTRL_HPP
-#define AUV_CTRL_HPP
+#ifndef AUV_VEL_CTRL_HPP
+#define AUV_VEL_CTRL_HPP
 
 #include <memory>
 #include "rclcpp/rclcpp.hpp"
@@ -7,7 +7,7 @@
 #include "realtime_tools/realtime_thread_safe_box.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include <eigen3/Eigen/Dense>
-#include <auv_controllers/auv_controllers_params.hpp>
+#include <auv_controllers/auv_velocity_controller_params.hpp>
 namespace auv_controllers
 {
     class BodyVelocityController : public controller_interface::ChainableControllerInterface
@@ -21,8 +21,8 @@ namespace auv_controllers
         rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr twist_sub;
 
         // Parameters from ROS for
-        std::shared_ptr<ParamListener> param_listener_;
-        Params params_;
+        std::shared_ptr<auv_velocity_controller::ParamListener> param_listener_;
+        auv_velocity_controller::Params params_;
 
     public:
         BodyVelocityController(/* args */);
@@ -57,4 +57,4 @@ namespace auv_controllers
 
 };
 
-#endif // AUV_CTRL_HPP
+#endif // AUV_VEL_CTRL_HPP

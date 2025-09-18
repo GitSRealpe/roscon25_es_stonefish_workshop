@@ -11,7 +11,7 @@ controller_manager:
     pid_controller:
       type: pid_controller/PidController
 
-auv_velocity_controller:
+auv_wrench_controller:
   ros__parameters:
     num_thrusters: 2
 
@@ -26,6 +26,19 @@ auv_velocity_controller:
        0.0, 0.0,                # roll
        0.0, 0.0,                # pitch
        -0.495, 0.495]           # yaw
+
+# DEFINE THE EXPOSED INTERFACES IN THE WRENCH AND THE REQUIRED IN THE VELOCITY WHEN IS CHAINED
+# MAKE THE ODOM TO VELOCITY NODE FOR FEEDBACK
+auv_velocity_controller:
+  ros__parameters:
+    num_thrusters: 2
+    body_velocity_state_topic: auv/navigator/velocity
+    # chain parameters
+    dof_names:
+      - auv_wrench_controller/x
+      - auv_wrench_controller/yaw
+    command_interface: force
+    
 
 pid_controller:
   ros__parameters:
