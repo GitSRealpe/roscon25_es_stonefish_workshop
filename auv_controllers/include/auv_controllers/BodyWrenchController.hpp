@@ -5,7 +5,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "controller_interface/chainable_controller_interface.hpp"
 #include "realtime_tools/realtime_thread_safe_box.hpp"
-#include "geometry_msgs/msg/twist.hpp"
+#include "geometry_msgs/msg/wrench_stamped.hpp"
 #include <eigen3/Eigen/Dense>
 #include <auv_controllers/auv_wrench_controller_params.hpp>
 
@@ -16,10 +16,9 @@ namespace auv_controllers
     private:
         Eigen::MatrixXd tam_inv_;
         Eigen::VectorXd command;
-        geometry_msgs::msg::Twist twist_command;
-        geometry_msgs::msg::Twist twist_state;
-        realtime_tools::RealtimeThreadSafeBox<geometry_msgs::msg::Twist> rt_command_;
-        rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr twist_sub;
+        geometry_msgs::msg::WrenchStamped wrench_command;
+        realtime_tools::RealtimeThreadSafeBox<geometry_msgs::msg::WrenchStamped> rt_command_;
+        rclcpp::Subscription<geometry_msgs::msg::WrenchStamped>::SharedPtr wrench_sub;
 
         // Parameters from ROS for
         std::shared_ptr<auv_wrench_controller::ParamListener> param_listener_;

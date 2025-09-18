@@ -42,12 +42,7 @@ namespace auv_controllers
             }
         }
         // Eigen::MatrixXd tam(6, 2);
-        // tam << cos(0.785398), cos(0.785398),
-        //     sin(0.785398), -sin(0.785398),
-        //     0, 0,
-        //     0, 0,
-        //     0, 0,
-        //     -0.495, 0.495;
+        // tam << cos(0.785398), cos(0.785398), sin(0.785398), -sin(0.785398), 0, 0, 0, 0, 0, 0, -0.495, 0.495;
         std::cout << tam.format(CleanFmt) << "\n";
 
         tam_inv_ = tam.completeOrthogonalDecomposition().pseudoInverse();
@@ -55,9 +50,9 @@ namespace auv_controllers
                                       { return (abs(x) < 1e-4) ? 0.0 : x; });
 
         // parameter are read here
-        twist_sub = get_node()->create_subscription<geometry_msgs::msg::Twist>(
+        wrench_sub = get_node()->create_subscription<geometry_msgs::msg::WrenchStamped>(
             "~/body_wrench_command", rclcpp::SystemDefaultsQoS(),
-            [this](const geometry_msgs::msg::Twist::SharedPtr msg)
+            [this](const geometry_msgs::msg::WrenchStamped::SharedPtr msg)
             {
                 const auto cmd = *msg;
                 rt_command_.set(cmd);
@@ -113,7 +108,7 @@ namespace auv_controllers
     bool BodyWrenchController::on_set_chained_mode(bool /*chained_mode*/)
     {
         RCLCPP_INFO(get_node()->get_logger(), "controller is now in chained mode");
-        twist_sub.reset();
+        wrench_sub.reset();
         return true;
     }
 
@@ -163,20 +158,21 @@ namespace auv_controllers
     }
 
     controller_interface::return_type BodyWrenchController::update_reference_from_subscribers(
-        const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
+        const rclcpp::Time &time, const rclcpp::Duration & /*period*/)
     {
-        // THIS SHOULD BE A WRENCH TOPIC
-        auto twist_command_op = rt_command_.try_get();
-        if (twist_command_op.has_value())
-        {
-            twist_command = twist_command_op.value();
-        }
-        reference_interfaces_.at(0) = twist_command.linear.x;
-        reference_interfaces_.at(1) = twist_command.linear.y;
-        reference_interfaces_.at(2) = twist_command.linear.z;
-        reference_interfaces_.at(3) = twist_command.angular.x;
-        reference_interfaces_.at(4) = twist_command.angular.y;
-        reference_interfaces_.at(5) = twist_command.angular.z;
+        auto wrench_command_op = rt_command_.try_get();
+        if (wrench_command_op.has_value())
+            wrench_command = wrench_command_op.value();
+        // watchdog looking thing
+        if ((time - wrench_command.header.stamp).seconds() > 2.0)
+            wrench_command = geometry_msgs::msg::WrenchStamped();
+        // RCLCPP_INFO(get_node()->get_logger(), "activate successful");
+        reference_interfaces_.at(0) = wrench_command.wrench.force.x;
+        reference_interfaces_.at(1) = wrench_command.wrench.force.y;
+        reference_interfaces_.at(2) = wrench_command.wrench.force.z;
+        reference_interfaces_.at(3) = wrench_command.wrench.torque.x;
+        reference_interfaces_.at(4) = wrench_command.wrench.torque.y;
+        reference_interfaces_.at(5) = wrench_command.wrench.torque.z;
 
         return controller_interface::return_type::OK;
     }
