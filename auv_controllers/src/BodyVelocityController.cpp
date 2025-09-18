@@ -43,8 +43,8 @@ namespace auv_controllers
                 rt_command_.set(cmd);
             });
 
-        // Allocate reference interfaces if needed
-        reference_interfaces_.resize(2, std::numeric_limits<double>::quiet_NaN());
+        // Allocate reference interfaces, 6 DOF, 0.0 initialization
+        reference_interfaces_.resize(6, 0.0);
 
         return controller_interface::CallbackReturn::SUCCESS;
     }
@@ -129,6 +129,26 @@ namespace auv_controllers
             hardware_interface::CommandInterface(
                 get_node()->get_name() + std::string("/yaw"), hardware_interface::HW_IF_VELOCITY,
                 &reference_interfaces_[1]));
+
+        reference_interfaces.push_back(
+            hardware_interface::CommandInterface(
+                get_node()->get_name() + std::string("/z"), hardware_interface::HW_IF_VELOCITY,
+                &reference_interfaces_[2]));
+
+        reference_interfaces.push_back(
+            hardware_interface::CommandInterface(
+                get_node()->get_name() + std::string("/roll"), hardware_interface::HW_IF_VELOCITY,
+                &reference_interfaces_[3]));
+
+        reference_interfaces.push_back(
+            hardware_interface::CommandInterface(
+                get_node()->get_name() + std::string("/pitch"), hardware_interface::HW_IF_VELOCITY,
+                &reference_interfaces_[4]));
+
+        reference_interfaces.push_back(
+            hardware_interface::CommandInterface(
+                get_node()->get_name() + std::string("/yaw"), hardware_interface::HW_IF_VELOCITY,
+                &reference_interfaces_[5]));
 
         return reference_interfaces;
     }
