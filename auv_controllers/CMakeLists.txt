@@ -41,6 +41,7 @@ install(PROGRAMS
 # Build the controller library
 add_library(${PROJECT_NAME} SHARED
   src/BodyVelocityController.cpp
+  src/BodyWrenchController.cpp
 )
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
@@ -51,16 +52,22 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 # /////////////////////////////////////////////
 generate_parameter_library(
-  auv_controllers_params # cmake target name for the parameter library
-  src/auv_controllers_parameters.yaml # path to input yaml file
+  auv_velocity_controller_params # cmake target name for the parameter library
+  src/auv_velocity_controller_parameters.yaml # path to input yaml file
 )
+generate_parameter_library(
+  auv_wrench_controller_params # cmake target name for the parameter library
+  src/auv_wrench_controller_parameters.yaml # path to input yaml file
+)
+
 # //////////////////////////////////////////////////
 
 # Link dependencies for the controller library
 # ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS} auv_controllers_params)
 target_link_libraries(${PROJECT_NAME}
   PUBLIC
-    auv_controllers_params
+    auv_velocity_controller_params
+    auv_wrench_controller_params
     controller_interface::controller_interface
     hardware_interface::hardware_interface
     pluginlib::pluginlib
@@ -90,7 +97,9 @@ install(TARGETS test_ctrl
 )
 
 # Install the controller library
-install(TARGETS ${PROJECT_NAME} auv_controllers_params
+install(TARGETS ${PROJECT_NAME} 
+  auv_velocity_controller_params 
+  auv_wrench_controller_params
   EXPORT export_auv_controllers
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
