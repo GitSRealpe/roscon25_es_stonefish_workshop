@@ -54,8 +54,11 @@ namespace auv_controllers
     {
         controller_interface::InterfaceConfiguration command_interfaces_config;
         command_interfaces_config.type = controller_interface::interface_configuration_type::INDIVIDUAL;
-        command_interfaces_config.names = {"auv/thruster3_joint/velocity",
-                                           "auv/thruster4_joint/velocity"};
+        for (auto &dof : params_.dof_names)
+        {
+            command_interfaces_config.names.push_back(dof + "/" + params_.command_interface);
+        }
+
         return command_interfaces_config;
     }
 
