@@ -36,6 +36,10 @@ auv_velocity_controller:
     # chain parameters
     dof_names:
       - auv_wrench_controller/x
+      - auv_wrench_controller/y
+      - auv_wrench_controller/z
+      - auv_wrench_controller/roll
+      - auv_wrench_controller/pitch
       - auv_wrench_controller/yaw
     command_interface: force
     
