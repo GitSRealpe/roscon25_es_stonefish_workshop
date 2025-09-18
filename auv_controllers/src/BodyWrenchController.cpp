@@ -63,8 +63,8 @@ namespace auv_controllers
                 rt_command_.set(cmd);
             });
 
-        // Allocate reference interfaces if needed
-        reference_interfaces_.resize(2, std::numeric_limits<double>::quiet_NaN());
+        // Allocate reference interfaces, 6 DOF, 0.0 initialization
+        reference_interfaces_.resize(6, 0.0);
 
         return controller_interface::CallbackReturn::SUCCESS;
     }
@@ -77,8 +77,6 @@ namespace auv_controllers
         {
             command_interfaces_config.names.push_back(thruster_joint + "/" + hardware_interface::HW_IF_VELOCITY);
         }
-        // command_interfaces_config.names = {"auv/thruster3_joint/velocity",
-        //                                    "auv/thruster4_joint/velocity"};
         return command_interfaces_config;
     }
 
@@ -115,6 +113,7 @@ namespace auv_controllers
     bool BodyWrenchController::on_set_chained_mode(bool /*chained_mode*/)
     {
         RCLCPP_INFO(get_node()->get_logger(), "controller is now in chained mode");
+        twist_sub.reset();
         return true;
     }
 
@@ -137,8 +136,28 @@ namespace auv_controllers
 
         reference_interfaces.push_back(
             hardware_interface::CommandInterface(
-                get_node()->get_name() + std::string("/yaw"), hardware_interface::HW_IF_FORCE,
+                get_node()->get_name() + std::string("/y"), hardware_interface::HW_IF_FORCE,
                 &reference_interfaces_[1]));
+
+        reference_interfaces.push_back(
+            hardware_interface::CommandInterface(
+                get_node()->get_name() + std::string("/z"), hardware_interface::HW_IF_FORCE,
+                &reference_interfaces_[2]));
+
+        reference_interfaces.push_back(
+            hardware_interface::CommandInterface(
+                get_node()->get_name() + std::string("/roll"), hardware_interface::HW_IF_FORCE,
+                &reference_interfaces_[3]));
+
+        reference_interfaces.push_back(
+            hardware_interface::CommandInterface(
+                get_node()->get_name() + std::string("/pitch"), hardware_interface::HW_IF_FORCE,
+                &reference_interfaces_[4]));
+
+        reference_interfaces.push_back(
+            hardware_interface::CommandInterface(
+                get_node()->get_name() + std::string("/yaw"), hardware_interface::HW_IF_FORCE,
+                &reference_interfaces_[5]));
 
         return reference_interfaces;
     }
@@ -146,19 +165,18 @@ namespace auv_controllers
     controller_interface::return_type BodyWrenchController::update_reference_from_subscribers(
         const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
     {
+        // THIS SHOULD BE A WRENCH TOPIC
         auto twist_command_op = rt_command_.try_get();
         if (twist_command_op.has_value())
         {
             twist_command = twist_command_op.value();
         }
-
-        command = Eigen::VectorXd::Zero(6);
-        command << twist_command.linear.x,
-            twist_command.linear.y,
-            twist_command.linear.z,
-            twist_command.angular.x,
-            twist_command.angular.y,
-            twist_command.angular.z;
+        reference_interfaces_.at(0) = twist_command.linear.x;
+        reference_interfaces_.at(1) = twist_command.linear.y;
+        reference_interfaces_.at(2) = twist_command.linear.z;
+        reference_interfaces_.at(3) = twist_command.angular.x;
+        reference_interfaces_.at(4) = twist_command.angular.y;
+        reference_interfaces_.at(5) = twist_command.angular.z;
 
         return controller_interface::return_type::OK;
     }
@@ -166,15 +184,20 @@ namespace auv_controllers
     controller_interface::return_type BodyWrenchController::update_and_write_commands(
         const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
     {
+        command = Eigen::VectorXd::Zero(6);
+        command << reference_interfaces_.at(0),
+            reference_interfaces_.at(1),
+            reference_interfaces_.at(2),
+            reference_interfaces_.at(3),
+            reference_interfaces_.at(4),
+            reference_interfaces_.at(5);
         Eigen::VectorXd setpoints = tam_inv_ * command;
-
         // Write commands to the hardware interface
         for (size_t i = 0; i < command_interfaces_.size(); ++i)
         {
             // casting to void to avoid compiler warning
             static_cast<void>(command_interfaces_[i].set_value(setpoints[i]));
         }
-
         return controller_interface::return_type::OK;
     }
 
