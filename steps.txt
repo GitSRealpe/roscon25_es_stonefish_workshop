@@ -9,3 +9,6 @@ ideas slides
 primero hablar del TAM, luego body velocity controller, con keyboard control, luego PID chain para asegurar velocidad estable
 
 first control test, keep zero velocities
+
+
+state means output reading, reference means input command
