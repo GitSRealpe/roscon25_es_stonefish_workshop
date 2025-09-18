@@ -1,0 +1,27 @@
+auv_wrench_controller:
+  thruster_allocation_matrix: {
+    type: double_array,
+    default_value: [],
+    read_only: true,
+    description: "Thruster allocation Matrix for robot control"
+  }
+  num_thrusters: {
+    type: int,
+    default_value: 0,
+    read_only: true,
+    description: "Number of thruster for robot control",
+    # validation: {
+    #   gt<>: [0]
+    # }
+  }
+  thruster_joint_names: {
+    type: string_array,
+    default_value: [],
+    read_only: true,
+    description: "Name of the thruster joint interfaces to control",
+    validation: {
+      unique<>: [],
+      not_empty<>: [],
+    }
+  }
+  

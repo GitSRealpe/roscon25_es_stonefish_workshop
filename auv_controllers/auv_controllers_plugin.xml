@@ -7,4 +7,14 @@
             AUV Body Velocity Controller for ROS 2 control framework.
         </description>
     </class>
+
+    <class
+        name="auv_controllers/BodyWrenchController"
+        type="auv_controllers::BodyWrenchController"
+        base_class_type="controller_interface::ChainableControllerInterface">
+        <description>
+            AUV Body Wrench Controller for ROS 2 control framework.
+        </description>
+    </class>
+
 </library>

@@ -2,6 +2,9 @@ controller_manager:
   ros__parameters:
     update_rate: 50
 
+    auv_wrench_controller:
+      type: auv_controllers/BodyWrenchController
+
     auv_velocity_controller:
       type: auv_controllers/BodyVelocityController
       
@@ -11,6 +14,11 @@ controller_manager:
 auv_velocity_controller:
   ros__parameters:
     num_thrusters: 2
+
+    thruster_joint_names:
+     - auv/thruster3_joint
+     - auv/thruster4_joint
+
     thruster_allocation_matrix: 
       [0.707107, 0.707107,      # X
        0.707107, -0.707107,     # Y
