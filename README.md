@@ -47,7 +47,7 @@ Para poder usar el entorno se debe hacer lo siguiente:
 ### Instalacion previa
 <!-- INSTRUCCIONES INSTALAR DOCKER Y COSAS -->
 ## Instrucciones uso workspace local
-Si tienes listo un workspace de ROS 2 en tu ordenador, tambien puedes hacer la instalacion manual de los paquetes, para ello sigue estas instrucciones:
+Si tienes listo un workspace de **ROS 2** en tu ordenador, tambien puedes hacer la instalacion manual de los paquetes, para ello sigue estas instrucciones:
 
 ### Libreria Stonefish
 [Stonefish](https://github.com/patrykcieslak/stonefish) como tal es una libreria desarrollada en C++, independiente de ROS, por lo cual debe ser instalada como cualquier libreria.
