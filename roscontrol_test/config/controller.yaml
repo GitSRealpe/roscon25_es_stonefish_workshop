@@ -8,8 +8,8 @@ controller_manager:
     auv_velocity_controller:
       type: auv_controllers/BodyVelocityController
       
-    # pid_controller:
-    #   type: pid_controller/PidController
+    pid_controller:
+      type: pid_controller/PidController
 
 auv_wrench_controller:
   ros__parameters:
@@ -32,8 +32,8 @@ auv_wrench_controller:
 auv_velocity_controller:
   ros__parameters:
     num_thrusters: 2
-    body_velocity_state_topic: auv/navigator/body_velocity
-    # chain parameters
+    body_velocity_state_topic: /auv/navigator/body_velocity
+    # chain parameters, chain to wrench controller
     dof_names:
       - auv_wrench_controller/x
       - auv_wrench_controller/y
@@ -47,11 +47,24 @@ auv_velocity_controller:
 pid_controller:
   ros__parameters:
     dof_names:
-      - auv_wrench_controller/x
-      - auv_wrench_controller/yaw
+      - auv_velocity_controller/x
+      # - auv_velocity_controller/y
+      # - auv_velocity_controller/z
+      # - auv_velocity_controller/roll
+      # - auv_velocity_controller/pitch
+      - auv_velocity_controller/yaw
     command_interface: velocity
     reference_and_state_interfaces: ["velocity"]
 
+    # If controller parameter use_external_measured_states is true:
+    # <controller_name>/measured_state [control_msgs/msg/MultiDOFCommand]
+
+
     gains:
       # control the velocity, no d term
-      auv_wrench_controller/x: {"p": 0.5, "i": 2.5, "d": 0.0}
+      auv_velocity_controller/x: {"p": 1.0, "i": 0.0, "d": 0.0}
+      # auv_velocity_controller/y: {"p": 0.5, "i": 2.5, "d": 0.0}
+      # auv_velocity_controller/z: {"p": 0.5, "i": 2.5, "d": 0.0}
+      # auv_velocity_controller/roll: {"p": 0.5, "i": 2.5, "d": 0.0}
+      # auv_velocity_controller/pitch: {"p": 0.5, "i": 2.5, "d": 0.0}
+      auv_velocity_controller/yaw: {"p": 0.5, "i": 0.0, "d": 0.0}
