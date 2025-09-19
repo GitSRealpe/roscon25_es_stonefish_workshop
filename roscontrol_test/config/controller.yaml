@@ -58,6 +58,7 @@ pid_controller:
 
     # If controller parameter use_external_measured_states is true:
     # <controller_name>/measured_state [control_msgs/msg/MultiDOFCommand]
+    # en ese caso no hace falta in veocity controller, solo in pid force/velocity, force/position
 
 
     gains:
