@@ -12,7 +12,7 @@ find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclpy REQUIRED)
-find_package(std_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 find_package(stonefish_ros2 REQUIRED)
 
 if(BUILD_TESTING)
@@ -33,6 +33,7 @@ install(DIRECTORY
   scenarios
   resources
   config
+  scripts
   DESTINATION share/${PROJECT_NAME}/
 )
 
@@ -46,16 +47,17 @@ install(PROGRAMS
 )
 
 # Declare the executable
-# add_executable(auv_stonefish_node src/auv_stonefish_node.cpp)
+add_executable(auv_body_feedback scripts/auv_body_feedback.cpp)
 # Specify the dependencies for the executable
-# ament_target_dependencies(auv_stonefish_node
-#   rclcpp
-#   std_msgs
-#   stonefish_ros2
-# )
+ament_target_dependencies(auv_body_feedback
+  rclcpp
+  nav_msgs
+  geometry_msgs
+  stonefish_ros2
+)
 # Install the executable
-# install(TARGETS auv_stonefish_node
-#   DESTINATION lib/${PROJECT_NAME}
-# )
+install(TARGETS auv_body_feedback
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 ament_package()

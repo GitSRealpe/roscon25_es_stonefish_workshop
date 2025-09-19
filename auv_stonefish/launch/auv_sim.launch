@@ -3,15 +3,15 @@
 
     <!-- Static transform -->
     <node name="world2ned" pkg="tf2_ros" exec="static_transform_publisher" namespace="world2ned"
-        args="--roll 3.1415 --frame-id world --child-frame-id world_ned" />
+        args="--roll 3.1415 --frame-id world --child-frame-id world_ned"/>
 
     <!-- Simulation parameters -->
-    <let name="simulation_data" value="$(find-pkg-share auv_stonefish)/resources" />
-    <let name="scenario_description" value="$(find-pkg-share auv_stonefish)/scenarios/sea.scn" />
-    <let name="simulation_rate" value="100.0" />
-    <let name="window_res_x" value="1440" />
-    <let name="window_res_y" value="900" />
-    <let name="rendering_quality" value="low" />
+    <let name="simulation_data" value="$(find-pkg-share auv_stonefish)/resources"/>
+    <let name="scenario_description" value="$(find-pkg-share auv_stonefish)/scenarios/sea.scn"/>
+    <let name="simulation_rate" value="100.0"/>
+    <let name="window_res_x" value="1440"/>
+    <let name="window_res_y" value="900"/>
+    <let name="rendering_quality" value="low"/>
 
     <!-- Run Simulator -->
     <node name="stonefish_simulator" pkg="stonefish_ros2" exec="stonefish_simulator"
@@ -19,13 +19,19 @@
         args="$(var simulation_data) $(var scenario_description)
               $(var simulation_rate) $(var window_res_x) $(var window_res_y) 
               $(var rendering_quality)"
-        output="screen">
-    </node>
+        output="screen"></node>
 
     <node name="odom2tf" pkg="auv_stonefish" exec="odom_to_tf.py" namespace="odom2tf">
-        <remap from="/odom_topic" to="/auv/dynamics/odometry_truth" />
-        <param name="fixed_frame" value="world_ned" />
-        <param name="base_link" value="/auv/base_link" />
+        <remap from="/odom_topic" to="/auv/dynamics/odometry_truth"/>
+        <param name="fixed_frame" value="world_ned"/>
+        <param name="base_link" value="/auv/base_link"/>
+    </node>
+
+    <node name="body_feedback" pkg="auv_stonefish" exec="auv_body_feedback">
+        <remap from="/sub_odom_topic" to="/auv/dynamics/odometry_truth"/>
+        <remap from="/pub_twist_topic" to="/auv/navigator/body_velocity"/>
+        <remap from="/pub_pose_topic" to="/auv/navigator/body_pose"/>
+        <param name="frame_id" value="world_ned"/>
     </node>
 
     <!-- <node name="rviz" pkg="rviz2" exec="rviz2" namespace="rviz"
