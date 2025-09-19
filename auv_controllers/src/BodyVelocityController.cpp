@@ -32,9 +32,18 @@ namespace auv_controllers
 
     controller_interface::CallbackReturn BodyVelocityController::on_configure(const rclcpp_lifecycle::State & /*previous_state*/)
     {
-        std::cout << "listening for velocity state on: " << params_.body_velocity_state_topic << "\n";
+        RCLCPP_INFO(get_node()->get_logger(), "Vel state topic on: %s", params_.body_velocity_state_topic.c_str());
+        // specify namespace in node launch
+        state_sub = get_node()->create_subscription<geometry_msgs::msg::TwistStamped>(
+            params_.body_velocity_state_topic, rclcpp::SystemDefaultsQoS(),
+            [this](const geometry_msgs::msg::TwistStamped::SharedPtr msg)
+            {
+                const auto cmd = *msg;
+                rt_state_.set(cmd);
+            });
 
-        // parameter are read here
+        RCLCPP_INFO(get_node()->get_logger(), "Vel command topic on: ~/body_velocity_command");
+        // specify namespace in node launch
         twist_sub = get_node()->create_subscription<geometry_msgs::msg::TwistStamped>(
             "~/body_velocity_command", rclcpp::SystemDefaultsQoS(),
             [this](const geometry_msgs::msg::TwistStamped::SharedPtr msg)
@@ -45,6 +54,8 @@ namespace auv_controllers
 
         // Allocate reference interfaces, 6 DOF, 0.0 initialization
         reference_interfaces_.resize(6, 0.0);
+        // Allocate state interfaces, 6 DOF, 0.0 initialization
+        state_interfaces_values_.resize(6, 0.0);
 
         return controller_interface::CallbackReturn::SUCCESS;
     }
@@ -100,20 +111,41 @@ namespace auv_controllers
 
     std::vector<hardware_interface::StateInterface> BodyVelocityController::on_export_state_interfaces()
     {
-        std::vector<hardware_interface::StateInterface> exported_state_interfaces;
-
+        std::vector<hardware_interface::StateInterface> state_interfaces;
+        state_interfaces.reserve(state_interfaces_values_.size());
         std::string export_prefix = get_node()->get_name();
-        twist_state.twist.linear.x = 3.0;
-        twist_state.twist.angular.z = 1.0;
 
-        exported_state_interfaces.emplace_back(
+        state_interfaces.emplace_back(
             hardware_interface::StateInterface(
-                export_prefix, std::string("x/") + hardware_interface::HW_IF_VELOCITY, &twist_state.twist.linear.x));
-        exported_state_interfaces.emplace_back(
-            hardware_interface::StateInterface(
-                export_prefix, std::string("yaw/") + hardware_interface::HW_IF_VELOCITY, &twist_state.twist.angular.z));
+                export_prefix, std::string("x/") + hardware_interface::HW_IF_VELOCITY,
+                &state_interfaces_values_[0]));
 
-        return exported_state_interfaces;
+        state_interfaces.emplace_back(
+            hardware_interface::StateInterface(
+                export_prefix, std::string("y/") + hardware_interface::HW_IF_VELOCITY,
+                &state_interfaces_values_[1]));
+
+        state_interfaces.emplace_back(
+            hardware_interface::StateInterface(
+                export_prefix, std::string("z/") + hardware_interface::HW_IF_VELOCITY,
+                &state_interfaces_values_[2]));
+
+        state_interfaces.emplace_back(
+            hardware_interface::StateInterface(
+                export_prefix, std::string("roll/") + hardware_interface::HW_IF_VELOCITY,
+                &state_interfaces_values_[3]));
+
+        state_interfaces.emplace_back(
+            hardware_interface::StateInterface(
+                export_prefix, std::string("pitch/") + hardware_interface::HW_IF_VELOCITY,
+                &state_interfaces_values_[4]));
+
+        state_interfaces.emplace_back(
+            hardware_interface::StateInterface(
+                export_prefix, std::string("yaw/") + hardware_interface::HW_IF_VELOCITY,
+                &state_interfaces_values_[5]));
+
+        return state_interfaces;
     }
 
     std::vector<hardware_interface::CommandInterface> BodyVelocityController::on_export_reference_interfaces()
@@ -179,6 +211,17 @@ namespace auv_controllers
     controller_interface::return_type BodyVelocityController::update_and_write_commands(
         const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
     {
+        auto twist_state_op = rt_state_.try_get();
+        if (twist_state_op.has_value())
+            twist_state = twist_state_op.value();
+        // Write exported states
+        state_interfaces_values_[0] = twist_state.twist.linear.x;
+        state_interfaces_values_[1] = twist_state.twist.linear.y;
+        state_interfaces_values_[2] = twist_state.twist.linear.z;
+        state_interfaces_values_[3] = twist_state.twist.angular.x;
+        state_interfaces_values_[4] = twist_state.twist.angular.y;
+        state_interfaces_values_[5] = twist_state.twist.angular.z;
+
         // Write commands to the hardware interface
         for (size_t i = 0; i < command_interfaces_.size(); ++i)
         {

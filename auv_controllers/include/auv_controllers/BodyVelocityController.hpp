@@ -16,6 +16,8 @@ namespace auv_controllers
         geometry_msgs::msg::TwistStamped twist_command;
         geometry_msgs::msg::TwistStamped twist_state;
         realtime_tools::RealtimeThreadSafeBox<geometry_msgs::msg::TwistStamped> rt_command_;
+        realtime_tools::RealtimeThreadSafeBox<geometry_msgs::msg::TwistStamped> rt_state_;
+        rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::SharedPtr state_sub;
         rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::SharedPtr twist_sub;
 
         // Parameters from ROS for
