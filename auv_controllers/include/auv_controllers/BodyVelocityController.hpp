@@ -13,8 +13,6 @@ namespace auv_controllers
     class BodyVelocityController : public controller_interface::ChainableControllerInterface
     {
     private:
-        Eigen::MatrixXd tam_inv_;
-        Eigen::VectorXd command;
         geometry_msgs::msg::TwistStamped twist_command;
         geometry_msgs::msg::TwistStamped twist_state;
         realtime_tools::RealtimeThreadSafeBox<geometry_msgs::msg::TwistStamped> rt_command_;

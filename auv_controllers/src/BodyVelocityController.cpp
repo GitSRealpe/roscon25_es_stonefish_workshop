@@ -81,7 +81,7 @@ namespace auv_controllers
 
     controller_interface::CallbackReturn BodyVelocityController::on_activate(const rclcpp_lifecycle::State & /*previous_state*/)
     {
-        RCLCPP_INFO(get_node()->get_logger(), "activate successful");
+        RCLCPP_INFO(get_node()->get_logger(), "Activate successful");
         return controller_interface::CallbackReturn::SUCCESS;
     }
 
@@ -93,7 +93,7 @@ namespace auv_controllers
 
     bool BodyVelocityController::on_set_chained_mode(bool /*chained_mode*/)
     {
-        RCLCPP_INFO(get_node()->get_logger(), "controller is now in chained mode");
+        RCLCPP_INFO(get_node()->get_logger(), "Controller is now in chained mode");
         twist_sub.reset();
         return true;
     }
@@ -120,34 +120,36 @@ namespace auv_controllers
     {
         std::vector<hardware_interface::CommandInterface> reference_interfaces;
         reference_interfaces.reserve(reference_interfaces_.size());
+        std::string export_prefix = get_node()->get_name();
+
         reference_interfaces.push_back(
             hardware_interface::CommandInterface(
-                get_node()->get_name() + std::string("/x"), hardware_interface::HW_IF_VELOCITY,
+                export_prefix, std::string("x/") + hardware_interface::HW_IF_VELOCITY,
                 &reference_interfaces_[0]));
 
         reference_interfaces.push_back(
             hardware_interface::CommandInterface(
-                get_node()->get_name() + std::string("/y"), hardware_interface::HW_IF_VELOCITY,
+                export_prefix, std::string("y/") + hardware_interface::HW_IF_VELOCITY,
                 &reference_interfaces_[1]));
 
         reference_interfaces.push_back(
             hardware_interface::CommandInterface(
-                get_node()->get_name() + std::string("/z"), hardware_interface::HW_IF_VELOCITY,
+                export_prefix, std::string("z/") + hardware_interface::HW_IF_VELOCITY,
                 &reference_interfaces_[2]));
 
         reference_interfaces.push_back(
             hardware_interface::CommandInterface(
-                get_node()->get_name() + std::string("/roll"), hardware_interface::HW_IF_VELOCITY,
+                export_prefix, std::string("roll/") + hardware_interface::HW_IF_VELOCITY,
                 &reference_interfaces_[3]));
 
         reference_interfaces.push_back(
             hardware_interface::CommandInterface(
-                get_node()->get_name() + std::string("/pitch"), hardware_interface::HW_IF_VELOCITY,
+                export_prefix, std::string("pitch/") + hardware_interface::HW_IF_VELOCITY,
                 &reference_interfaces_[4]));
 
         reference_interfaces.push_back(
             hardware_interface::CommandInterface(
-                get_node()->get_name() + std::string("/yaw"), hardware_interface::HW_IF_VELOCITY,
+                export_prefix, std::string("yaw/") + hardware_interface::HW_IF_VELOCITY,
                 &reference_interfaces_[5]));
 
         return reference_interfaces;
