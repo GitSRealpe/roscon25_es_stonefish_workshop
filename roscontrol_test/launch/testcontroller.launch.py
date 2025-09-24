@@ -45,11 +45,11 @@ def generate_launch_description():
         output="screen",
     )
 
-    vel_controllers_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["auv_velocity_controller", "--param-file", controllers_file],
-    )
+    # vel_controllers_spawner = Node(
+    #     package="controller_manager",
+    #     executable="spawner",
+    #     arguments=["auv_velocity_controller", "--param-file", controllers_file],
+    # )
 
     # pid_controllers_spawner = Node(
     #     package="controller_manager",
