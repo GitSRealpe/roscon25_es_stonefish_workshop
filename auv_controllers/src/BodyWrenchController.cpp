@@ -48,7 +48,7 @@ namespace auv_controllers
         tam_inv_ = tam.completeOrthogonalDecomposition().pseudoInverse();
         tam_inv_ = tam_inv_.unaryExpr([](double x)
                                       { return (abs(x) < 1e-4) ? 0.0 : x; });
-
+        // std::cout << tam_inv_.format(CleanFmt) << "\n";
         // parameter are read here
         wrench_sub = get_node()->create_subscription<geometry_msgs::msg::WrenchStamped>(
             "~/body_wrench_command", rclcpp::SystemDefaultsQoS(),
