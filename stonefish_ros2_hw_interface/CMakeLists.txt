@@ -27,7 +27,6 @@ endforeach()
 
 # Install launch files and other resources
 install(DIRECTORY
-  config
   DESTINATION share/${PROJECT_NAME}/
 )
 
