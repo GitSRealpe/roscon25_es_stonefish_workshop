@@ -1,0 +1,71 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 50
+
+    auv_wrench_controller:
+      type: auv_controllers/BodyWrenchController
+
+    auv_velocity_controller:
+      type: auv_controllers/BodyVelocityController
+      
+    pid_controller:
+      type: pid_controller/PidController
+
+auv_wrench_controller:
+  ros__parameters:
+    num_thrusters: 2
+
+    thruster_joint_names:
+     - auv/thruster3_joint
+     - auv/thruster4_joint
+
+    thruster_allocation_matrix: 
+      [0.707107, 0.707107,      # X
+       0.707107, -0.707107,     # Y
+       0.0, 0.0,                # Z
+       0.0, 0.0,                # roll
+       0.0, 0.0,                # pitch
+       -0.495, 0.495]           # yaw
+
+# DEFINE THE EXPOSED INTERFACES IN THE WRENCH AND THE REQUIRED IN THE VELOCITY WHEN IS CHAINED
+# MAKE THE ODOM TO VELOCITY NODE FOR FEEDBACK
+auv_velocity_controller:
+  ros__parameters:
+    num_thrusters: 2
+    body_velocity_state_topic: /auv/navigator/body_velocity
+    # chain parameters, chain to wrench controller
+    dof_names:
+      - auv_wrench_controller/x
+      - auv_wrench_controller/y
+      - auv_wrench_controller/z
+      - auv_wrench_controller/roll
+      - auv_wrench_controller/pitch
+      - auv_wrench_controller/yaw
+    command_interface: force
+    
+
+pid_controller:
+  ros__parameters:
+    dof_names:
+      - auv_velocity_controller/x
+      # - auv_velocity_controller/y
+      # - auv_velocity_controller/z
+      # - auv_velocity_controller/roll
+      # - auv_velocity_controller/pitch
+      - auv_velocity_controller/yaw
+    command_interface: velocity
+    reference_and_state_interfaces: ["velocity"]
+
+    # If controller parameter use_external_measured_states is true:
+    # <controller_name>/measured_state [control_msgs/msg/MultiDOFCommand]
+    # en ese caso no hace falta in veocity controller, solo in pid force/velocity, force/position
+
+
+    gains:
+      # control the velocity, no d term
+      auv_velocity_controller/x: {"p": 1.0, "i": 0.0, "d": 0.0}
+      # auv_velocity_controller/y: {"p": 0.5, "i": 2.5, "d": 0.0}
+      # auv_velocity_controller/z: {"p": 0.5, "i": 2.5, "d": 0.0}
+      # auv_velocity_controller/roll: {"p": 0.5, "i": 2.5, "d": 0.0}
+      # auv_velocity_controller/pitch: {"p": 0.5, "i": 2.5, "d": 0.0}
+      auv_velocity_controller/yaw: {"p": 0.5, "i": 0.0, "d": 0.0}
