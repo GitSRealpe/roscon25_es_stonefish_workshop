@@ -57,6 +57,21 @@ def generate_launch_description():
     #     arguments=["pid_controller", "--param-file", controllers_file],
     # )
 
+    pid_vel_feedback = Node(
+        package="roscontrol_test",
+        executable="pid_velocity_feedback",
+        name="pid_vel_feedback",
+        parameters=[
+            {
+                "dof_state_names": ["auv_vel_x", "auv_vel_z", "auv_vel_yaw"],
+            }
+        ],
+        remappings=[
+            ("/pub_pid_measured_topic", "/auv_velocity_controller/measured_state"),
+            ("/sub_twist_topic", "/auv/navigator/body_velocity"),
+        ],
+    )
+
     nodes = [
         SetEnvironmentVariable(name="RCUTILS_COLORIZED_OUTPUT", value="1"),
         control_node,
@@ -64,6 +79,7 @@ def generate_launch_description():
         robot_controller_spawner,
         # vel_controllers_spawner,
         # pid_controllers_spawner,
+        pid_vel_feedback,
     ]
 
     return LaunchDescription(nodes)

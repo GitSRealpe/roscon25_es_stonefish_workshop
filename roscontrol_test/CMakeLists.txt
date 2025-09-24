@@ -12,6 +12,8 @@ find_package(ament_cmake REQUIRED)
 # find_package(<dependency> REQUIRED)
 find_package(auv_controllers REQUIRED)
 find_package(stonefish_hw_interface REQUIRED)
+find_package(control_msgs REQUIRED)
+find_package(geometry_msgs)
 
 add_executable(ctrl_test src/ctrl_test.cpp)
 ament_target_dependencies(ctrl_test rclcpp auv_controllers)
@@ -20,6 +22,9 @@ target_include_directories(ctrl_test PUBLIC
   $<INSTALL_INTERFACE:include/${PROJECT_NAME}>)
 target_compile_features(ctrl_test PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
+add_executable(pid_velocity_feedback scripts/pid_velocity_feedback.cpp)
+ament_target_dependencies(pid_velocity_feedback rclcpp control_msgs geometry_msgs)
+
 # Install launch files and other resources
 install(DIRECTORY
   launch
@@ -27,7 +32,9 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}/
 )
 
-install(TARGETS ctrl_test
+install(TARGETS 
+  ctrl_test
+  pid_velocity_feedback
   DESTINATION lib/${PROJECT_NAME})
 
 # Install Python modules
