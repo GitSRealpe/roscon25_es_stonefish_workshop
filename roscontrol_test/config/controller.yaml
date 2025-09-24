@@ -13,22 +13,22 @@ controller_manager:
 
 auv_wrench_controller:
   ros__parameters:
-    num_thrusters: 2
+    num_thrusters: 4
 
     thruster_joint_names:
      - auv/thruster3_joint
      - auv/thruster4_joint
+     - auv/thruster5_joint
+     - auv/thruster6_joint
 
     thruster_allocation_matrix: 
-      [0.707107, 0.707107,      # X
-       0.707107, -0.707107,     # Y
-       0.0, 0.0,                # Z
-       0.0, 0.0,                # roll
-       0.0, 0.0,                # pitch
-       -0.495, 0.495]           # yaw
-
-# DEFINE THE EXPOSED INTERFACES IN THE WRENCH AND THE REQUIRED IN THE VELOCITY WHEN IS CHAINED
-# MAKE THE ODOM TO VELOCITY NODE FOR FEEDBACK
+      [0.707107, 0.707107, 0.0, 0.0,      # X
+       0.707107, -0.707107, 0.0, 0.0,     # Y
+       0.0, 0.0, 1.0, 1.0,               # Z
+       0.0, 0.0, 0.0, 0.0,               # roll
+       0.0, 0.0, -0.6, 0.6,               # pitch
+       -0.495, 0.495, 0.0, 0.0]           # yaw
+    
 auv_velocity_controller:
   ros__parameters:
     num_thrusters: 2

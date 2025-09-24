@@ -16,10 +16,6 @@
         <param name="thruster_group_read_topic">auv/sf_controller/thruster_state</param>
       </hardware>
 
-      <!-- <thruster>
-      <param name="maxSetpoint">300</param>
-      </thruster> -->
-
       <joint name="${prefix}/thruster3_joint">
         <command_interface name="velocity">
           <param name="max_setpoint">100</param>
@@ -27,6 +23,18 @@
         <state_interface name="velocity"/>
       </joint>
       <joint name="${prefix}/thruster4_joint">
+        <command_interface name="velocity">
+          <param name="max_setpoint">100</param>
+        </command_interface>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="${prefix}/thruster5_joint">
+        <command_interface name="velocity">
+          <param name="max_setpoint">100</param>
+        </command_interface>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="${prefix}/thruster6_joint">
         <command_interface name="velocity">
           <param name="max_setpoint">100</param>
         </command_interface>

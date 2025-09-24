@@ -63,6 +63,9 @@
     <link name="${prefix}/thruster3"/>
     <link name="${prefix}/thruster4"/>
 
+    <link name="${prefix}/thruster5"/>
+    <link name="${prefix}/thruster6"/>
+
     <joint name="${prefix}/thruster3_joint" type="continuous">
       <parent link="${prefix}/base_link"/>
       <child link="${prefix}/thruster3"/>
@@ -75,6 +78,22 @@
       <parent link="${prefix}/base_link"/>
       <child link="${prefix}/thruster4"/>
       <origin xyz="-0.35 -0.35 0" rpy="0 0 -0.785398"/>
+      <axis xyz="1 0 0"/>
+      <limit effort="100" velocity="1.0"/>
+    </joint>
+
+    <joint name="${prefix}/thruster5_joint" type="continuous">
+      <parent link="${prefix}/base_link"/>
+      <child link="${prefix}/thruster5"/>
+      <origin xyz="0.60 0 0" rpy="0 0 0"/>
+      <axis xyz="1 0 0"/>
+      <limit effort="100" velocity="1.0"/>
+    </joint>
+
+    <joint name="${prefix}/thruster6_joint" type="continuous">
+      <parent link="${prefix}/base_link"/>
+      <child link="${prefix}/thruster6"/>
+      <origin xyz="-0.60 0.0 0" rpy="0 0 0"/>
       <axis xyz="1 0 0"/>
       <limit effort="100" velocity="1.0"/>
     </joint>

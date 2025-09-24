@@ -92,15 +92,11 @@
         <look name="orange"/>
       </propeller>
       <specs max_setpoint="100" inverted_setpoint="false" normalized_setpoint="true"/>
-      <rotor_dynamics type="mechanical_pi">
-        <rotor_inertia value="1"/>
-        <kp value="8.0"/>
-        <ki value="5.0"/>
-        <ilimit value="10.0"/>
+      <rotor_dynamics type="first_order">
+        <time_constant value="1.0"/>
       </rotor_dynamics>
-      <thrust_model type="fluid_dynamics">
-        <thrust_coeff forward="0.515" reverse="0.35"/>
-        <torque_coeff value="0.06"/>
+      <thrust_model type="quadratic">
+        <thrust_coeff value="1.0"/>
       </thrust_model>
     </actuator>
 
@@ -114,15 +110,47 @@
         <look name="orange"/>
       </propeller>
       <specs max_setpoint="100" inverted_setpoint="false" normalized_setpoint="true"/>
-      <rotor_dynamics type="mechanical_pi">
-        <rotor_inertia value="1"/>
-        <kp value="8.0"/>
-        <ki value="5.0"/>
-        <ilimit value="10.0"/>
+      <rotor_dynamics type="first_order">
+        <time_constant value="1.0"/>
       </rotor_dynamics>
-      <thrust_model type="fluid_dynamics">
-        <thrust_coeff forward="0.515" reverse="0.35"/>
-        <torque_coeff value="0.06"/>
+      <thrust_model type="quadratic">
+        <thrust_coeff value="1.0"/>
+      </thrust_model>
+    </actuator>
+
+    <actuator name="propeller_bow" type="thruster">
+      <link name="Vehicle"/>
+      <origin rpy="0.0 -1.57 0.0" xyz="0.60 0.0 -0.2"/>
+      <propeller diameter="0.289" right="true">
+        <mesh filename="robot/propeller.obj"
+          scale="1.0"/>
+        <material name="Neutral"/>
+        <look name="orange"/>
+      </propeller>
+      <specs max_setpoint="100" inverted_setpoint="false" normalized_setpoint="true"/>
+      <rotor_dynamics type="first_order">
+        <time_constant value="1.0"/>
+      </rotor_dynamics>
+      <thrust_model type="quadratic">
+        <thrust_coeff value="1.0"/>
+      </thrust_model>
+    </actuator>
+
+    <actuator name="propeller_stern" type="thruster">
+      <link name="Vehicle"/>
+      <origin rpy="0.0 -1.57 0.0" xyz="-0.60 0.0 -0.2"/>
+      <propeller diameter="0.289" right="true">
+        <mesh filename="robot/propeller.obj"
+          scale="1.0"/>
+        <material name="Neutral"/>
+        <look name="orange"/>
+      </propeller>
+      <specs max_setpoint="100" inverted_setpoint="false" normalized_setpoint="true"/>
+      <rotor_dynamics type="first_order">
+        <time_constant value="1.0"/>
+      </rotor_dynamics>
+      <thrust_model type="quadratic">
+        <thrust_coeff value="1.0"/>
       </thrust_model>
     </actuator>
 
