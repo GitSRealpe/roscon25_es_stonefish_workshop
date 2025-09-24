@@ -14,31 +14,51 @@ class ChainPub(Node):
 
         # Publisher
         self.publisher: Publisher = self.create_publisher(
-            MultiDOFCommand, "pid_controller/reference", 10
+            MultiDOFCommand, "/auv_velocity_controller/reference", 10
         )
 
         # Subscriber
-        self.sub_twist = self.create_subscription(
+        self.sub_twist_h = self.create_subscription(
             Twist,
-            "/cmd_vel",  # change if needed
-            self.twist_callback,
+            "/cmd_vel/horizontal",  # change if needed
+            self.horizontal_twist_callback,
             10,
         )
 
-        self.msg = MultiDOFCommand()
-        self.msg.dof_names = [
-            "auv_velocity_controller/x",
-            "auv_velocity_controller/yaw",
+        self.sub_twist_v = self.create_subscription(
+            Twist,
+            "/cmd_vel/vertical",  # change if needed
+            self.vertical_twist_callback,
+            10,
+        )
+
+        self.cmd_msg = MultiDOFCommand()
+        self.cmd_msg.dof_names = [
+            "auv_wrench_controller/x/velocity",
+            "auv_wrench_controller/z/velocity",
+            "auv_wrench_controller/yaw/velocity",
         ]
 
-    def twist_callback(self, msg: Twist):
-        self.msg.values = [msg.linear.x, msg.angular.z]
+        self.cmd_msg.values = [0, 0, 0]
+        self.timer: Timer = self.create_timer(0.1, self.timer_callback)
 
+    def timer_callback(self):
+        self.publisher.publish(self.cmd_msg)
+
+    def horizontal_twist_callback(self, msg: Twist):
+        self.cmd_msg.values[0] = msg.linear.x
+        self.cmd_msg.values[2] = msg.angular.z
         # Publish converted message
-        self.publisher.publish(self.msg)
         self.get_logger().info(
-            f"Converted Twist to PID command: lin=({msg.linear.x:.2f}, {msg.linear.y:.2f}, {msg.linear.z:.2f}), "
-            f"ang=({msg.angular.x:.2f}, {msg.angular.y:.2f}, {msg.angular.z:.2f})"
+            f"Converted Twist-H to PID command: lin=({msg.linear.x:.2f}), "
+            f"ang=({msg.angular.z:.2f})"
+        )
+
+    def vertical_twist_callback(self, msg: Twist):
+        self.cmd_msg.values[1] = msg.linear.x
+        # Publish converted message
+        self.get_logger().info(
+            f"Converted Twist-V to PID command: lin=({msg.linear.x:.2f}) "
         )
 
 
