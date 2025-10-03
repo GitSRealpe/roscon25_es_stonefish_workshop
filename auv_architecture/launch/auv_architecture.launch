@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+
+    <node name="navigator" pkg="auv_architecture" exec="auv_navigator_node"
+        namespace="auv">
+        <remap from="/sub_odom_topic" to="/auv/dynamics/odometry_truth"/>
+        <param name="frame_id" value="world_ned"/>
+    </node>
+
+
+</launch>

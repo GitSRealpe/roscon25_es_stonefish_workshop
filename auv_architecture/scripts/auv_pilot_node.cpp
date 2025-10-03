@@ -4,29 +4,28 @@
 #include <tf2_eigen/tf2_eigen.hpp>
 #include <Eigen/Core>
 
-class AUVGoalInverse : public rclcpp::Node
+Eigen::IOFormat CleanFmt(4, 0, ", ", "\n", "[", "]");
+
+class AUVPilotNode : public rclcpp::Node
 {
 public:
-    AUVGoalInverse() : Node("auv_feedback_node")
+    AUVPilotNode() : Node("auv_pilot_node")
     {
-
-        // std::string frame_id = declare_parameter("frame_id", "empty");
-        // rclcpp::Parameter param = get_parameter("frame_id");
-        // pose_msg_.header.frame_id = param.as_string();
-
-        pose_pub_ = create_publisher<geometry_msgs::msg::PoseStamped>("/pub_pose_topic", 10);
-
+        pose_pub_ = create_publisher<geometry_msgs::msg::PoseStamped>("/controller_command_topic", 10);
         sub_ = create_subscription<geometry_msgs::msg::PoseStamped>(
-            "/auv/navigator/body_pose", 10, std::bind(&AUVGoalInverse::currentCallback, this, std::placeholders::_1));
-
+            "/navigator/pose", 10, std::bind(&AUVPilotNode::currentCallback, this, std::placeholders::_1));
         sub_goal = create_subscription<geometry_msgs::msg::Pose>(
-            "/auv/goal", 10, std::bind(&AUVGoalInverse::goalCallback, this, std::placeholders::_1));
+            "/pilot/pose_goal", 10, std::bind(&AUVPilotNode::goalCallback, this, std::placeholders::_1));
+
+        timer = this->create_wall_timer(std::chrono::duration<double>(0.2),
+                                        std::bind(&AUVPilotNode::computeInverse, this));
     }
 
 private:
     rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr sub_;
     rclcpp::Subscription<geometry_msgs::msg::Pose>::SharedPtr sub_goal;
     rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr pose_pub_;
+    rclcpp::TimerBase::SharedPtr timer;
 
     geometry_msgs::msg::Pose current_msg_;
     geometry_msgs::msg::Pose goal_msg_;
@@ -51,21 +50,21 @@ private:
     void computeInverse()
     {
         tf2::fromMsg(current_msg_, mat_current);
-        tf2::fromMsg(goal_msg_, mat_goal);
+        // tf2::fromMsg(goal_msg_, mat_goal);
 
         // see the goal w.r.t current frame at every iteration
-        error = mat_current.inverseTimes(mat_goal);
+        // error = mat_current.inverseTimes(mat_goal);
 
         // get orientation as rpy
-        tf2::Matrix3x3 m(error.getRotation());
-        m.getRPY(roll, pitch, err_yaw, 1);
+        // tf2::Matrix3x3 m(error.getRotation());
+        // m.getRPY(roll, pitch, err_yaw, 1);
     }
 };
 
 int main(int argc, char **argv)
 {
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<AUVGoalInverse>());
+    rclcpp::spin(std::make_shared<AUVPilotNode>());
     rclcpp::shutdown();
     return 0;
 }

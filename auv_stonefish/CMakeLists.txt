@@ -47,16 +47,17 @@ install(PROGRAMS
 )
 
 # Declare the executable
-add_executable(auv_body_feedback scripts/auv_body_feedback.cpp)
+# add_executable(auv_body_feedback scripts/auv_body_feedback.cpp)
 # Specify the dependencies for the executable
-ament_target_dependencies(auv_body_feedback
-  rclcpp
-  nav_msgs
-  geometry_msgs
-  stonefish_ros2
-)
+# ament_target_dependencies(
+#   rclcpp
+#   nav_msgs
+#   geometry_msgs
+#   stonefish_ros2
+# )
 # Install the executable
-install(TARGETS auv_body_feedback
+install(TARGETS 
+  # auv_body_feedback
   DESTINATION lib/${PROJECT_NAME}
 )
 

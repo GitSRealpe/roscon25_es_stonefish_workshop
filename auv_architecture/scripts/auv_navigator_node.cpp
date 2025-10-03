@@ -3,10 +3,10 @@
 #include <geometry_msgs/msg/twist_stamped.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
 
-class AUVFeedbackNode : public rclcpp::Node
+class AUVNavNode : public rclcpp::Node
 {
 public:
-  AUVFeedbackNode() : Node("auv_feedback_node")
+  AUVNavNode() : Node("auv_navigator_node")
   {
 
     std::string frame_id = declare_parameter("frame_id", "empty");
@@ -15,11 +15,11 @@ public:
     twist_msg_.header.frame_id = param.as_string();
     pose_msg_.header.frame_id = param.as_string();
 
-    twist_pub_ = create_publisher<geometry_msgs::msg::TwistStamped>("/pub_twist_topic", 10);
-    pose_pub_ = create_publisher<geometry_msgs::msg::PoseStamped>("/pub_pose_topic", 10);
+    twist_pub_ = create_publisher<geometry_msgs::msg::TwistStamped>("navigator/twist", 10);
+    pose_pub_ = create_publisher<geometry_msgs::msg::PoseStamped>("navigator/pose", 10);
 
     sub_ = create_subscription<nav_msgs::msg::Odometry>(
-        "/sub_odom_topic", 10, std::bind(&AUVFeedbackNode::odomCallback, this, std::placeholders::_1));
+        "/sub_odom_topic", 10, std::bind(&AUVNavNode::odomCallback, this, std::placeholders::_1));
   }
 
 private:
@@ -46,7 +46,7 @@ private:
 int main(int argc, char **argv)
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<AUVFeedbackNode>());
+  rclcpp::spin(std::make_shared<AUVNavNode>());
   rclcpp::shutdown();
   return 0;
 }
