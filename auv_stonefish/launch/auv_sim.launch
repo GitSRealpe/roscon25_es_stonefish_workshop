@@ -27,10 +27,9 @@
         <param name="base_link" value="/auv/base_link"/>
     </node>
 
-    <node name="body_feedback" pkg="auv_stonefish" exec="auv_body_feedback">
+    <node name="navigator" pkg="auv_architecture" exec="auv_navigator_node"
+        namespace="auv">
         <remap from="/sub_odom_topic" to="/auv/dynamics/odometry_truth"/>
-        <remap from="/pub_twist_topic" to="/auv/navigator/body_velocity"/>
-        <remap from="/pub_pose_topic" to="/auv/navigator/body_pose"/>
         <param name="frame_id" value="world_ned"/>
     </node>
 
