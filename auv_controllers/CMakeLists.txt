@@ -8,7 +8,7 @@ endif()
 # Find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
-find_package(Eigen3 REQUIRED)
+# find_package(Eigen3 REQUIRED)
 
 set(THIS_PACKAGE_INCLUDE_DEPENDS
   controller_interface
@@ -19,6 +19,11 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   rclcpp_lifecycle
   realtime_tools
   std_msgs
+  tf2
+  tf2_ros
+  tf2_geometry_msgs
+  geometry_msgs
+  Eigen3
 )
 
 foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
@@ -40,6 +45,7 @@ install(PROGRAMS
 
 # Build the controller library
 add_library(${PROJECT_NAME} SHARED
+  src/BodyPoseController.cpp
   src/BodyVelocityController.cpp
   src/BodyWrenchController.cpp
 )
@@ -52,6 +58,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 # /////////////////////////////////////////////
 generate_parameter_library(
+  auv_pose_controller_params # cmake target name for the parameter library
+  src/auv_pose_controller_parameters.yaml # path to input yaml file
+)
+generate_parameter_library(
   auv_velocity_controller_params # cmake target name for the parameter library
   src/auv_velocity_controller_parameters.yaml # path to input yaml file
 )
@@ -63,27 +73,22 @@ generate_parameter_library(
 # //////////////////////////////////////////////////
 
 # Link dependencies for the controller library
-# ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS} auv_controllers_params)
 target_link_libraries(${PROJECT_NAME}
-  PUBLIC
+    auv_pose_controller_params
     auv_velocity_controller_params
     auv_wrench_controller_params
-    controller_interface::controller_interface
-    hardware_interface::hardware_interface
-    pluginlib::pluginlib
-    rclcpp::rclcpp
-    rclcpp_lifecycle::rclcpp_lifecycle
-    rcpputils::rcpputils
-    realtime_tools::realtime_tools
-    ${geometry_msgs_TARGETS})
+    )
+
+ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS})
 
 # Export the controller as a plugin
 pluginlib_export_plugin_description_file(controller_interface auv_controllers_plugin.xml)
 
 # Build the test executable
-add_executable(test_ctrl scripts/testing_controller.cpp)
-ament_target_dependencies(test_ctrl rclcpp std_msgs controller_interface)
-target_link_libraries(test_ctrl ${PROJECT_NAME})
+# add_executable(test_ctrl scripts/testing_controller.cpp)
+# ament_target_dependencies(test_ctrl rclcpp std_msgs controller_interface)
+# target_link_libraries(test_ctrl 
+#     ${PROJECT_NAME})
 
 # Install include directories
 install(
@@ -92,12 +97,14 @@ install(
 )
 
 # Install the test executable
-install(TARGETS test_ctrl
+install(TARGETS 
+  # test_ctrl
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 
 # Install the controller library
 install(TARGETS ${PROJECT_NAME} 
+  auv_pose_controller_params
   auv_velocity_controller_params 
   auv_wrench_controller_params
   EXPORT export_auv_controllers

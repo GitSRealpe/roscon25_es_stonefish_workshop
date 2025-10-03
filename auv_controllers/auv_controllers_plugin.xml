@@ -1,5 +1,14 @@
 <library path="auv_controllers">
     <class
+        name="auv_controllers/BodyPoseController"
+        type="auv_controllers::BodyPoseController"
+        base_class_type="controller_interface::ChainableControllerInterface">
+        <description>
+            AUV Body Pose Controller for ROS 2 control framework.
+        </description>
+    </class>
+
+    <class
         name="auv_controllers/BodyVelocityController"
         type="auv_controllers::BodyVelocityController"
         base_class_type="controller_interface::ChainableControllerInterface">
