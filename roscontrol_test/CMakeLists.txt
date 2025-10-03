@@ -43,6 +43,7 @@ ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
   scripts/publish_wrench.py
   scripts/publish_twist.py
+  scripts/publish_pose.py
   scripts/publish_pid.py
   scripts/velocity_req_rqt.py
   DESTINATION lib/${PROJECT_NAME}

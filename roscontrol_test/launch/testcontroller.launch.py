@@ -38,6 +38,7 @@ def generate_launch_description():
         arguments=[
             "auv_wrench_controller",
             "auv_velocity_controller",
+            "auv_pose_controller",
             "--param-file",
             controllers_file,
             "--activate-as-group",
@@ -68,7 +69,7 @@ def generate_launch_description():
         ],
         remappings=[
             ("/pub_pid_measured_topic", "/auv_velocity_controller/measured_state"),
-            ("/sub_twist_topic", "/auv/navigator/body_velocity"),
+            ("/sub_twist_topic", "/auv/navigator/twist"),
         ],
     )
 
