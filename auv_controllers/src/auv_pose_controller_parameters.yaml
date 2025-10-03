@@ -1,0 +1,75 @@
+auv_pose_controller:
+  body_pose_state_topic: {
+    type: string,
+    default_value: "",
+    read_only: true,
+    description: "PoseStamped topic for body pose feedback",
+    validation: {
+      not_empty<>: [],
+    }
+  }
+  dof_names: {
+    type: string_array,
+    default_value: [],
+    read_only: true,
+    description: "Name of degrees of freedom to control velocity",
+    validation: {
+      unique<>: [],
+      not_empty<>: [],
+    }
+  }
+  command_interface: {
+    type: string,
+    default_value: "",
+    read_only: true,
+    description: "Name of the interface used by the controller for writing commands to the hardware",
+    validation: {
+      not_empty<>: [],
+    }
+  }
+  gains:
+    __map_dof_names:
+      p: {
+        type: double,
+        default_value: 0.0,
+        description: "Proportional gain for PID"
+      }
+      i: {
+        type: double,
+        default_value: 0.0,
+        description: "Integral gain for PID"
+      }
+      d: {
+        type: double,
+        default_value: 0.0,
+        description: "Derivative gain for PID"
+      }
+      u_clamp_max: {
+        type: double,
+        default_value: .inf,
+        description: "Upper output clamp."
+      }
+      u_clamp_min: {
+        type: double,
+        default_value: -.inf,
+        description: "Lower output clamp."
+      }
+      i_clamp_max: {
+        type: double,
+        default_value: .inf,
+        description: "Upper integral clamp."
+      }
+      i_clamp_min: {
+        type: double,
+        default_value: -.inf,
+        description: "Lower integral clamp."
+      }
+      angle_wraparound: {
+        type: bool,
+        default_value: false,
+        description: "For joints that wrap around (i.e., are continuous).
+          Normalizes position-error to -pi to pi."
+      }
+
+
+  
