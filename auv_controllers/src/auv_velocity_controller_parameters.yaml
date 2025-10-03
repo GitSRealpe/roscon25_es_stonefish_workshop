@@ -3,7 +3,7 @@ auv_velocity_controller:
     type: string,
     default_value: "",
     read_only: true,
-    description: "Twist topic for body velocity feedback"
+    description: "TwistStamped topic for body velocity feedback"
   }
   dof_names: {
     type: string_array,
