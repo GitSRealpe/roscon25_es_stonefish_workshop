@@ -28,9 +28,12 @@ namespace auv_controllers
         tf2::Transform mat_current;
         tf2::Transform mat_goal;
         tf2::Transform error;
-        double err_roll, err_pitch, err_yaw, integral_x, integral_y, integral_z, last_error_x, last_error_y, last_error_z, dt = 0;
+        double err_roll, err_pitch, err_yaw, dt = 0;
+        std::vector<double> prev_error = {0, 0, 0};
+        std::vector<double> integral_acc = {0, 0, 0};
         rclcpp::Time prev_t;
         Eigen::Matrix3d pid_err;
+        // Eigen::MatrixXd pid_err;
 
     public:
         BodyPoseController(/* args */);

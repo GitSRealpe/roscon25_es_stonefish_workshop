@@ -59,6 +59,9 @@ namespace auv_controllers
         state_interfaces_values_.resize(7, 0.0);
 
         // initialize pid vars
+        // pid_err.resize(command_interfaces_.size(), 3);
+        // pid_err.resize(3, 3);
+        // std::cout << pid_err.size() << "\n";
         pid_err.setZero();
         prev_t = rclcpp::Time(0);
 
@@ -234,16 +237,23 @@ namespace auv_controllers
             // get orientation as rpy
             tf2::Matrix3x3 m(error.getRotation());
             m.getRPY(err_roll, err_pitch, err_yaw, 1);
-
+            // time delta for pid values
             dt = (time.seconds() - prev_t.seconds());
-
             for (size_t i = 0; i < 3; i++)
             {
+                tf2Scalar dof_error = error.getOrigin()[i];
+                auto gain = params_.gains.dof_names_map[params_.dof_names[i]];
                 // proportional
-                pid_err(i, 0) = params_.gains.dof_names_map[params_.dof_names[i]].p * error.getOrigin()[i];
+                pid_err(i, 0) = gain.p * dof_error;
+                // integral for steady state error
+                integral_acc[i] += dof_error * dt;
+                pid_err(i, 1) = gain.i * integral_acc[i];
                 // derivative smooths
-                pid_err(i, 2) = params_.gains.dof_names_map[params_.dof_names[i]].d * (error.getOrigin()[i] - last_error_x) / dt;
+                pid_err(i, 2) = gain.d * (dof_error - prev_error[i]) / dt;
+                prev_error[i] = dof_error;
             }
+
+            // std::clamp(0.7 * err_yaw, -0.2, 0.2);
             // pid_err(0, 0) = params_.gains.dof_names_map.[params_.dof_names[0]].d * error.getOrigin()[0];
             // pid_err(1, 0) = params_.gains.dof_names_map[params_.dof_names[1]].d * error.getOrigin().y();
             // pid_err(2, 0) = params_.gains.dof_names_map.at(0).d * error.getOrigin().z();
