@@ -29,7 +29,7 @@ private:
 
   void velCallback(const geometry_msgs::msg::TwistStamped::SharedPtr msg)
   {
-    pid_msg_.values = {msg->twist.linear.x, msg->twist.linear.z, msg->twist.angular.z};
+    pid_msg_.values = {msg->twist.linear.x, msg->twist.linear.y, msg->twist.linear.z};
     pid_pub_->publish(pid_msg_);
   }
 };
