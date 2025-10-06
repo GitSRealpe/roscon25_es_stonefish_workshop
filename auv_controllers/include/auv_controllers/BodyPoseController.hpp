@@ -61,6 +61,8 @@ namespace auv_controllers
         controller_interface::InterfaceConfiguration command_interface_configuration() const override;
         // configure the interface to read state from (HW)
         controller_interface::InterfaceConfiguration state_interface_configuration() const override;
+        // param reconfigure callback
+        controller_interface::CallbackReturn configure_parameters();
     };
 
 };

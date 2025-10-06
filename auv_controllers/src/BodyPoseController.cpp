@@ -224,6 +224,9 @@ namespace auv_controllers
         // watchdog looking thing
         if ((time.seconds() - pose_command.header.stamp.sec) < 2.0)
         {
+            // check for any parameters updates
+            param_listener_->try_get_params(params_);
+
             tf2::fromMsg(pose_state.pose, mat_current);
             tf2::fromMsg(pose_command.pose, mat_goal);
             // see the goal w.r.t current frame at every iteration
