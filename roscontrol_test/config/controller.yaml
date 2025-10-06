@@ -44,7 +44,7 @@ auv_velocity_controller:
 
     gains:
       auv_wrench_controller/x: {"p": 1.0, "i": 0.0, "d": 0.0}
-      auv_velocity_controller/y: {"p": 1.0, "i": 0.0, "d": 0.0}
+      auv_wrench_controller/y: {"p": 1.0, "i": 0.0, "d": 0.0}
       auv_wrench_controller/z: {"p": 1.0, "i": 0.0, "d": 0.0}
       # auv_wrench_controller/z: {"p": 10.0, "i": 0.0, "d": 5.0}
       # auv_velocity_controller/roll: {"p": 0.5, "i": 2.5, "d": 0.0}
