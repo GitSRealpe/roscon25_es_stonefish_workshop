@@ -23,7 +23,7 @@
           <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
         </physical>
         <material name="Polyamid"/>
-        <mass value="0.025"/>
+        <mass value="5.0"/>
         <look name="bluerov_text"/>
         <compound_transform rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
       </external_part>
@@ -38,48 +38,48 @@
           <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
         </physical>
         <material name="Polyamid"/>
-        <mass value="0.025"/>
+        <mass value="3.0"/>
         <look name="bluerov_text"/>
         <compound_transform rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
       </external_part>
 
 
       <!--   FOAM   -->
-      <!-- <internal_part name="RightFoamFront" type="cylinder" physics="submerged" buoyant="true">
-				<dimensions radius="0.03" height="0.1"/>
-				<origin rpy="0.0 0.0 0.0" xyz="-0.1 -0.05 -0.1"/>
-				<material name="Neutral"/>
-				<mass value="0.025"/>
-				<look name="Gray"/>
-				<compound_transform rpy="1.6 0.0 0.0" xyz="0.0 0.0 0.0"/>
-			</internal_part>
+      <internal_part name="RightFoam" type="cylinder" physics="submerged" buoyant="true">
+        <dimensions radius="0.05" height="0.35"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        <material name="Neutral"/>
+        <mass value="0.025"/>
+        <look name="Gray"/>
+        <compound_transform rpy="1.57 0.0 1.57" xyz="0.0 0.12 -0.1"/>
+      </internal_part>
 
-			<internal_part name="LeftFoamFront" type="cylinder" physics="submerged" buoyant="true">
-				<dimensions radius="0.03" height="0.1"/>
-				<origin rpy="0.0 0.0 0.0" xyz="0.1 -0.05 -0.1"/>
-				<material name="Neutral"/>
-				<mass value="0.025"/>
-				<look name="Gray"/>
-				<compound_transform rpy="1.6 0.0 0.0" xyz="0.0 0.0 0.0"/>
-			</internal_part>
+      <internal_part name="LeftFoam" type="cylinder" physics="submerged" buoyant="true">
+        <dimensions radius="0.05" height="0.35"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        <material name="Neutral"/>
+        <mass value="0.025"/>
+        <look name="Gray"/>
+        <compound_transform rpy="1.57 0.0 1.57" xyz="0.0 -0.12 -0.1"/>
+      </internal_part>
 
-			<internal_part name="LeftFoamRear" type="cylinder" physics="submerged" buoyant="true">
-				<dimensions radius="0.03" height="0.1"/>
-				<origin rpy="0.0 0.0 0.0" xyz="0.1 -0.05 0.1"/>
-				<material name="Neutral"/>
-				<mass value="0.025"/>
-				<look name="Gray"/>
-				<compound_transform rpy="1.6 0.0 0.0" xyz="0.0 0.0 0.0"/>
-			</internal_part>
+      <internal_part name="BottomCylinder" type="cylinder" physics="submerged" buoyant="true">
+        <dimensions radius="0.047" height="0.2"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        <material name="Neutral"/>
+        <mass value="0.025"/>
+        <look name="Gray"/>
+        <compound_transform rpy="1.57 0.0 1.57" xyz="0.0 0.0 0.042"/>
+      </internal_part>
 
-			<internal_part name="RightFoamRear" type="cylinder" physics="submerged" buoyant="true">
-				<dimensions radius="0.03" height="0.1"/>
-				<origin rpy="0.0 0.0 0.0" xyz="-0.1 -0.05 0.1"/>
-				<material name="Neutral"/>
-				<mass value="0.025"/>
-				<look name="Gray"/>
-				<compound_transform rpy="1.6 0.0 0.0" xyz="0.0 0.0 0.0"/>
-			</internal_part> -->
+      <internal_part name="TopCylinder" type="cylinder" physics="submerged" buoyant="true">
+        <dimensions radius="0.047" height="0.3"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        <material name="Neutral"/>
+        <mass value="0.025"/>
+        <look name="Gray"/>
+        <compound_transform rpy="1.57 0.0 1.57" xyz="0.0 0.0 -0.064"/>
+      </internal_part>
 
     </base_link>
 
