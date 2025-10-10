@@ -43,7 +43,6 @@
         <compound_transform rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
       </external_part>
 
-
       <!--   FOAM   -->
       <internal_part name="RightFoam" type="cylinder" physics="submerged" buoyant="true">
         <dimensions radius="0.05" height="0.35"/>
@@ -88,14 +87,13 @@
     <!-- T1 -->
     <actuator name="Thruster_R_FORWARD_FRONT" type="thruster">
       <link name="Vehicle"/>
-      <origin rpy="0.0 0.0 -0.523599" xyz="0.124 0.1066 0.0273"/>
+      <origin rpy="0.0 0.0 -0.523599" xyz="0.134706 0.106976 0.0"/>
       <propeller diameter="0.07" right="true">
         <mesh filename="robot/Propeller.obj" scale="1.0"/>
         <material name="Neutral"/>
-        <look name="propeller"/>
+        <look name="blue"/>
       </propeller>
-      <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="true"/>
-      <!-- <specs thrust_coeff="0.167" torque_coeff="0.016" max_rpm="3250.0" inverted="true"/> -->
+      <specs max_setpoint="3250.0" inverted_setpoint="false" normalized_setpoint="true"/>
       <rotor_dynamics type="zero_order"/>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
@@ -106,13 +104,13 @@
     <!-- T2 -->
     <actuator name="Thruster_L_FORWARD_FRONT" type="thruster">
       <link name="Vehicle"/>
-      <origin rpy="0.0 0.0 0.523599" xyz="0.124 -0.1066 0.0273"/>
+      <origin rpy="0.0 0.0 0.523599" xyz="0.134706 -0.106976 0.0"/>
       <propeller diameter="0.07" right="true">
         <mesh filename="robot/Propeller.obj" scale="1.0"/>
         <material name="Neutral"/>
-        <look name="propeller"/>
+        <look name="blue"/>
       </propeller>
-      <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="true"/>
+      <specs max_setpoint="3250.0" inverted_setpoint="false" normalized_setpoint="true"/>
       <rotor_dynamics type="zero_order"/>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
@@ -123,13 +121,13 @@
     <!-- T3 -->
     <actuator name="Thruster_R_FORWARD_REAR" type="thruster">
       <link name="Vehicle"/>
-      <origin rpy="0.0 0.0 -2.618" xyz="-0.148 0.1066 0.0273"/>
+      <origin rpy="0.0 0.0 -2.618" xyz="-0.134706 0.106976 0.0"/>
       <propeller diameter="0.07" right="false">
         <mesh filename="robot/Propeller.obj" scale="1.0"/>
         <material name="Neutral"/>
-        <look name="propeller"/>
+        <look name="blue"/>
       </propeller>
-      <specs max_setpoint="3250.0" inverted_setpoint="false" normalized_setpoint="true"/>
+      <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="true"/>
       <rotor_dynamics type="zero_order"/>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
@@ -140,11 +138,28 @@
     <!-- T4 -->
     <actuator name="Thruster_L_FORWARD_REAR" type="thruster">
       <link name="Vehicle"/>
-      <origin rpy="0.0 0.0 2.618" xyz="-0.148 -0.1066 0.0273"/>
+      <origin rpy="0.0 0.0 2.618" xyz="-0.134706 -0.106976 0.0"/>
       <propeller diameter="0.07" right="false">
         <mesh filename="robot/Propeller.obj" scale="1.0"/>
         <material name="Neutral"/>
-        <look name="propeller"/>
+        <look name="blue"/>
+      </propeller>
+      <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="true"/>
+      <rotor_dynamics type="zero_order"/>
+      <thrust_model type="fluid_dynamics">
+        <thrust_coeff forward="0.167" reverse="0.167"/>
+        <torque_coeff value="0.016"/>
+      </thrust_model>
+    </actuator>
+
+    <!-- T5 -->
+    <actuator name="Thruster_R_UP_FRONT" type="thruster">
+      <link name="Vehicle"/>
+      <origin rpy="0.0 4.7123 0.0" xyz="0.128606 0.217745 -0.064159"/>
+      <propeller diameter="0.07" right="true">
+        <mesh filename="robot/Propeller.obj" scale="1.0"/>
+        <material name="Neutral"/>
+        <look name="blue"/>
       </propeller>
       <specs max_setpoint="3250.0" inverted_setpoint="false" normalized_setpoint="true"/>
       <rotor_dynamics type="zero_order"/>
@@ -154,53 +169,56 @@
       </thrust_model>
     </actuator>
 
-    <!-- T5 -->
-    <!-- <actuator name="Thruster_R_UP_FRONT" type="thruster">
-      <origin rpy="0.0 -1.5707963267948966 0.0" xyz="-0.218 0.117 -0.037726"/>
-      <specs thrust_coeff="0.167" torque_coeff="0.016" max_rpm="3250.0" inverted="false"/>
-      <propeller diameter="0.07" right="true">
-        <mesh filename="robot/Propeller.obj" scale="1.0"/>
-        <material name="Neutral"/>
-        <look name="propeller"/>
-      </propeller>
-      <link name="Vehicle"/>
-    </actuator> -->
-
     <!-- T6 -->
-    <!-- <actuator name="Thruster_L_UP_FRONT" type="thruster">
-      <origin rpy="0.0 -1.5707963267948966 0." xyz="0.218 0.117 -0.037726"/>
-      <specs thrust_coeff="0.167" torque_coeff="0.016" max_rpm="3250.0" inverted="true"/>
+    <actuator name="Thruster_L_UP_FRONT" type="thruster">
+      <link name="Vehicle"/>
+      <origin rpy="0.0 4.7123 0.0" xyz="0.128606 -0.217745 -0.064159"/>
       <propeller diameter="0.07" right="false">
         <mesh filename="robot/Propeller.obj" scale="1.0"/>
         <material name="Neutral"/>
-        <look name="propeller"/>
+        <look name="blue"/>
       </propeller>
-      <link name="Vehicle"/>
-    </actuator> -->
+      <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="true"/>
+      <rotor_dynamics type="zero_order"/>
+      <thrust_model type="fluid_dynamics">
+        <thrust_coeff forward="0.167" reverse="0.167"/>
+        <torque_coeff value="0.016"/>
+      </thrust_model>
+    </actuator>
 
     <!-- T7 -->
-    <!-- <actuator name="Thruster_R_UP_REAR" type="thruster">
-      <origin rpy="0.0 -1.5707963267948966 0.0" xyz="-0.218 -0.123 -0.037726"/>
-      <specs thrust_coeff="0.167" torque_coeff="0.016" max_rpm="3250.0" inverted="true"/>
+    <actuator name="Thruster_R_UP_REAR" type="thruster">
+      <link name="Vehicle"/>
+      <origin rpy="0.0 4.7123 0.0" xyz="-0.111606 0.217745 -0.064159"/>
       <propeller diameter="0.07" right="false">
         <mesh filename="robot/Propeller.obj" scale="1.0"/>
         <material name="Neutral"/>
-        <look name="propeller"/>
+        <look name="blue"/>
       </propeller>
-      <link name="Vehicle"/>
-    </actuator> -->
+      <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="true"/>
+      <rotor_dynamics type="zero_order"/>
+      <thrust_model type="fluid_dynamics">
+        <thrust_coeff forward="0.167" reverse="0.167"/>
+        <torque_coeff value="0.016"/>
+      </thrust_model>
+    </actuator>
 
     <!-- T8 -->
-    <!-- <actuator name="Thruster_L_UP_REAR" type="thruster">
-      <origin rpy="0.0 -1.5707963267948966 0." xyz="0.218 -0.123 -0.037726"/>
-      <specs thrust_coeff="0.167" torque_coeff="0.016" max_rpm="3250.0" inverted="false"/>
+    <actuator name="Thruster_L_UP_REAR" type="thruster">
+      <link name="Vehicle"/>
+      <origin rpy="0.0 4.7123 0.0" xyz="-0.111606 -0.217745 -0.064159"/>
       <propeller diameter="0.07" right="true">
         <mesh filename="robot/Propeller.obj" scale="1.0"/>
         <material name="Neutral"/>
-        <look name="propeller"/>
+        <look name="blue"/>
       </propeller>
-      <link name="Vehicle"/>
-    </actuator> -->
+      <specs max_setpoint="3250.0" inverted_setpoint="false" normalized_setpoint="true"/>
+      <rotor_dynamics type="zero_order"/>
+      <thrust_model type="fluid_dynamics">
+        <thrust_coeff forward="0.167" reverse="0.167"/>
+        <torque_coeff value="0.016"/>
+      </thrust_model>
+    </actuator>
 
     <!-- LIGHTS -->
     <!-- <light name="upright">
