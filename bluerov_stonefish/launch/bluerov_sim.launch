@@ -21,17 +21,19 @@
               $(var rendering_quality)"
         output="screen"></node>
 
-    <!-- <node name="odom2tf" pkg="bluerov_stonefish" exec="odom_to_tf.py" namespace="odom2tf">
-        <remap from="/odom_topic" to="/auv/dynamics/odometry_truth"/>
+    <let name="robot_name" value="bluerov_roscon"/>
+
+    <node name="odom2tf" pkg="bluerov_stonefish" exec="odom_to_tf.py" namespace="odom2tf">
+        <remap from="/odom_topic" to="/$(var robot_name)/dynamics/odometry_truth"/>
         <param name="fixed_frame" value="world_ned"/>
-        <param name="base_link" value="/auv/base_link"/>
+        <param name="base_link" value="/$(var robot_name)/base_link"/>
     </node>
 
     <node name="navigator" pkg="auv_architecture" exec="auv_navigator_node"
-        namespace="auv">
-        <remap from="/sub_odom_topic" to="/auv/dynamics/odometry_truth"/>
+        namespace="$(var robot_name)">
+        <remap from="/sub_odom_topic" to="/$(var robot_name)/dynamics/odometry_truth"/>
         <param name="frame_id" value="world_ned"/>
-    </node> -->
+    </node>
 
     <!-- <node name="rviz" pkg="rviz2" exec="rviz2" namespace="rviz"
         args="-d $(find-pkg-share bluerov_stonefish)/config/view.rviz" /> -->

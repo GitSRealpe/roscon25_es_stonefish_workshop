@@ -12,7 +12,7 @@ class PropellerPub(Node):
         super().__init__("propeller_node_pub")
 
         self.publisher: Publisher = self.create_publisher(
-            Float64MultiArray, "/bluerov/sf_controller/thruster_setpoints", 10
+            Float64MultiArray, "/bluerov_roscon/sf_controller/thruster_setpoints", 10
         )
         self.timer: Timer = self.create_timer(0.5, self.timer_callback)
         self.msg = Float64MultiArray()

@@ -6,7 +6,7 @@
     <look name="blue" rgb="0.0 0.3 0.8" roughness="0.0"/>
     <look name="yellow" rgb="1.0 0.0 0.0" roughness="1.0"/>
     <look name="payload" rgb="1.0 0.0 0.0" roughness="1.0"/>
-    <look name="bluerov_text" gray="1.0" roughness="0.4" metalness="0.5" texture="robot/robot_tex.png"/>
+    <look name="bluerov_roscon_text" gray="1.0" roughness="0.4" metalness="0.5" texture="robot/robot_tex.png"/>
   </looks>
 
   <robot name="$(arg robot_name)" fixed="false" self_collisions="false">
@@ -24,7 +24,7 @@
         </physical>
         <material name="Polyamid"/>
         <mass value="5.0"/>
-        <look name="bluerov_text"/>
+        <look name="bluerov_roscon_text"/>
         <compound_transform rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
       </external_part>
 
@@ -39,7 +39,7 @@
         </physical>
         <material name="Polyamid"/>
         <mass value="3.0"/>
-        <look name="bluerov_text"/>
+        <look name="bluerov_roscon_text"/>
         <compound_transform rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
       </external_part>
 
@@ -262,8 +262,8 @@
     <!--   SENSORS   -->
     <sensor name="dynamics" type="odometry" rate="30.0">
       <link name="Vehicle"/>
-      <origin rpy="0.0 0.0 1.57" xyz="0.0 0.0 0.0"/>
-      <ros_publisher topic="/bluerov/navigator/odometry"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+      <ros_publisher topic="/$(arg robot_name)/dynamics/odometry_truth"/>
     </sensor>
 
     <world_transform rpy="0.0 0.0 $(arg yaw)" xyz="$(arg position)"/>

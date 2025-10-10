@@ -48,7 +48,7 @@
     </static>
 
     <include file="$(find bluerov_stonefish)/scenarios/robot/bluerov.scn">
-        <arg name="robot_name" value="bluerov"/>
+        <arg name="robot_name" value="bluerov_roscon"/>
         <arg name="position" value="0.0 0.0 1.0"/>
         <arg name="yaw" value="0.0"/>
     </include>
