@@ -15,6 +15,8 @@ namespace stonefish_hw_interface
         std::vector<std::string> joint_names_;
         std::vector<double> velocity_commands_;
         std::vector<double> velocity_states_;
+        std::vector<double> position_states_;
+        std::vector<double> torque_states_;
 
     public:
         ThrusterGroupHWInterface(/* args */);

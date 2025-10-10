@@ -22,12 +22,14 @@ namespace stonefish_hw_interface
 
         for (const auto &joint : info.joints)
         {
-
             std::cout << joint.name << "\n";
             joint_names_.push_back(joint.name);
-            velocity_commands_.push_back(0.0); // Initialize velocity command
-            velocity_states_.push_back(0.0);   // Initialize velocity state
         }
+
+        velocity_commands_.resize(joint_names_.size(), 0.0);
+        position_states_.resize(joint_names_.size(), 0.0);
+        velocity_states_.resize(joint_names_.size(), 0.0);
+        torque_states_.resize(joint_names_.size(), 0.0);
 
         // Check for thruster write topic
         auto write_topic_it = info.hardware_parameters.find("thruster_group_write_topic");
@@ -58,7 +60,15 @@ namespace stonefish_hw_interface
         {
             state_interfaces.emplace_back(
                 hardware_interface::StateInterface(
+                    joint_names_[i], hardware_interface::HW_IF_POSITION, &position_states_[i]));
+
+            state_interfaces.emplace_back(
+                hardware_interface::StateInterface(
                     joint_names_[i], hardware_interface::HW_IF_VELOCITY, &velocity_states_[i]));
+
+            state_interfaces.emplace_back(
+                hardware_interface::StateInterface(
+                    joint_names_[i], hardware_interface::HW_IF_EFFORT, &torque_states_[i]));
         }
         return state_interfaces;
     }
@@ -80,7 +90,8 @@ namespace stonefish_hw_interface
         for (size_t i = 0; i < velocity_states_.size(); ++i)
         {
             velocity_states_[i] = 0.0; // Placeholder: Replace with actual sensor data (e.g., RPM)
-            RCLCPP_DEBUG(this->get_logger(), "Read velocity for %s: %f", joint_names_[i].c_str(), velocity_states_[i]);
+            position_states_[i] = 0.0;
+            torque_states_[i] = 0.0;
         }
         return hardware_interface::return_type::OK;
     }
