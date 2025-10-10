@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="add_bluerov" params="parent prefix *origin">
+
+    <!-- Base Link -->
+    <link name="${prefix}/base_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.1 0.1 0.1"/>
+        </geometry>
+        <material name="orange"/>
+      </visual>
+    </link>
+
+    <!-- Thrusters -->
+
+    <!-- horizontal -->
+    <link name="${prefix}/thruster1"/>
+    <link name="${prefix}/thruster2"/>
+    <link name="${prefix}/thruster3"/>
+    <link name="${prefix}/thruster4"/>
+    <!-- vertical -->
+    <link name="${prefix}/thruster5"/>
+    <link name="${prefix}/thruster6"/>
+    <link name="${prefix}/thruster7"/>
+    <link name="${prefix}/thruster8"/>
+
+    <joint name="${prefix}/thruster1_joint" type="continuous">
+      <parent link="${prefix}/base_link"/>
+      <child link="${prefix}/thruster1"/>
+      <origin rpy="0.0 0.0 -0.523599" xyz="0.134706 0.106976 0.0"/>
+      <axis xyz="1 0 0"/>
+      <limit effort="100" velocity="1.0"/>
+    </joint>
+
+    <joint name="${prefix}/thruster2_joint" type="continuous">
+      <parent link="${prefix}/base_link"/>
+      <child link="${prefix}/thruster2"/>
+      <origin rpy="0.0 0.0 0.523599" xyz="0.134706 -0.106976 0.0"/>
+      <axis xyz="1 0 0"/>
+      <limit effort="100" velocity="1.0"/>
+    </joint>
+
+    <joint name="${prefix}/thruster3_joint" type="continuous">
+      <parent link="${prefix}/base_link"/>
+      <child link="${prefix}/thruster3"/>
+      <origin rpy="0.0 0.0 -2.618" xyz="-0.134706 0.106976 0.0"/>
+      <axis xyz="1 0 0"/>
+      <limit effort="100" velocity="1.0"/>
+    </joint>
+
+    <joint name="${prefix}/thruster4_joint" type="continuous">
+      <parent link="${prefix}/base_link"/>
+      <child link="${prefix}/thruster4"/>
+      <origin rpy="0.0 0.0 2.618" xyz="-0.134706 -0.106976 0.0"/>
+      <axis xyz="1 0 0"/>
+      <limit effort="100" velocity="1.0"/>
+    </joint>
+
+    <joint name="${prefix}/thruster5_joint" type="continuous">
+      <parent link="${prefix}/base_link"/>
+      <child link="${prefix}/thruster5"/>
+      <origin rpy="0.0 4.7123 0.0" xyz="0.128606 0.217745 -0.064159"/>
+      <axis xyz="1 0 0"/>
+      <limit effort="100" velocity="1.0"/>
+    </joint>
+
+    <joint name="${prefix}/thruster6_joint" type="continuous">
+      <parent link="${prefix}/base_link"/>
+      <child link="${prefix}/thruster6"/>
+      <origin rpy="0.0 4.7123 0.0" xyz="0.128606 -0.217745 -0.064159"/>
+      <axis xyz="1 0 0"/>
+      <limit effort="100" velocity="1.0"/>
+    </joint>
+
+    <joint name="${prefix}/thruster7_joint" type="continuous">
+      <parent link="${prefix}/base_link"/>
+      <child link="${prefix}/thruster7"/>
+      <origin rpy="0.0 4.7123 0.0" xyz="-0.111606 0.217745 -0.064159"/>
+      <axis xyz="1 0 0"/>
+      <limit effort="100" velocity="1.0"/>
+    </joint>
+
+    <joint name="${prefix}/thruster8_joint" type="continuous">
+      <parent link="${prefix}/base_link"/>
+      <child link="${prefix}/thruster8"/>
+      <origin rpy="0.0 4.7123 0.0" xyz="-0.111606 -0.217745 -0.064159"/>
+      <axis xyz="1 0 0"/>
+      <limit effort="100" velocity="1.0"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>

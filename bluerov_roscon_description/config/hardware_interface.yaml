@@ -1,0 +1,16 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 20  # Hz
+
+    robot_hardware:
+      type: stonefish_hw_interface/ThrusterGroupHWInterface
+      # parameters:
+      #   device_port: /dev/ttyUSB0
+      #   baud_rate: 115200  
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+joint_state_broadcaster:
+  ros__parameters:
+    use_local_topics: false

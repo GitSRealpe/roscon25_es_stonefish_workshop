@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="bluerov_roscon_ros2_control" params="name prefix">
+
+    <ros2_control name="${name}" type="system">
+
+      <hardware>
+        <plugin>stonefish_hw_interface/ThrusterGroupHWInterface</plugin>
+        <param name="thruster_group_write_topic">${prefix}/sf_controller/thruster_setpoints</param>
+        <param name="thruster_group_read_topic">${prefix}/sf_controller/thruster_state</param>
+      </hardware>
+
+      <joint name="${prefix}/thruster1_joint">
+        <command_interface name="velocity">
+          <param name="max_setpoint">100</param>
+        </command_interface>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="${prefix}/thruster2_joint">
+        <command_interface name="velocity">
+          <param name="max_setpoint">100</param>
+        </command_interface>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="${prefix}/thruster3_joint">
+        <command_interface name="velocity">
+          <param name="max_setpoint">100</param>
+        </command_interface>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="${prefix}/thruster4_joint">
+        <command_interface name="velocity">
+          <param name="max_setpoint">100</param>
+        </command_interface>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="${prefix}/thruster5_joint">
+        <command_interface name="velocity">
+          <param name="max_setpoint">100</param>
+        </command_interface>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="${prefix}/thruster6_joint">
+        <command_interface name="velocity">
+          <param name="max_setpoint">100</param>
+        </command_interface>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="${prefix}/thruster7_joint">
+        <command_interface name="velocity">
+          <param name="max_setpoint">100</param>
+        </command_interface>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="${prefix}/thruster8_joint">
+        <command_interface name="velocity">
+          <param name="max_setpoint">100</param>
+        </command_interface>
+        <state_interface name="velocity"/>
+      </joint>
+    </ros2_control>
+
+  </xacro:macro>
+
+</robot>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="2dof_robot">
+  <xacro:arg name="prefix" default="bluerov_roscon"/>
+
+  <!-- Import Rviz colors -->
+  <xacro:include filename="$(find bluerov_roscon_description)/urdf/bluerov_roscon.materials.xacro"/>
+
+  <!-- Import robot macro -->
+  <xacro:include filename="$(find bluerov_roscon_description)/urdf/bluerov_roscon_description.urdf.xacro"/>
+  <xacro:add_bluerov parent="world"
+    prefix="$(arg prefix)">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:add_bluerov>
+
+  <!-- Import ros2_control description -->
+  <xacro:include filename="$(find bluerov_roscon_description)/urdf/bluerov_roscon.ros2_control.xacro"/>
+  <xacro:bluerov_roscon_ros2_control name="bluerov_roscon_hw_interface" prefix="$(arg prefix)"/>
+
+  <!-- Used for fixing robot -->
+  <!-- <link name="world" /> -->
+
+</robot>
