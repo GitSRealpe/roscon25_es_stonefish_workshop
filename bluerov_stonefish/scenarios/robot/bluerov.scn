@@ -9,7 +9,7 @@
     <look name="bluerov_text" gray="1.0" roughness="0.4" metalness="0.5" texture="robot/robot_tex.png"/>
   </looks>
 
-  <robot name="bluerov" fixed="false" self_collisions="false">
+  <robot name="$(arg robot_name)" fixed="false" self_collisions="false">
 
     <base_link name="Vehicle" type="compound" physics="submerged">
 
@@ -248,10 +248,10 @@
       <ros_publisher topic="/bluerov/navigator/odometry"/>
     </sensor>
 
-    <world_transform rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+    <world_transform rpy="0.0 0.0 $(arg yaw)" xyz="$(arg position)"/>
 
-    <ros_subscriber thrusters="/bluerov/setpoint/pwm"/>
-    <ros_publisher thrusters="/auv/sf_controller/thruster_state"/>
+    <ros_subscriber thrusters="/$(arg robot_name)/sf_controller/thruster_setpoints"/>
+    <ros_publisher thrusters="/$(arg robot_name)/sf_controller/thruster_state"/>
 
   </robot>
 </scenario>
