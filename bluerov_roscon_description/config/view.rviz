@@ -5,7 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Status1
-        - /Axes1
+        - /world_ned frame1
         - /TF1
       Splitter Ratio: 0.5
     Tree Height: 707
@@ -50,9 +50,9 @@ Visualization Manager:
       Value: true
     - Class: rviz_default_plugins/Axes
       Enabled: true
-      Length: 1
-      Name: Axes
-      Radius: 0.10000000149011612
+      Length: 0.30000001192092896
+      Name: world_ned frame
+      Radius: 0.029999999329447746
       Reference Frame: world_ned
       Value: true
     - Class: rviz_default_plugins/TF
@@ -84,7 +84,7 @@ Visualization Manager:
           Value: true
         world_ned:
           Value: true
-      Marker Scale: 0.699999988079071
+      Marker Scale: 0.30000001192092896
       Name: TF
       Show Arrows: true
       Show Axes: true
@@ -157,25 +157,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 3.3357105255126953
+      Distance: 0.6969559192657471
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.5547764897346497
-        Y: 0.02975631132721901
-        Z: -1.4960893392562866
+        X: 0.0004959551151841879
+        Y: -0.0016512200236320496
+        Z: -0.21065013110637665
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.2847965955734253
+      Pitch: 1.0152032375335693
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.073592662811279
+      Yaw: 3.768585443496704
     Saved: ~
 Window Geometry:
   Displays:
