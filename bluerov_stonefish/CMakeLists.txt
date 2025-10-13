@@ -32,7 +32,6 @@ install(DIRECTORY
   launch
   scenarios
   resources
-  config
   scripts
   DESTINATION share/${PROJECT_NAME}/
 )
