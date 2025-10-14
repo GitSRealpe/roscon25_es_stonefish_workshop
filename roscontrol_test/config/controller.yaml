@@ -5,29 +5,33 @@ controller_manager:
     auv_wrench_controller:
       type: auv_controllers/BodyWrenchController
 
-    auv_velocity_controller:
-      type: pid_controller/PidController
+    # auv_velocity_controller:
+    #   type: pid_controller/PidController
 
-    auv_pose_controller:
-      type: auv_controllers/BodyPoseController
+    # auv_pose_controller:
+    #   type: auv_controllers/BodyPoseController
 
 auv_wrench_controller:
   ros__parameters:
-    num_thrusters: 4
+    num_thrusters: 8
 
     thruster_joint_names:
-     - auv/thruster3_joint
-     - auv/thruster4_joint
-     - auv/thruster5_joint
-     - auv/thruster6_joint
+     - bluerov_roscon/thruster1_joint
+     - bluerov_roscon/thruster2_joint
+     - bluerov_roscon/thruster3_joint
+     - bluerov_roscon/thruster4_joint
+     - bluerov_roscon/thruster5_joint
+     - bluerov_roscon/thruster6_joint
+     - bluerov_roscon/thruster7_joint
+     - bluerov_roscon/thruster8_joint
 
-    thruster_allocation_matrix: 
-      [0.707107, 0.707107, 0.0, 0.0,      # X
-       0.707107, -0.707107, 0.0, 0.0,     # Y
-       0.0, 0.0, 1.0, 1.0,               # Z
-       0.0, 0.0, 0.0, 0.0,               # roll
-       0.0, 0.0, -0.6, 0.6,               # pitch
-       -0.495, 0.495, 0.0, 0.0]           # yaw
+    thruster_allocation_matrix:
+      [ 0.86603, 0.86603,-0.86603,-0.86603, 0.0, 0.0, 0.0 , 0.0,  # X
+        0.5,     -0.5,      0.5,    -0.5,      0.0, 0.0, 0.0, 0.0,  # Y
+        0.0,      0.0,      0.0,     0.0,      1.0, 1.0, 1.0, 1.0,  # Z
+        0.0,      0.0,      0.0,     0.0,      0.0, 0.0, 0.0, 0.0,  # roll
+        0.0,      0.0,      0.0,     0.0,      0.0, 0.0, 0.0, 0.0,  # pitch
+        0.16,     -0.16,     -0.16,    0.16,     0.0, 0.0, 0.0, 0.0]  # yaw
     
 auv_velocity_controller:
   ros__parameters:
