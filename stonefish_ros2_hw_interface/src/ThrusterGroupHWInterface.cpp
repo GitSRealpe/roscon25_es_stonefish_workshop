@@ -13,16 +13,12 @@ namespace stonefish_hw_interface
 
     hardware_interface::CallbackReturn ThrusterGroupHWInterface::on_init(const hardware_interface::HardwareInfo &info)
     {
-        RCLCPP_INFO(this->get_logger(), "Initializing hardware interface: %s", info.name.c_str());
-
         // Store joint names and initialize storage for commands/states
         joint_names_.clear();
-        velocity_commands_.clear();
-        velocity_states_.clear();
 
         for (const auto &joint : info.joints)
         {
-            std::cout << joint.name << "\n";
+            RCLCPP_INFO(this->get_logger(), "Getting joint interface: %s", joint.name.c_str());
             joint_names_.push_back(joint.name);
         }
 
