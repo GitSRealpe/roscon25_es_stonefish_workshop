@@ -4,9 +4,6 @@ controller_manager:
 
     robot_hardware:
       type: stonefish_hw_interface/ThrusterGroupHWInterface
-      # parameters:
-      #   device_port: /dev/ttyUSB0
-      #   baud_rate: 115200  
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
