@@ -25,6 +25,9 @@ target_compile_features(ctrl_test PUBLIC c_std_99 cxx_std_17)  # Require C99 and
 add_executable(pid_velocity_feedback scripts/pid_velocity_feedback.cpp)
 ament_target_dependencies(pid_velocity_feedback rclcpp control_msgs geometry_msgs)
 
+add_executable(joy_control scripts/joy_control.cpp)
+ament_target_dependencies(joy_control rclcpp sensor_msgs geometry_msgs)
+
 # Install launch files and other resources
 install(DIRECTORY
   launch
@@ -35,6 +38,7 @@ install(DIRECTORY
 install(TARGETS 
   ctrl_test
   pid_velocity_feedback
+  joy_control
   DESTINATION lib/${PROJECT_NAME})
 
 # Install Python modules

@@ -73,6 +73,15 @@ def generate_launch_description():
         ],
     )
 
+    joy_node = Node(package="joy", executable="joy_node", name="joy_node")
+
+    joy_teleop = Node(
+        package="roscontrol_test",
+        executable="joy_control",
+        name="joy_teleop",
+        output="screen",
+    )
+
     nodes = [
         SetEnvironmentVariable(name="RCUTILS_COLORIZED_OUTPUT", value="1"),
         control_node,
@@ -81,6 +90,8 @@ def generate_launch_description():
         # vel_controllers_spawner,
         # pid_controllers_spawner,
         pid_vel_feedback,
+        joy_node,
+        joy_teleop,
     ]
 
     return LaunchDescription(nodes)
