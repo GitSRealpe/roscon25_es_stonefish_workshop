@@ -7,7 +7,11 @@ from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
     xacro_file = PathJoinSubstitution(
-        [FindPackageShare("auv_description"), "urdf", "auv.urdf.xacro"]
+        [
+            FindPackageShare("bluerov_roscon_description"),
+            "urdf",
+            "bluerov_roscon.urdf.xacro",
+        ]
     )
     controllers_file = PathJoinSubstitution(
         [FindPackageShare("roscontrol_test"), "config", "controller.yaml"]
