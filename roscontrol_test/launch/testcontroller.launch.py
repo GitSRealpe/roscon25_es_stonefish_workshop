@@ -41,8 +41,8 @@ def generate_launch_description():
         executable="spawner",
         arguments=[
             "auv_wrench_controller",
-            "auv_velocity_controller",
-            "auv_pose_controller",
+            # "auv_velocity_controller",
+            # "auv_pose_controller",
             "--param-file",
             controllers_file,
             "--activate-as-group",
@@ -83,6 +83,12 @@ def generate_launch_description():
         package="roscontrol_test",
         executable="joy_control",
         name="joy_teleop",
+        parameters=[
+            {
+                "force_scale": 1.0,
+                "torque_scale": 1.0,
+            }
+        ],
         output="screen",
     )
 

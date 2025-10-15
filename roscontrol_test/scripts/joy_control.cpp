@@ -14,7 +14,7 @@ public:
 
         // Scaling factors
         this->declare_parameter("force_scale", 1.0);
-        this->declare_parameter("torque_scale", 5.0);
+        this->declare_parameter("torque_scale", 1.0);
         force_scale_ = this->get_parameter("force_scale").as_double();
         torque_scale_ = this->get_parameter("torque_scale").as_double();
 
