@@ -93,7 +93,7 @@
         <material name="Neutral"/>
         <look name="blue"/>
       </propeller>
-      <specs max_setpoint="3250.0" inverted_setpoint="false" normalized_setpoint="true"/>
+      <specs max_setpoint="3250.0" inverted_setpoint="false" normalized_setpoint="false"/>
       <rotor_dynamics type="zero_order"/>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
@@ -110,7 +110,7 @@
         <material name="Neutral"/>
         <look name="blue"/>
       </propeller>
-      <specs max_setpoint="3250.0" inverted_setpoint="false" normalized_setpoint="true"/>
+      <specs max_setpoint="3250.0" inverted_setpoint="false" normalized_setpoint="false"/>
       <rotor_dynamics type="zero_order"/>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
@@ -127,7 +127,7 @@
         <material name="Neutral"/>
         <look name="blue"/>
       </propeller>
-      <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="true"/>
+      <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="false"/>
       <rotor_dynamics type="zero_order"/>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
@@ -144,7 +144,7 @@
         <material name="Neutral"/>
         <look name="blue"/>
       </propeller>
-      <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="true"/>
+      <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="false"/>
       <rotor_dynamics type="zero_order"/>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
@@ -161,7 +161,7 @@
         <material name="Neutral"/>
         <look name="blue"/>
       </propeller>
-      <specs max_setpoint="3250.0" inverted_setpoint="false" normalized_setpoint="true"/>
+      <specs max_setpoint="3250.0" inverted_setpoint="false" normalized_setpoint="false"/>
       <rotor_dynamics type="zero_order"/>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
@@ -178,7 +178,7 @@
         <material name="Neutral"/>
         <look name="blue"/>
       </propeller>
-      <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="true"/>
+      <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="false"/>
       <rotor_dynamics type="zero_order"/>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
@@ -195,7 +195,7 @@
         <material name="Neutral"/>
         <look name="blue"/>
       </propeller>
-      <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="true"/>
+      <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="false"/>
       <rotor_dynamics type="zero_order"/>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
@@ -212,7 +212,7 @@
         <material name="Neutral"/>
         <look name="blue"/>
       </propeller>
-      <specs max_setpoint="3250.0" inverted_setpoint="false" normalized_setpoint="true"/>
+      <specs max_setpoint="3250.0" inverted_setpoint="false" normalized_setpoint="false"/>
       <rotor_dynamics type="zero_order"/>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
