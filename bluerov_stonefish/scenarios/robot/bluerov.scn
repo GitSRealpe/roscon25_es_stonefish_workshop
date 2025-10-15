@@ -94,7 +94,9 @@
         <look name="blue"/>
       </propeller>
       <specs max_setpoint="3250.0" inverted_setpoint="false" normalized_setpoint="false"/>
-      <rotor_dynamics type="zero_order"/>
+      <rotor_dynamics type="first_order">
+        <time_constant value="1.0"/>
+      </rotor_dynamics>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
         <torque_coeff value="0.016"/>
@@ -111,7 +113,9 @@
         <look name="blue"/>
       </propeller>
       <specs max_setpoint="3250.0" inverted_setpoint="false" normalized_setpoint="false"/>
-      <rotor_dynamics type="zero_order"/>
+      <rotor_dynamics type="first_order">
+        <time_constant value="1.0"/>
+      </rotor_dynamics>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
         <torque_coeff value="0.016"/>
@@ -128,7 +132,9 @@
         <look name="blue"/>
       </propeller>
       <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="false"/>
-      <rotor_dynamics type="zero_order"/>
+      <rotor_dynamics type="first_order">
+        <time_constant value="1.0"/>
+      </rotor_dynamics>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
         <torque_coeff value="0.016"/>
@@ -145,7 +151,9 @@
         <look name="blue"/>
       </propeller>
       <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="false"/>
-      <rotor_dynamics type="zero_order"/>
+      <rotor_dynamics type="first_order">
+        <time_constant value="1.0"/>
+      </rotor_dynamics>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
         <torque_coeff value="0.016"/>
@@ -162,7 +170,9 @@
         <look name="blue"/>
       </propeller>
       <specs max_setpoint="3250.0" inverted_setpoint="false" normalized_setpoint="false"/>
-      <rotor_dynamics type="zero_order"/>
+      <rotor_dynamics type="first_order">
+        <time_constant value="1.0"/>
+      </rotor_dynamics>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
         <torque_coeff value="0.016"/>
@@ -179,7 +189,9 @@
         <look name="blue"/>
       </propeller>
       <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="false"/>
-      <rotor_dynamics type="zero_order"/>
+      <rotor_dynamics type="first_order">
+        <time_constant value="1.0"/>
+      </rotor_dynamics>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
         <torque_coeff value="0.016"/>
@@ -196,7 +208,9 @@
         <look name="blue"/>
       </propeller>
       <specs max_setpoint="3250.0" inverted_setpoint="true" normalized_setpoint="false"/>
-      <rotor_dynamics type="zero_order"/>
+      <rotor_dynamics type="first_order">
+        <time_constant value="1.0"/>
+      </rotor_dynamics>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
         <torque_coeff value="0.016"/>
@@ -213,7 +227,9 @@
         <look name="blue"/>
       </propeller>
       <specs max_setpoint="3250.0" inverted_setpoint="false" normalized_setpoint="false"/>
-      <rotor_dynamics type="zero_order"/>
+      <rotor_dynamics type="first_order">
+        <time_constant value="1.0"/>
+      </rotor_dynamics>
       <thrust_model type="fluid_dynamics">
         <thrust_coeff forward="0.167" reverse="0.167"/>
         <torque_coeff value="0.016"/>
