@@ -41,7 +41,7 @@ def generate_launch_description():
         executable="spawner",
         arguments=[
             "auv_wrench_controller",
-            # "auv_velocity_controller",
+            "auv_velocity_controller",
             # "auv_pose_controller",
             "--param-file",
             controllers_file,
@@ -50,17 +50,17 @@ def generate_launch_description():
         output="screen",
     )
 
-    # vel_controllers_spawner = Node(
-    #     package="controller_manager",
-    #     executable="spawner",
-    #     arguments=["auv_velocity_controller", "--param-file", controllers_file],
-    # )
-
-    # pid_controllers_spawner = Node(
-    #     package="controller_manager",
-    #     executable="spawner",
-    #     arguments=["pid_controller", "--param-file", controllers_file],
-    # )
+    navigator_node = Node(
+        package="auv_architecture",
+        executable="auv_navigator_node",
+        namespace="bluerov_roscon",
+        remappings=[("/sub_odom_topic", "/bluerov_roscon/dynamics/odometry_truth")],
+        parameters=[
+            {
+                "frame_id": "world_ned",
+            }
+        ],
+    )
 
     pid_vel_feedback = Node(
         package="roscontrol_test",
@@ -80,7 +80,7 @@ def generate_launch_description():
         ],
         remappings=[
             ("/pub_pid_measured_topic", "/auv_velocity_controller/measured_state"),
-            ("/sub_twist_topic", "/auv/navigator/twist"),
+            ("/sub_twist_topic", "/bluerov_roscon/navigator/twist"),
         ],
     )
 
@@ -106,6 +106,7 @@ def generate_launch_description():
         robot_controller_spawner,
         # vel_controllers_spawner,
         # pid_controllers_spawner,
+        navigator_node,
         pid_vel_feedback,
         joy_node,
         joy_teleop,
