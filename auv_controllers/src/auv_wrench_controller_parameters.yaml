@@ -24,4 +24,16 @@ auv_wrench_controller:
       not_empty<>: [],
     }
   }
+  max_thrust: {
+    type: double,
+    default_value: 0,
+    read_only: false,
+    description: "Maximum thrust value of thrusters in Newtons",
+  }
+  max_rpm: {
+    type: double,
+    default_value: 0,
+    read_only: false,
+    description: "Maximum RPM value for thrusters",
+  }
   

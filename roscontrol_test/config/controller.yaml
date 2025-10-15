@@ -14,6 +14,8 @@ controller_manager:
 auv_wrench_controller:
   ros__parameters:
     num_thrusters: 8
+    max_thrust: 34.3233
+    max_rpm: 3250.0
 
     thruster_joint_names:
      - bluerov_roscon/thruster1_joint

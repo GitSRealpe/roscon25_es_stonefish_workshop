@@ -188,6 +188,17 @@ namespace auv_controllers
             reference_interfaces_.at(4),
             reference_interfaces_.at(5);
         Eigen::VectorXd setpoints = tam_inv_ * command;
+
+        setpoints = setpoints / params_.max_thrust;
+        setpoints = setpoints.array().max(-1.0).min(1.0);
+        for (int i = 0; i < setpoints.size(); i++)
+        {
+            // sign * max_rpm * srqt(abs(setpoint))
+            setpoints[i] = ((setpoints[i] > 0) ? 1 : ((setpoints[i] < 0) ? -1 : 0)) * params_.max_rpm * sqrt(abs(setpoints[i]));
+        }
+        // setpoints = setpoints / 3250;
+        // setpoints = setpoints.array().max(-1.0).min(1.0);
+
         // Write commands to the hardware interface
         for (size_t i = 0; i < command_interfaces_.size(); ++i)
         {
