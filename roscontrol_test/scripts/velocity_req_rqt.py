@@ -35,11 +35,14 @@ class ChainPub(Node):
         self.cmd_msg = MultiDOFCommand()
         self.cmd_msg.dof_names = [
             "auv_wrench_controller/x/velocity",
+            "auv_wrench_controller/y/velocity",
             "auv_wrench_controller/z/velocity",
+            "auv_wrench_controller/roll/velocity",
+            "auv_wrench_controller/pitch/velocity",
             "auv_wrench_controller/yaw/velocity",
         ]
 
-        self.cmd_msg.values = [0, 0, 0]
+        self.cmd_msg.values = [0, 0, 0, 0, 0, 0]
         self.timer: Timer = self.create_timer(0.1, self.timer_callback)
 
     def timer_callback(self):
@@ -47,7 +50,7 @@ class ChainPub(Node):
 
     def horizontal_twist_callback(self, msg: Twist):
         self.cmd_msg.values[0] = msg.linear.x
-        self.cmd_msg.values[2] = msg.angular.z
+        self.cmd_msg.values[5] = msg.angular.z
         # Publish converted message
         self.get_logger().info(
             f"Converted Twist-H to PID command: lin=({msg.linear.x:.2f}), "
@@ -55,7 +58,7 @@ class ChainPub(Node):
         )
 
     def vertical_twist_callback(self, msg: Twist):
-        self.cmd_msg.values[1] = msg.linear.x
+        self.cmd_msg.values[2] = msg.linear.x
         # Publish converted message
         self.get_logger().info(
             f"Converted Twist-V to PID command: lin=({msg.linear.x:.2f}) "

@@ -5,8 +5,8 @@ controller_manager:
     auv_wrench_controller:
       type: auv_controllers/BodyWrenchController
 
-    # auv_velocity_controller:
-    #   type: pid_controller/PidController
+    auv_velocity_controller:
+      type: pid_controller/PidController
 
     # auv_pose_controller:
     #   type: auv_controllers/BodyPoseController
@@ -41,9 +41,9 @@ auv_velocity_controller:
       - auv_wrench_controller/x
       - auv_wrench_controller/y
       - auv_wrench_controller/z
-      # - auv_wrench_controller/roll
-      # - auv_wrench_controller/pitch
-      # - auv_wrench_controller/yaw
+      - auv_wrench_controller/roll
+      - auv_wrench_controller/pitch
+      - auv_wrench_controller/yaw
     command_interface: force
     reference_and_state_interfaces: ["velocity"]
     use_external_measured_states: True
@@ -51,11 +51,10 @@ auv_velocity_controller:
     gains:
       auv_wrench_controller/x: {"p": 1.0, "i": 0.0, "d": 0.0}
       auv_wrench_controller/y: {"p": 1.0, "i": 0.0, "d": 0.0}
-      auv_wrench_controller/z: {"p": 1.0, "i": 0.0, "d": 0.0}
-      # auv_wrench_controller/z: {"p": 10.0, "i": 0.0, "d": 5.0}
-      # auv_velocity_controller/roll: {"p": 0.5, "i": 2.5, "d": 0.0}
-      # auv_velocity_controller/pitch: {"p": 0.5, "i": 2.5, "d": 0.0}
-      # auv_wrench_controller/yaw: {"p": 0.5, "i": 0.0, "d": 0.0}
+      auv_wrench_controller/z: {"p": 10.0, "i": 2.0, "d": 0.0}
+      auv_wrench_controller/roll: {"p": 0.0, "i": 0.0, "d": 0.0}
+      auv_wrench_controller/pitch: {"p": 0.0, "i": 0.0, "d": 0.0}
+      auv_wrench_controller/yaw: {"p": 1.0, "i": 0.0, "d": 0.0}
 
 auv_pose_controller:
   ros__parameters:

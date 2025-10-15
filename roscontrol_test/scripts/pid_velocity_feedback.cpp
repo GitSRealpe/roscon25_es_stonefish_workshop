@@ -8,7 +8,8 @@ public:
   PIDFeedbackVelNode() : Node("pid_vel_feedback_node")
   {
 
-    this->declare_parameter<std::vector<std::string>>("dof_state_names", {"dof1", "dof2", "dof3"});
+    this->declare_parameter<std::vector<std::string>>("dof_state_names",
+                                                      {"dof1", "dof2", "dof3", "dof4", "dof5", "dof6"});
     auto dof_names = this->get_parameter("dof_state_names").as_string_array();
 
     for (auto &name : dof_names)
@@ -29,7 +30,14 @@ private:
 
   void velCallback(const geometry_msgs::msg::TwistStamped::SharedPtr msg)
   {
-    pid_msg_.values = {msg->twist.linear.x, msg->twist.linear.y, msg->twist.linear.z};
+    pid_msg_.values = {
+        msg->twist.linear.x,
+        msg->twist.linear.y,
+        msg->twist.linear.z,
+        msg->twist.angular.x,
+        msg->twist.angular.y,
+        msg->twist.angular.z,
+    };
     pid_pub_->publish(pid_msg_);
   }
 };

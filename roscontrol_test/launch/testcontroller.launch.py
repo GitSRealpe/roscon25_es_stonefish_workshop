@@ -68,7 +68,14 @@ def generate_launch_description():
         name="pid_vel_feedback",
         parameters=[
             {
-                "dof_state_names": ["auv_vel_x", "auv_vel_z", "auv_vel_yaw"],
+                "dof_state_names": [
+                    "auv_vel_x",
+                    "auv_vel_y",
+                    "auv_vel_z",
+                    "auv_vel_roll",
+                    "auv_vel_pitch",
+                    "auv_vel_yaw",
+                ],
             }
         ],
         remappings=[
