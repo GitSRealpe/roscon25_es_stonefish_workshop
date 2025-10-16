@@ -61,12 +61,10 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
       # Mount the source code
-      - ./auv_description:/home/developer/ros2_ws/src/auv_description/:rw
-      - ./auv_stonefish:/home/developer/ros2_ws/src/auv_stonefish/:rw
-    # - ~/ros_ws/doc_ws/src/coperamos_things/cooperamos_ai:/home/dev/ros_ws/src/cooperamos_ai:rw
-    # - ~/ros_ws/doc_ws/src/cola/cola2/cola2_msgs:/home/dev/ros_ws/src/cola2/cola2_msgs:rw
-    # - ~/ros_ws/doc_ws/src/cirs/iauv/iauv_kinematic_control:/home/dev/ros_ws/src/iauv_kinematic_control:rw
-    # - ~/ros_ws/doc_ws/src/packs/ros_numpy:/home/dev/ros_ws/src/ros_numpy:rw
-    # - ~/ros_ws/doc_ws/src/coperamos_things/cooperamos_architecture/cooperamos_msgs:/home/dev/ros_ws/src/cooperamos_msgs:rw
-    # - ~/ros_ws/doc_ws/src/cola/cola2/cola2_lib_ros:/home/dev/ros_ws/src/cola2/cola2_lib_ros:rw
+      - ./stonefish_ros2_hw_interface:/home/developer/ros2_ws/src/stonefish_ros2_hw_interface/:rw
+      - ./bluerov_roscon_description:/home/developer/ros2_ws/src/bluerov_roscon_description/:rw
+      - ./bluerov_stonefish:/home/developer/ros2_ws/src/bluerov_stonefish/:rw
+      - ./auv_architecture:/home/developer/ros2_ws/src/auv_architecture/:rw
+      - ./auv_controllers:/home/developer/ros2_ws/src/auv_controllers/:rw
+      - ./roscontrol_test:/home/developer/ros2_ws/src/roscontrol_test/:rw
     command: sleep infinity

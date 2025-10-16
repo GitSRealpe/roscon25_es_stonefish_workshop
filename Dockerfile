@@ -35,6 +35,15 @@ RUN echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} \
 WORKDIR /home/${USERNAME}
 #set developer as user
 USER ${USERNAME}
+
+RUN sudo apt update && sudo apt install -y --no-install-recommends \
+    ros-${ROS_DISTRO}-xacro\    
+    ros-${ROS_DISTRO}-controller-manager\    
+    ros-${ROS_DISTRO}-control-toolbox \
+    ros-${ROS_DISTRO}-pid-controller \
+    ros-${ROS_DISTRO}-joint-state-broadcaster \
+    ros-${ROS_DISTRO}-rqt
+
 # stonefish dependencies
 RUN sudo apt update && sudo apt install -y --no-install-recommends \
     libglm-dev libsdl2-dev libfreetype6-dev 
@@ -50,8 +59,6 @@ WORKDIR /home/${USERNAME}/ros2_ws
 RUN . /opt/ros/${ROS_DISTRO}/setup.sh \
     && colcon build \
     && . install/setup.sh
-
-# RUN apt-get update && apt-get install ros-noetic-controller-manager -y
 
 COPY ./entrypoint.sh /
 ENTRYPOINT [ "/entrypoint.sh" ]
