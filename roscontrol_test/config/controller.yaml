@@ -8,8 +8,8 @@ controller_manager:
     auv_velocity_controller:
       type: pid_controller/PidController
 
-    # auv_pose_controller:
-    #   type: auv_controllers/BodyPoseController
+    auv_pose_controller:
+      type: auv_controllers/BodyPoseController
 
 auv_wrench_controller:
   ros__parameters:
@@ -29,7 +29,7 @@ auv_wrench_controller:
 
     thruster_allocation_matrix:
       [ 0.86603, 0.86603,-0.86603,-0.86603, 0.0, 0.0, 0.0 , 0.0,  # X
-        0.5,     -0.5,      0.5,    -0.5,      0.0, 0.0, 0.0, 0.0,  # Y
+        -0.5,     0.5,      -0.5,    0.5,      0.0, 0.0, 0.0, 0.0,  # Y
         0.0,      0.0,      0.0,     0.0,      1.0, 1.0, 1.0, 1.0,  # Z
         0.0,      0.0,      0.0,     0.0,      0.0, 0.0, 0.0, 0.0,  # roll
         0.0,      0.0,      0.0,     0.0,      0.0, 0.0, 0.0, 0.0,  # pitch
@@ -49,34 +49,45 @@ auv_velocity_controller:
     use_external_measured_states: True
 
     gains:
-      auv_wrench_controller/x: {"p": 1.0, "i": 0.0, "d": 0.0}
-      auv_wrench_controller/y: {"p": 1.0, "i": 0.0, "d": 0.0}
-      auv_wrench_controller/z: {"p": 10.0, "i": 2.0, "d": 0.0}
+      auv_wrench_controller/x: {"p": 2.0, "i": 0.0, "d": 0.0}
+      auv_wrench_controller/y: {"p": 2.0, "i": 0.0, "d": 0.0}
+      auv_wrench_controller/z: {"p": 15.0, "i": 2.0, "d": 0.1}
+      auv_wrench_controller/z.saturation: true
+      auv_wrench_controller/z.u_clamp_min: -1.5
+      auv_wrench_controller/z.u_clamp_max: 1.5
+      auv_wrench_controller/z.antiwindup_strategy: "back_calculation"
+      auv_wrench_controller/z.tracking_time_constant: 0.5
+      auv_wrench_controller/z.i_clamp_max: 3.0
+      auv_wrench_controller/z.i_clamp_min: -3.0      
       auv_wrench_controller/roll: {"p": 0.0, "i": 0.0, "d": 0.0}
       auv_wrench_controller/pitch: {"p": 0.0, "i": 0.0, "d": 0.0}
-      auv_wrench_controller/yaw: {"p": 1.0, "i": 0.0, "d": 0.0}
+      auv_wrench_controller/yaw: {"p": 3.0, "i": 2.0, "d": 0.1}
+      auv_wrench_controller/yaw.saturation: true
+      auv_wrench_controller/yaw.u_clamp_min: -0.785398
+      auv_wrench_controller/yaw.u_clamp_max: 0.785398
+      auv_wrench_controller/yaw.antiwindup_strategy: "back_calculation"
+      auv_wrench_controller/yaw.tracking_time_constant: 0.5
+      auv_wrench_controller/yaw.i_clamp_max: 1.0
+      auv_wrench_controller/yaw.i_clamp_min: -1.0
+      
 
 auv_pose_controller:
   ros__parameters:
-    body_pose_state_topic: /auv/navigator/pose
+    body_pose_state_topic: /bluerov_roscon/navigator/pose
     # chain parameters, chain to wrench controller
     dof_names:
       - auv_velocity_controller/auv_wrench_controller/x
       - auv_velocity_controller/auv_wrench_controller/y
       - auv_velocity_controller/auv_wrench_controller/z
-      # - auv_wrench_controller/y
-      # - auv_wrench_controller/z
-      # - auv_wrench_controller/roll
-      # - auv_wrench_controller/pitch
-      # - auv_wrench_controller/yaw
+      - auv_velocity_controller/auv_wrench_controller/roll
+      - auv_velocity_controller/auv_wrench_controller/pitch
+      - auv_velocity_controller/auv_wrench_controller/yaw
     command_interface: velocity
     # gains have to be in order for now, x,y,z,roll,pitch,yaw
     gains:
-      auv_velocity_controller/auv_wrench_controller/x: {"p": 0.1, "i": 0.0, "d": 0.0}
-      auv_velocity_controller/auv_wrench_controller/y: {"p": 0.1, "i": 0.0, "d": 0.0}
-      auv_velocity_controller/auv_wrench_controller/z: {"p": 0.1, "i": 0.0, "d": 0.0}
-      # auv_velocity_controller/y: {"p": 0.5, "i": 2.5, "d": 0.0}
-      # auv_wrench_controller/z: {"p": 10.0, "i": 0.0, "d": 5.0}
-      # auv_velocity_controller/roll: {"p": 0.5, "i": 2.5, "d": 0.0}
-      # auv_velocity_controller/pitch: {"p": 0.5, "i": 2.5, "d": 0.0}
-      # auv_wrench_controller/yaw: {"p": 0.5, "i": 0.0, "d": 0.0}
+      auv_velocity_controller/auv_wrench_controller/x: {"p": 1.0, "i": 0.0, "d": 0.0}
+      auv_velocity_controller/auv_wrench_controller/y: {"p": 1.0, "i": 0.0, "d": 0.0}
+      auv_velocity_controller/auv_wrench_controller/z: {"p": 1.0, "i": 0.0, "d": 0.0}
+      auv_velocity_controller/auv_wrench_controller/roll: {"p": 0.1, "i": 0.0, "d": 0.0}
+      auv_velocity_controller/auv_wrench_controller/pitch: {"p": 0.1, "i": 0.0, "d": 0.0}
+      auv_velocity_controller/auv_wrench_controller/yaw: {"p": 0.1, "i": 0.0, "d": 0.0}
