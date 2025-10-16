@@ -282,6 +282,20 @@
       <ros_publisher topic="/$(arg robot_name)/dynamics/odometry_truth"/>
     </sensor>
 
+    <sensor name="camera" type="camera" rate="30.0">
+      <link name="Vehicle"/>
+      <origin rpy="${pi/2} 0.0 ${pi/2}" xyz="0.7322 0.1382 0.385"/>
+      <specs resolution_x="1360" resolution_y="1024" horizontal_fov="55.0"/>
+      <ros_publisher topic="/$(arg robot_name)/camera"/>
+    </sensor>
+
+    <sensor name="camera2" type="camera" rate="30.0">
+      <link name="Vehicle"/>
+      <origin rpy="${pi/2} 0.0 ${pi/2}" xyz="0.0 0.0 0.0"/>
+      <specs resolution_x="1360" resolution_y="1024" horizontal_fov="55.0"/>
+      <ros_publisher topic="/$(arg robot_name)/camera2"/>
+    </sensor>
+
     <world_transform rpy="0.0 0.0 $(arg yaw)" xyz="$(arg position)"/>
 
     <ros_subscriber thrusters="/$(arg robot_name)/sf_controller/thruster_setpoints"/>
