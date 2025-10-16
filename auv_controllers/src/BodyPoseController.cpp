@@ -253,31 +253,6 @@ namespace auv_controllers
                 prev_error[i] = dof_error;
             }
 
-            // std::clamp(0.7 * err_yaw, -0.2, 0.2);
-            // pid_err(0, 0) = params_.gains.dof_names_map.[params_.dof_names[0]].d * error.getOrigin()[0];
-            // pid_err(1, 0) = params_.gains.dof_names_map[params_.dof_names[1]].d * error.getOrigin().y();
-            // pid_err(2, 0) = params_.gains.dof_names_map.at(0).d * error.getOrigin().z();
-
-            // // integral for steady state error,
-            // integral_x += error.getOrigin().x() * dt;
-            // integral_y += error.getOrigin().y() * dt;
-            // integral_z += error.getOrigin().z() * dt;
-            // pid_err(0, 1) = 0.1 * integral_x;
-            // pid_err(1, 1) = 0.1 * integral_y;
-            // pid_err(2, 1) = 0.1 * integral_z;
-            // // derivative smooths
-            // pid_err(0, 2) = 0.3 * (error.getOrigin().x() - last_error_x) / dt;
-            // pid_err(1, 2) = 0.5 * (error.getOrigin().y() - last_error_y) / dt;
-            // pid_err(2, 2) = 0.5 * (error.getOrigin().z() - last_error_z) / dt;
-            // last_error_x = error.getOrigin().x();
-            // last_error_y = error.getOrigin().y();
-            // last_error_z = error.getOrigin().z();
-
-            // std::cout << "x action:" << std::clamp(pid_err.row(0).sum(), -max_vel, max_vel) << "\n";
-            // std::cout << "y action:" << std::clamp(pid_err.row(1).sum(), -max_vel, max_vel) << "\n";
-            // std::cout << "z action:" << std::clamp(pid_err.row(2).sum(), -max_vel, max_vel) << "\n";
-            // std::cout << "yaw action:" << std::clamp(0.7 * err_yaw, -max_rot_vel, max_rot_vel) << "\n";
-
             // Write commands to the hardware interface
             for (size_t i = 0; i < command_interfaces_.size(); ++i)
             {
