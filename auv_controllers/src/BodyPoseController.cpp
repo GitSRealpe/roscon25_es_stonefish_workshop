@@ -254,16 +254,14 @@ namespace auv_controllers
             }
 
             // Write commands to the hardware interface
-            for (size_t i = 0; i < command_interfaces_.size(); ++i)
+            for (size_t i = 0; i < 3; ++i)
             {
                 // casting to void to avoid compiler warning
                 static_cast<void>(command_interfaces_[i].set_value(pid_err.row(i).sum()));
             }
-        }
-        else
-        {
-            for (size_t i = 0; i < command_interfaces_.size(); ++i)
-                static_cast<void>(command_interfaces_[i].set_value(0.0));
+            // handle only yaw for now
+            auto gain = params_.gains.dof_names_map[params_.dof_names[5]];
+            static_cast<void>(command_interfaces_[5].set_value(gain.p * err_yaw));
         }
 
         prev_t = time;
