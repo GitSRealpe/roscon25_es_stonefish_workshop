@@ -316,8 +316,22 @@ namespace rqt_slides
         }
         else if (msg->encoding == "16UC1" || msg->encoding == "32FC1")
         {
-
-          std::cout << "en el encoding ese" << "\n";
+          // scale / quantify
+          double min = 0;
+          double max = 3.0;
+          if (msg->encoding == "16UC1")
+            max *= 1000;
+          // dynamically adjust range based on min/max in image
+          cv::minMaxLoc(cv_ptr->image, &min, &max);
+          if (min == max)
+          {
+            // completely homogeneous images are displayed in gray
+            min = 0;
+            max = 2;
+          }
+          cv::Mat img_scaled_8u;
+          cv::Mat(cv_ptr->image - min).convertTo(img_scaled_8u, CV_8UC1, 255. / (max - min));
+          cv::cvtColor(img_scaled_8u, conversion_mat_, CV_GRAY2RGB);
         }
         else
         {
