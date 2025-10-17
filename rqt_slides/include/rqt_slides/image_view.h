@@ -21,7 +21,9 @@
 #include <QSize>
 #include <QWidget>
 
+#include <rqt_slides/parse_xml.hpp>
 #include <vector>
+#include <memory>
 
 namespace rqt_slides
 {
@@ -67,7 +69,10 @@ namespace rqt_slides
     bool pub_topic_custom_;
     QAction *hide_toolbar_action_;
 
+    std::shared_ptr<guionUtils::GuionParser> guion_;
     int slide_number = 0;
+
+    void changeSlide(int index);
   };
 
 }

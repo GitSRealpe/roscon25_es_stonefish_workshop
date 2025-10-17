@@ -1,0 +1,35 @@
+﻿<?xml version="1.0"?>
+
+<guion>
+    <slide titulo="Stonefish Simulator">
+        <contenido>
+            <html>
+                <h2>Benvingut / Bienvenidos / Welcome </h2>
+                <p>
+                    This is the Workshop of the
+                    Stonefish simulator
+                    for marine Robotics
+                </p>
+                <p>For ROSCON 2025 @ Barcelona-Spain</p>
+                <p>Powered by ROS 2, passion for robotics, and a lots of birra</p>
+            </html>
+        </contenido>
+        <image_topic>/bluerov_roscon/main_camera/image_color</image_topic>
+    </slide>
+    <slide titulo="Introduction">
+        <contenido>
+            <html>
+                <p>Introduction here </p>
+            </html>
+        </contenido>
+        <image_topic>/bluerov_roscon/camera2/image_color</image_topic>
+    </slide>
+    <slide titulo="Vision sensors">
+        <contenido>
+            <html>
+                <p>Stonefish offers plenty of vision sensors for all type of different tasks </p>
+            </html>
+        </contenido>
+        <image_topic>/bluerov_roscon/camera2/image_color</image_topic>
+    </slide>
+</guion>

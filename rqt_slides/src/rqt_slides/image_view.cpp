@@ -10,6 +10,8 @@
 #include <QMessageBox>
 #include <QPainter>
 
+#include <ament_index_cpp/get_package_share_directory.hpp>
+#include <rqt_slides/parse_xml.hpp>
 namespace rqt_slides
 {
 
@@ -31,7 +33,7 @@ namespace rqt_slides
     context.addWidget(widget_);
 
     updateTopicList();
-    ui_.topics_combo_box->setCurrentIndex(ui_.topics_combo_box->findText(""));
+    ui_.topics_combo_box->setCurrentIndex(ui_.topics_combo_box->findText("/bluerov_roscon/main_camera/image_color"));
     connect(ui_.topics_combo_box, SIGNAL(currentIndexChanged(int)), this, SLOT(onTopicChanged(int)));
 
     ui_.refresh_topics_push_button->setIcon(QIcon::fromTheme("view-refresh"));
@@ -59,6 +61,13 @@ namespace rqt_slides
     // Connect button signals to slots
     connect(ui_.prev_button, SIGNAL(clicked(bool)), this, SLOT(prevButtonPress()));
     connect(ui_.next_button, SIGNAL(clicked(bool)), this, SLOT(nextButtonPress()));
+    ui_.prev_button->setDisabled(true);
+
+    guion_ = std::make_shared<guionUtils::GuionParser>(ament_index_cpp::get_package_share_directory("rqt_slides") + "/resource/guion.xml");
+    tinyxml2::XMLElement *slide = guion_->getSlide(0);
+    ui_.slide_title->setText(QString(slide->FirstAttribute()->Value()));
+    ui_.slide_content->setText(QString(guion_->getSlideHTMLContent(slide).c_str()));
+    updateTopicList();
   }
 
   void ImageView::shutdownPlugin()
@@ -69,29 +78,48 @@ namespace rqt_slides
 
   void ImageView::prevButtonPress()
   {
-
     slide_number--;
     if (slide_number <= 0)
     {
       ui_.prev_button->setDisabled(true);
       slide_number = 0;
-      ui_.lcdNumber->display(0);
-      return;
     }
-
+    ui_.next_button->setDisabled(false);
     ui_.lcdNumber->display(slide_number);
 
-    ui_.topics_combo_box->setCurrentIndex(ui_.topics_combo_box->findText("/bluerov_roscon/camera/image_color"));
+    changeSlide(slide_number);
   }
 
   void ImageView::nextButtonPress()
   {
     slide_number++;
+
+    if (slide_number >= 1)
+    {
+      ui_.next_button->setDisabled(true);
+      slide_number = 1;
+    }
     ui_.prev_button->setDisabled(false);
     ui_.lcdNumber->display(slide_number);
 
-    ui_.topics_combo_box->setCurrentIndex(ui_.topics_combo_box->findText("/bluerov_roscon/camera2/image_color"));
+    changeSlide(slide_number);
   }
+
+  void ImageView::changeSlide(int index)
+  {
+    tinyxml2::XMLElement *slide = guion_->getSlide(index);
+    ui_.slide_title->setText(QString(slide->FirstAttribute()->Value()));
+    ui_.slide_content->setText(QString(guion_->getSlideHTMLContent(slide).c_str()));
+
+    tinyxml2::XMLElement *imageTopicElem = slide->FirstChildElement("image_topic");
+    if (imageTopicElem)
+    {
+      const char *topic = imageTopicElem->GetText();
+      ui_.topics_combo_box->setCurrentIndex(ui_.topics_combo_box->findText(topic));
+    }
+  }
+
+  // ///////////////////////////////////////////////////////////
 
   void ImageView::saveSettings(qt_gui_cpp::Settings &plugin_settings, qt_gui_cpp::Settings &instance_settings) const
   {
