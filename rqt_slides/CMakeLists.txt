@@ -31,10 +31,13 @@ find_package(geometry_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(ament_cmake_python REQUIRED)
+find_package(ament_index_cpp REQUIRED)
 
 set(rqt_slides_SRCS
   src/rqt_slides/image_view.cpp
   src/rqt_slides/ratio_layouted_frame.cpp
+  src/tinyxml2/tinyxml2.cpp
+  src/rqt_slides/parse_xml.cpp
 )
 
 set(rqt_slides_HDRS
@@ -58,7 +61,8 @@ add_library(${PROJECT_NAME} SHARED
 
 target_include_directories(${PROJECT_NAME} PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>")
+  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
+  )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
   ${rclcpp_TARGETS}
@@ -68,6 +72,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
   ${sensor_msgs_TARGETS}
   ${geometry_msgs_TARGETS}
   Qt5::Widgets
+  ${ament_index_cpp_TARGETS}
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE
   cv_bridge::cv_bridge)
