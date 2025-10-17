@@ -39,6 +39,7 @@
 
     <looks>
         <look name="seabed" rgb="0.7 0.7 0.5" roughness="0.9" normal_map="terrain/sand_normal.png"/>
+        <look name="crab" gray="1.0" roughness="0.4" metalness="0.5" texture="objects/crab.png"/>
     </looks>
 
     <static name="Seabed" type="plane">
@@ -46,6 +47,8 @@
         <look name="seabed" uv_scale="5.0"/>
         <world_transform rpy="0.0 0.0 0.0" xyz="0.0 0.0 6.0"/>
     </static>
+
+    <include file="$(find bluerov_stonefish)/scenarios/objects.scn"></include>
 
     <include file="$(find bluerov_stonefish)/scenarios/robot/bluerov.scn">
         <arg name="robot_name" value="bluerov_roscon"/>
