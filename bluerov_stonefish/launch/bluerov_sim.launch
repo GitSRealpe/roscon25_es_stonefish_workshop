@@ -35,6 +35,11 @@
         <param name="frame_id" value="world_ned"/>
     </node>
 
+    <node name="events_renderer" pkg="auv_architecture" exec="event_render_node">
+        <remap from="/events_topic" to="/event_cam"/>
+        <remap from="/image_topic" to="/event_image"/>
+    </node>
+
     <!-- <node name="rviz" pkg="rviz2" exec="rviz2" namespace="rviz"
         args="-d $(find-pkg-share bluerov_stonefish)/config/view.rviz" /> -->
 </launch>

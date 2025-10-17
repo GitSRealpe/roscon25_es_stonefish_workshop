@@ -19,6 +19,18 @@
   <depend>rclpy</depend>
   <depend>nav_msgs</depend>
 
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>stonefish_ros2</build_depend>
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+
+  <exec_depend>cv_bridge</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>stonefish_ros2</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+
   <export>
     <build_type>ament_cmake</build_type>
   </export>
