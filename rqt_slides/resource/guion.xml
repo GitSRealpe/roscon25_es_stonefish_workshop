@@ -27,7 +27,27 @@
     <slide titulo="Vision sensors">
         <contenido>
             <html>
-                <p>Stonefish offers plenty of vision sensors for all type of different tasks </p>
+                <p>Stonefish offers plenty of sensors that allows the robot to understand its environment, for all type of different tasks.</p>
+                <p>Camera like sensors</p>
+                <ul>
+                    <li>Color camera</li>
+                    <li>Depth camera</li>
+                    <li>Event Based camera</li>
+                    <li>Thermal camera</li>
+                    <li>Optical flow camera</li>
+                </ul>
+                <p>Sonar based sensors, widely used in the underwater realm, exploiting sound travel properties</p>
+                <ul>
+                    <li>Multibeam sonar</li>
+                    <li>Forward looking sonar (FLS)</li>
+                    <li>Mechanical scanning imaging sonar (MSIS)</li>
+                    <li>Side scan sonar (SSS)</li>
+                </ul>
+
+                <p>Even sensors used only for in simulation purposes</p>
+                <ul>
+                    <li>Segmentation camera</li>
+                </ul>
             </html>
         </contenido>
         <image_topic>/bluerov_roscon/camera2/image_color</image_topic>

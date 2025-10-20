@@ -71,6 +71,7 @@ namespace rqt_slides
 
     std::shared_ptr<guionUtils::GuionParser> guion_;
     int slide_number = 0;
+    int max_slides;
 
     void changeSlide(int index);
   };
