@@ -68,6 +68,8 @@ namespace rqt_slides
     ui_.slide_title->setText(QString(slide->FirstAttribute()->Value()));
     ui_.slide_content->setText(QString(guion_->getSlideHTMLContent(slide).c_str()));
     updateTopicList();
+
+    max_slides = 3 - 1;
   }
 
   void ImageView::shutdownPlugin()
@@ -94,10 +96,10 @@ namespace rqt_slides
   {
     slide_number++;
 
-    if (slide_number >= 1)
+    if (slide_number >= max_slides)
     {
       ui_.next_button->setDisabled(true);
-      slide_number = 1;
+      slide_number = max_slides;
     }
     ui_.prev_button->setDisabled(false);
     ui_.lcdNumber->display(slide_number);
