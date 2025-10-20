@@ -28,7 +28,7 @@
         </trajectory>
     </animated>
 
-    <robot name="laser" fixed="true" self_collisions="false">
+    <robot name="cam_box" fixed="true" self_collisions="false">
         <base_link name="Caja" type="box" physics="surface">
             <dimensions xyz="0.1 0.2 0.05"/>
             <material name="Neutral"/>
@@ -59,6 +59,38 @@
             <origin xyz="0.1 0.0 0.0" rpy="1.57 0 1.57"/>
             <ros_publisher topic="/event_cam"/>
         </sensor>
+
+        <!-- sonars -->
+
+        <!-- <sensor name="msis_sonar" type="msis">
+            <specs step="0.25" bins="500" horizontal_beam_width="2.0" vertical_beam_width="30.0"/>
+            <settings range_min="0.5" range_max="10.0" rotation_min="-50.0" rotation_max="50.0" gain="1.5"/>
+            <noise multiplicative="0.02" additive="0.03"/>
+            <display colormap="hot"/>
+            <origin xyz="0.1 0.0 0.0" rpy="1.57 0 1.57"/>
+            <link name="Caja"/>
+            <ros_publisher topic="/msis_sonar"/>
+        </sensor> -->
+
+        <!-- <sensor name="FLS" type="fls">
+            <specs beams="512" bins="500" horizontal_fov="120.0" vertical_fov="30.0"/>
+            <settings range_min="0.5" range_max="10.0" gain="1.1"/>
+            <noise multiplicative="0.01" additive="0.02"/>
+            <display colormap="hot"/>
+            <link name="Caja"/>
+            <origin xyz="0.1 0.0 0.0" rpy="1.57 0 1.57"/>
+            <ros_publisher topic="/msis"/>
+        </sensor> -->
+
+        <!-- <sensor name="MSIS" type="msis">
+            <specs step="0.25" bins="500" horizontal_beam_width="2.0" vertical_beam_width="30.0"/>
+            <settings range_min="0.5" range_max="10.0" rotation_min="-50.0" rotation_max="50.0" gain="1.5"/>
+            <noise multiplicative="0.02" additive="0.03"/>
+            <display colormap="hot"/>
+            <link name="Caja"/>
+            <origin xyz="0.1 0.0 0.0" rpy="1.57 0 1.57"/>
+            <ros_publisher topic="/msis"/>
+        </sensor> -->
 
         <world_transform xyz="-0.5 1.0 1.5" rpy="0.0 -0.75 0.0"/>
     </robot>
