@@ -85,7 +85,6 @@ RUN echo "export __NV_PRIME_RENDER_OFFLOAD=1" >> ~/.bashrc && \
     echo "export DRI_PRIME=1" >> ~/.bashrc
 
 WORKDIR /home/${USERNAME}/ros2_ws
-COPY ./auv_stonefish /home/${USERNAME}/ros2_ws/src/auv_stonefish
 RUN . /opt/ros/jazzy/setup.sh \
     && colcon build \
     && . install/setup.sh
