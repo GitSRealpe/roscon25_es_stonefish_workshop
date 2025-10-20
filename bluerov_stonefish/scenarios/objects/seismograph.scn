@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<scenario>
+    <looks>
+        <look name="Orange" rgb="1.0 0.5 0.0" roughness="1"/>
+    </looks>
+
+    <!-- Seimograph -->
+    <dynamic name="seismograph" physics="submerged" type="compound">
+        <external_part name="base" type="model" physics="submerged" buoyant="false">
+            <physical>
+                <mesh filename="seismograph/seismograph_coll_base.obj" scale="1.0"/>
+                <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+            </physical>
+            <visual>
+                <mesh filename="seismograph/seismograph.obj" scale="1.0"/>
+                <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+            </visual>
+            <look name="Orange"/>
+            <material name="Rock"/>
+            <mass value="5.0"/>
+            <cg xyz="0 0 0" rpy="0 0 0"/>
+            <compound_transform xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </external_part>
+        <external_part name="handle_left" type="model" physics="submerged" buoyant="true">
+            <physical>
+                <mesh filename="seismograph/seismograph_coll_h_bar_left.obj" scale="1.0"/>
+                <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+            </physical>
+            <look name="Orange"/>
+            <material name="Rock"/>
+            <mass value="0.1"/>
+            <cg xyz="0 0 0" rpy="0 0 0"/>
+            <compound_transform xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </external_part>
+        <external_part name="handle_rigth" type="model" physics="submerged" buoyant="true">
+            <physical>
+                <mesh filename="seismograph/seismograph_coll_h_bar_rigth.obj" scale="1.0"/>
+                <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+            </physical>
+            <look name="Orange"/>
+            <material name="Rock"/>
+            <mass value="0.1"/>
+            <cg xyz="0 0 0" rpy="0 0 0"/>
+            <compound_transform xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </external_part>
+        <external_part name="handle_top1" type="model" physics="submerged" buoyant="true">
+            <physical>
+                <mesh filename="seismograph/seismograph_coll_h_bar_top1.obj" scale="1.0"/>
+                <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+            </physical>
+            <look name="Orange"/>
+            <material name="Rock"/>
+            <mass value="0.1"/>
+            <cg xyz="0 0 0" rpy="0 0 0"/>
+            <compound_transform xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </external_part>
+        <external_part name="handle_top2" type="model" physics="submerged" buoyant="true">
+            <physical>
+                <mesh filename="seismograph/seismograph_coll_h_bar_top2.obj" scale="1.0"/>
+                <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+            </physical>
+            <look name="Orange"/>
+            <material name="Rock"/>
+            <mass value="0.1"/>
+            <cg xyz="0 0 0" rpy="0 0 0"/>
+            <compound_transform xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </external_part>
+        <external_part name="handle_top3" type="model" physics="submerged" buoyant="true">
+            <physical>
+                <mesh filename="seismograph/seismograph_coll_h_bar_top3.obj" scale="1.0"/>
+                <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+            </physical>
+            <look name="Orange"/>
+            <material name="Rock"/>
+            <mass value="0.1"/>
+            <cg xyz="0 0 0" rpy="0 0 0"/>
+            <compound_transform xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </external_part>
+        <external_part name="handle_top4" type="model" physics="submerged" buoyant="true">
+            <physical>
+                <mesh filename="seismograph/seismograph_coll_h_bar_top4.obj" scale="1.0"/>
+                <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+            </physical>
+            <look name="Orange"/>
+            <material name="Rock"/>
+            <mass value="0.1"/>
+            <cg xyz="0 0 0" rpy="0 0 0"/>
+            <compound_transform xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </external_part>
+        <external_part name="handle_top5" type="model" physics="submerged" buoyant="true">
+            <physical>
+                <mesh filename="seismograph/seismograph_coll_h_bar_top5.obj" scale="1.0"/>
+                <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+            </physical>
+            <look name="Orange"/>
+            <material name="Rock"/>
+            <mass value="0.1"/>
+            <cg xyz="0 0 0" rpy="0 0 0"/>
+            <compound_transform xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </external_part>
+        <external_part name="handle_top6" type="model" physics="submerged" buoyant="true">
+            <physical>
+                <mesh filename="seismograph/seismograph_coll_h_bar_top6.obj" scale="1.0"/>
+                <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+            </physical>
+            <look name="Orange"/>
+            <material name="Rock"/>
+            <mass value="0.1"/>
+            <cg xyz="0 0 0" rpy="0 0 0"/>
+            <compound_transform xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </external_part>
+        <world_transform xyz="$(arg position)" rpy=" 0.0 0.0 0.0"/>
+    </dynamic>
+
+</scenario>

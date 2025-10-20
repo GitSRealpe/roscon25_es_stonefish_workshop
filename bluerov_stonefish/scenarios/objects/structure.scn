@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<scenario>
+    <looks>
+        <look name="platform" gray="1.0" roughness="0.1" texture="objects/structure/platform_text.png"/>
+        <look name="structure" gray="1.0" roughness="0.1" texture="objects/structure/moss.jpg" normal_map="objects/structure/moss_normal.png"/>
+    </looks>
+
+    <static name="platform" type="model">
+        <physical>
+            <mesh filename="objects/structure/platform_collision.obj" scale="1.0"/>
+            <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        </physical>
+        <visual>
+            <mesh filename="objects/structure/platform.obj" scale="1.0"/>
+            <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        </visual>
+        <material name="Rock"/>
+        <look name="platform"/>
+        <world_transform rpy="0.0 0.0 0.0" xyz="5.0 0.0 6.0"/>
+    </static>
+
+    <static name="structure" type="model">
+        <physical>
+            <mesh filename="objects/structure/structure_collision.obj" scale="1.0"/>
+            <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        </physical>
+        <visual>
+            <mesh filename="objects/structure/structure.obj" scale="1.0"/>
+            <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        </visual>
+        <look name="structure"/>
+        <material name="Rock"/>
+        <world_transform rpy="0.0 0.0 0.0" xyz="0.0 0.0 6.0"/>
+    </static>
+
+</scenario>
