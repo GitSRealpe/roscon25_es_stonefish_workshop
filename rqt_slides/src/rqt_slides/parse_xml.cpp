@@ -27,39 +27,6 @@ namespace guionUtils
     {
     }
 
-    // bool XMLparser::loadXML(std::string path)
-    // {
-
-    //
-
-    //     // Get slide element
-    //     tinyxml2::XMLElement *slide = guion->FirstChildElement("slide");
-    //     if (!slide)
-    //     {
-    //         std::cerr << "No slide element found" << std::endl;
-    //     }
-
-    //     // Get contenido element
-    //     tinyxml2::XMLElement *contenido = slide->FirstChildElement("contenido");
-    //     if (!contenido)
-    //     {
-    //         std::cerr << "No contenido element found" << std::endl;
-    //     }
-
-    //     // Get html element
-    //     tinyxml2::XMLElement *html = contenido->FirstChildElement("html");
-    //     if (!html)
-    //     {
-    //         std::cerr << "No html element found" << std::endl;
-    //     }
-
-    //     // Process all child elements of <html> recursively
-    //     // for (tinyxml2::XMLElement *child = html->FirstChildElement(); child; child = child->NextSiblingElement())
-    //     // {
-    //     //   elementToHtml(child, htmlContent, 1);
-    //     // }
-    // }
-
     tinyxml2::XMLElement *GuionParser::getSlide(int index)
     {
         // Get root element
