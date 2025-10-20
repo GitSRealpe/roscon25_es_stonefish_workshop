@@ -57,6 +57,19 @@
         <arg name="position" value="3.0 0.0 8.0"/>
     </include> -->
 
+    <static name="seismograph" type="model">
+        <physical>
+            <mesh filename="objects/seismograph/seismograph_phy.obj" scale="1.0"/>
+            <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        </physical>
+        <visual>
+            <mesh filename="objects/seismograph/seismograph.obj" scale="1.0"/>
+            <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        </visual>
+        <material name="Aluminium"/>
+        <look name="yellow"/>
+        <world_transform rpy="0.0 0.0 0.0" xyz="4.0 3.0 6.0"/>
+    </static>
 
     <include file="$(find bluerov_stonefish)/scenarios/robot/bluerov.scn">
         <arg name="robot_name" value="bluerov_roscon"/>
