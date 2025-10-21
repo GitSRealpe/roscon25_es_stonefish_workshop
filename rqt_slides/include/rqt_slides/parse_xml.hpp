@@ -4,6 +4,7 @@
 #include <tinyxml2/tinyxml2.h>
 #include <string>
 #include <memory>
+#include <sstream>
 
 namespace guionUtils
 {
@@ -23,6 +24,10 @@ namespace guionUtils
         std::string getSlideHTMLContent(tinyxml2::XMLElement *slide);
 
         void elementToHtml(tinyxml2::XMLElement *element, std::string &htmlContent);
+
+        bool parseFloatArray(const char *str, float out[3]);
+
+        int slideCount = 0;
 
     private:
         tinyxml2::XMLDocument doc_;

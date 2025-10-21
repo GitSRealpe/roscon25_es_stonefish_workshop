@@ -98,10 +98,10 @@ namespace rqt_slides
   {
     slide_number++;
 
-    if (slide_number >= max_slides)
+    if (slide_number >= guion_->slideCount - 1)
     {
       ui_.next_button->setDisabled(true);
-      slide_number = max_slides;
+      slide_number = guion_->slideCount - 1;
     }
     ui_.prev_button->setDisabled(false);
     ui_.lcdNumber->display(slide_number);

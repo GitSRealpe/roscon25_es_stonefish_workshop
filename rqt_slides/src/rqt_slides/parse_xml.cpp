@@ -21,6 +21,14 @@ namespace guionUtils
         {
             std::cerr << "Invalid root element, should be guion" << std::endl;
         }
+
+        // Iterate through all <slide> elements
+        for (tinyxml2::XMLElement *slide = guion->FirstChildElement("slide");
+             slide != nullptr;
+             slide = slide->NextSiblingElement("slide"))
+        {
+            slideCount++;
+        }
     }
 
     GuionParser::~GuionParser()
