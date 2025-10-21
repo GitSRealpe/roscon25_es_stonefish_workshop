@@ -16,7 +16,7 @@
         </visual>
         <material name="Rock"/>
         <look name="platform"/>
-        <world_transform rpy="0.0 0.0 0.0" xyz="5.0 0.0 6.0"/>
+        <world_transform rpy="0.0 0.0 0.0" xyz="4.0 0.0 6.0"/>
     </static>
 
     <static name="structure" type="model">
@@ -30,7 +30,7 @@
         </visual>
         <look name="structure"/>
         <material name="Rock"/>
-        <world_transform rpy="0.0 0.0 0.0" xyz="0.0 0.0 6.0"/>
+        <world_transform rpy="0.0 0.0 0.38" xyz="0.0 0.0 6.0"/>
     </static>
 
 </scenario>

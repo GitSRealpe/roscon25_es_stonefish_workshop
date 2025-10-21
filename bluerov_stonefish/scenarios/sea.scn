@@ -8,7 +8,7 @@
             <particles enabled="true"/>
         </ocean>
         <atmosphere>
-            <sun azimuth="0.0" elevation="90.0"/>
+            <sun azimuth="-121.0" elevation="50.0"/>
         </atmosphere>
     </environment>
 
@@ -38,10 +38,8 @@
     </materials>
 
     <looks>
+        <look name="yellow" rgb="1.0 0.83 0.0" roughness="1.0"/>
         <look name="seabed" rgb="0.7 0.7 0.5" roughness="0.9" normal_map="terrain/sand_normal.png"/>
-        <look name="crab" gray="1.0" roughness="0.4" metalness="0.5" texture="objects/crab.png"/>
-        <look name="structure" gray="1.0" roughness="0.1" texture="moss.jpg" normal_map="moss_normal.png"/>
-        <look name="platform" gray="1.0" roughness="0.1" texture="platform_text.png"/>
     </looks>
 
     <static name="Seabed" type="plane">
@@ -53,7 +51,7 @@
     <include file="$(find bluerov_stonefish)/scenarios/objects/crabcam.scn"/>
     <include file="$(find bluerov_stonefish)/scenarios/objects/structure.scn"/>
 
-    <!-- <include file="$(find obsea_sim)/scenarios/objects/seismograph.scn">
+    <!-- <include file="$(find bluerov_stonefish)/scenarios/objects/seismograph.scn">
         <arg name="position" value="3.0 0.0 8.0"/>
     </include> -->
 
@@ -73,7 +71,7 @@
 
     <include file="$(find bluerov_stonefish)/scenarios/robot/bluerov.scn">
         <arg name="robot_name" value="bluerov_roscon"/>
-        <arg name="position" value="0.0 0.0 1.0"/>
+        <arg name="position" value="0.0 1.0 -1.0"/>
         <arg name="yaw" value="0.0"/>
     </include>
 
