@@ -55,6 +55,10 @@ ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS})
 add_executable(auv_navigator_node scripts/auv_navigator_node.cpp)
 ament_target_dependencies(auv_navigator_node rclcpp nav_msgs geometry_msgs)
 
+# Declare the auv_navigator_node executable
+add_executable(auv_pilot_node scripts/auv_pilot_node.cpp)
+ament_target_dependencies(auv_pilot_node rclcpp nav_msgs geometry_msgs)
+
 # Build the renderer executable
 add_executable(event_render_node scripts/event_render_node.cpp)
 ament_target_dependencies(event_render_node PUBLIC rclcpp std_msgs stonefish_ros2 cv_bridge)
@@ -70,6 +74,7 @@ install(
 # Install the test executable
 install(TARGETS 
   auv_navigator_node
+  auv_pilot_node
   event_render_node
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )

@@ -29,11 +29,17 @@
         <param name="base_link" value="/$(var robot_name)/base_link"/>
     </node>
 
+    <!-- architecture ndoes -->
+
     <node name="navigator" pkg="auv_architecture" exec="auv_navigator_node"
         namespace="$(var robot_name)">
         <remap from="/sub_odom_topic" to="/$(var robot_name)/dynamics/odometry_truth"/>
         <param name="frame_id" value="world_ned"/>
     </node>
+
+    <node name="pilot" pkg="auv_architecture" exec="auv_pilot_node" output="screen"/>
+
+    <!-- sensor nodes -->
 
     <node name="events_renderer" pkg="auv_architecture" exec="event_render_node">
         <remap from="/events_topic" to="/event_cam"/>
