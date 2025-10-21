@@ -16,14 +16,34 @@
         </contenido>
         <image_topic>/bluerov_roscon/main_camera/image_color</image_topic>
     </slide>
-    <slide titulo="Introduction">
+    <slide titulo="Introduction.A">
         <contenido>
             <html>
-                <p>Introduction here </p>
+                <p>Stonefish is part of the state of the art simulators for underwater robotics, focusing strongly in hydrophysics, GPU accelerated graphics, and robot hardware simulation. </p>
             </html>
         </contenido>
-        <image_topic>/bluerov_roscon/camera2/image_color</image_topic>
+        <image_topic>/bluerov_roscon/follower_camera/image_color</image_topic>
+        <robot_pose xyz="0.0 0.0 2.0" rpy="0.0 0.0 0.0"/>
     </slide>
+
+    <slide titulo="Introduction.B">
+        <contenido>
+            <html>
+                <p>Its a ligthweigth, standalone C++ library, which offers easy to use API to build dynamic simulations. Which can also be defined through simple descriptions in a XML file</p>
+            </html>
+        </contenido>
+        <image_topic>/bluerov_roscon/follower_camera/image_color</image_topic>
+    </slide>
+
+    <slide titulo="Introduction.C">
+        <contenido>
+            <html>
+                <p>And with seamless integration, it also pivots on the foundations of ROS (1 and 2!), allowing to develop and test many marine robotics applications that have high physics requirements.</p>
+            </html>
+        </contenido>
+        <image_topic>/bluerov_roscon/follower_camera/image_color</image_topic>
+    </slide>
+
     <slide titulo="Vision sensors">
         <contenido>
             <html>
@@ -36,6 +56,14 @@
                     <li>Thermal camera</li>
                     <li>Optical flow camera</li>
                 </ul>
+            </html>
+        </contenido>
+        <image_topic>/bluerov_roscon/follower_camera/image_color</image_topic>
+        <robot_pose xyz="2.5 0.7 5.5" rpy="0.0 0.0 -1.5708"/>
+    </slide>
+    <slide titulo="Sonar based sensors">
+        <contenido>
+            <html>
                 <p>Sonar based sensors, widely used in the underwater realm, exploiting sound travel properties</p>
                 <ul>
                     <li>Multibeam sonar</li>
@@ -43,13 +71,20 @@
                     <li>Mechanical scanning imaging sonar (MSIS)</li>
                     <li>Side scan sonar (SSS)</li>
                 </ul>
+            </html>
+        </contenido>
+        <image_topic>/bluerov_roscon/follower_camera/image_color</image_topic>
+    </slide>
 
+    <slide titulo="Virtual sensors">
+        <contenido>
+            <html>
                 <p>Even sensors used only for in simulation purposes</p>
                 <ul>
                     <li>Segmentation camera</li>
                 </ul>
             </html>
         </contenido>
-        <image_topic>/bluerov_roscon/camera2/image_color</image_topic>
+        <image_topic>/label_cam/image_color</image_topic>
     </slide>
 </guion>
