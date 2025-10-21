@@ -30,6 +30,7 @@ find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(Qt5Widgets REQUIRED)
+find_package(tf2)
 find_package(ament_cmake_python REQUIRED)
 find_package(ament_index_cpp REQUIRED)
 
@@ -71,6 +72,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
   image_transport::image_transport
   ${sensor_msgs_TARGETS}
   ${geometry_msgs_TARGETS}
+  ${tf2_TARGETS}
   Qt5::Widgets
   ${ament_index_cpp_TARGETS}
 )

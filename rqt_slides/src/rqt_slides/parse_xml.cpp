@@ -129,4 +129,14 @@ namespace guionUtils
         }
         htmlContent += "</" + std::string(tagName) + ">";
     }
+
+    bool GuionParser::parseFloatArray(const char *str, float out[3])
+    {
+        std::istringstream iss(str);
+        for (int i = 0; i < 3; ++i)
+        {
+            iss >> out[i];
+        }
+        return true;
+    }
 }

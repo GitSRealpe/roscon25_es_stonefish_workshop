@@ -2,6 +2,8 @@
 
 #include <pluginlib/class_list_macros.hpp>
 #include <sensor_msgs/image_encodings.hpp>
+#include <geometry_msgs/msg/pose.hpp>
+#include <tf2/LinearMath/Quaternion.h>
 
 #include <cv_bridge/cv_bridge.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -69,13 +71,13 @@ namespace rqt_slides
     ui_.slide_content->setText(QString(guion_->getSlideHTMLContent(slide).c_str()));
     updateTopicList();
 
-    max_slides = 3 - 1;
+    pub_rpose = node_->create_publisher<geometry_msgs::msg::Pose>("/slides/pose_command", 10);
   }
 
   void ImageView::shutdownPlugin()
   {
     subscriber_.shutdown();
-    pub_mouse_left_.reset();
+    pub_rpose.reset();
   }
 
   void ImageView::prevButtonPress()
@@ -118,6 +120,35 @@ namespace rqt_slides
     {
       const char *topic = imageTopicElem->GetText();
       ui_.topics_combo_box->setCurrentIndex(ui_.topics_combo_box->findText(topic));
+    }
+
+    tinyxml2::XMLElement *rPoseElem = slide->FirstChildElement("robot_pose");
+
+    if (rPoseElem)
+    {
+      const char *xyzStr = rPoseElem->Attribute("xyz");
+      const char *rpyStr = rPoseElem->Attribute("rpy");
+
+      float xyz[3], rpy[3];
+      if (!guion_->parseFloatArray(xyzStr, xyz) || !guion_->parseFloatArray(rpyStr, rpy))
+      {
+        RCLCPP_WARN(node_->get_logger(), "Could not parse pose values");
+        return;
+      }
+
+      // Convert RPY to quaternion
+      tf2::Quaternion q;
+      q.setRPY(rpy[0], rpy[1], rpy[2]);
+      geometry_msgs::msg::Pose pose;
+      pose.position.x = xyz[0];
+      pose.position.y = xyz[1];
+      pose.position.z = xyz[2];
+      pose.orientation.x = q.x();
+      pose.orientation.y = q.y();
+      pose.orientation.z = q.z();
+      pose.orientation.w = q.w();
+
+      pub_rpose->publish(pose);
     }
   }
 

@@ -9,7 +9,7 @@
 #include <image_transport/subscriber.hpp>
 
 #include <sensor_msgs/msg/image.hpp>
-#include <geometry_msgs/msg/point.hpp>
+#include <geometry_msgs/msg/pose.hpp>
 
 #include <opencv2/core/core.hpp>
 
@@ -65,7 +65,7 @@ namespace rqt_slides
 
   private:
     QString arg_topic_name;
-    rclcpp::Publisher<geometry_msgs::msg::Point>::SharedPtr pub_mouse_left_;
+    rclcpp::Publisher<geometry_msgs::msg::Pose>::SharedPtr pub_rpose;
     bool pub_topic_custom_;
     QAction *hide_toolbar_action_;
 
