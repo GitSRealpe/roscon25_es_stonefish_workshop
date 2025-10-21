@@ -4,7 +4,6 @@
   <looks>
     <look name="black" gray="0.01" roughness="0.2" metalness="0.0"/>
     <look name="blue" rgb="0.0 0.3 0.8" roughness="0.0"/>
-    <look name="yellow" rgb="1.0 0.0 0.0" roughness="1.0"/>
     <look name="payload" rgb="1.0 0.0 0.0" roughness="1.0"/>
     <look name="bluerov_roscon_text" gray="1.0" roughness="0.4" metalness="0.5" texture="robot/robot_tex.png"/>
   </looks>
@@ -282,18 +281,43 @@
       <ros_publisher topic="/$(arg robot_name)/dynamics/odometry_truth"/>
     </sensor>
 
+    <!-- cameras -->
     <sensor name="camera" type="camera" rate="30.0">
       <link name="Vehicle"/>
-      <origin rpy="${pi/2} 0.0 ${pi/2}" xyz="0.218117 -0.005723 -0.067498"/>
-      <specs resolution_x="1360" resolution_y="1024" horizontal_fov="55.0"/>
+      <origin rpy="${pi/6} 0.0 ${pi/4}" xyz="-0.05 0.25 -0.50"/>
+      <specs resolution_x="800" resolution_y="600" horizontal_fov="60.0"/>
       <ros_publisher topic="/$(arg robot_name)/main_camera"/>
     </sensor>
 
     <sensor name="camera2" type="camera" rate="30.0">
       <link name="Vehicle"/>
-      <origin rpy="${pi/2} 0.0 ${pi/2}" xyz="0.0 0.0 0.0"/>
-      <specs resolution_x="1360" resolution_y="1024" horizontal_fov="55.0"/>
-      <ros_publisher topic="/$(arg robot_name)/camera2"/>
+      <origin rpy="${pi/4} 0.0 ${pi/2}" xyz="-0.7 0.0 -0.7"/>
+      <specs resolution_x="800" resolution_y="600" horizontal_fov="60.0"/>
+      <ros_publisher topic="/$(arg robot_name)/follower_camera"/>
+    </sensor>
+
+    <sensor name="depth_cam" rate="15.0" type="depthcamera">
+      <specs resolution_x="200" resolution_y="200" horizontal_fov="60.0" depth_min="0.2" depth_max="3.0"/>
+      <noise depth="0.000"/>
+      <origin xyz="0.2 0.0 0.0" rpy="${pi/4} 0 1.57"/>
+      <link name="Vehicle"/>
+      <ros_publisher topic="/$(arg robot_name)/depth"/>
+    </sensor>
+
+    <sensor name="label_cam" rate="30.0" type="segmentation">
+      <specs resolution_x="480" resolution_y="340" horizontal_fov="60.0"/>
+      <link name="Vehicle"/>
+      <origin xyz="0.2 0.0 0.0" rpy="${pi/4} 0 1.57"/>
+      <ros_publisher topic="/$(arg robot_name)/label_cam"/>
+    </sensor>
+
+    <sensor name="event_cam" type="ebc" rate="30.0">
+      <specs resolution_x="480" resolution_y="340" horizontal_fov="60.0"
+        contrast_threshold_pos="0.28" contrast_threshold_neg="0.28" refractory_period_ns="200"/>
+      <noise contrast_threshold_pos="0.01" contrast_threshold_neg="0.01"/>
+      <link name="Vehicle"/>
+      <origin xyz="0.2 0.0 0.0" rpy="${pi/4} 0 1.57"/>
+      <ros_publisher topic="/$(arg robot_name)/event_cam"/>
     </sensor>
 
     <world_transform rpy="0.0 0.0 $(arg yaw)" xyz="$(arg position)"/>
