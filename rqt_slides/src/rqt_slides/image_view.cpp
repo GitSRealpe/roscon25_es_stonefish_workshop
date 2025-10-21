@@ -55,11 +55,6 @@ namespace rqt_slides
 
     ui_.image_frame->setOuterLayout(ui_.image_layout);
 
-    hide_toolbar_action_ = new QAction(tr("Hide toolbar"), this);
-    hide_toolbar_action_->setCheckable(true);
-    ui_.image_frame->addAction(hide_toolbar_action_);
-    connect(hide_toolbar_action_, SIGNAL(toggled(bool)), this, SLOT(onHideToolbarChanged(bool)));
-
     // Connect button signals to slots
     connect(ui_.prev_button, SIGNAL(clicked(bool)), this, SLOT(prevButtonPress()));
     connect(ui_.next_button, SIGNAL(clicked(bool)), this, SLOT(nextButtonPress()));
@@ -180,9 +175,6 @@ namespace rqt_slides
       // qDebug("ImageView::restoreSettings() topic '%s'", topic.toStdString().c_str());
       selectTopic(topic);
     }
-
-    bool toolbar_hidden = instance_settings.value("toolbar_hidden", false).toBool();
-    hide_toolbar_action_->setChecked(toolbar_hidden);
   }
 
   void ImageView::updateTopicList()
@@ -344,11 +336,6 @@ namespace rqt_slides
       widget_->setMinimumSize(QSize(80, 60));
       widget_->setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));
     }
-  }
-
-  void ImageView::onHideToolbarChanged(bool hide)
-  {
-    ui_.toolbar_widget->setVisible(!hide);
   }
 
   void ImageView::callbackImage(const sensor_msgs::msg::Image::ConstSharedPtr &msg)

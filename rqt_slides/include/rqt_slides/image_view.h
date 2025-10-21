@@ -51,7 +51,6 @@ namespace rqt_slides
   protected slots:
     virtual void onTopicChanged(int index);
     virtual void onZoom1(bool checked);
-    virtual void onHideToolbarChanged(bool hide);
 
     virtual void prevButtonPress();
     virtual void nextButtonPress();
@@ -67,7 +66,6 @@ namespace rqt_slides
     QString arg_topic_name;
     rclcpp::Publisher<geometry_msgs::msg::Pose>::SharedPtr pub_rpose;
     bool pub_topic_custom_;
-    QAction *hide_toolbar_action_;
 
     std::shared_ptr<guionUtils::GuionParser> guion_;
     int slide_number = 0;
