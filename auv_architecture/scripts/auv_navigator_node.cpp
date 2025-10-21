@@ -1,3 +1,5 @@
+/* Navigator node responsible for informing the localization of the AUV  */
+
 #include <rclcpp/rclcpp.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 #include <geometry_msgs/msg/twist_stamped.hpp>
