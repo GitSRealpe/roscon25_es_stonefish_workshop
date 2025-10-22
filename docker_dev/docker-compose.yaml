@@ -1,0 +1,99 @@
+name: roscon25-stonefish-docker
+
+services:
+  # Base ROS jazzy image
+  base:
+    image: roscon25-stonefish:base
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ROS_DISTRO: "jazzy"
+      target: base
+    # Interactive shell
+    stdin_open: true
+    tty: true
+    # Networking and IPC for ROS
+    network_mode: bridge
+    hostname: roscon25-stonefish-docker
+    ipc: host
+    # Needed to display graphical applications
+    privileged: True
+    environment:
+      # Allows graphical programs in the container.
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      # Allows graphical programs in the container.
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
+
+  # Base image containing dependencies.
+  stonefish_base:
+    extends: base
+    image: roscon25-stonefish:stonefish_base
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ROS_DISTRO: "jazzy"
+      target: stonefish_base
+    # Interactive shell
+    stdin_open: true
+    tty: true
+    # Networking and IPC for ROS
+    network_mode: bridge
+    hostname: roscon25-stonefish-docker
+    ipc: host
+    # Needed to display graphical applications
+    privileged: True
+    environment:
+      # Allows graphical programs in the container.
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      # Allows graphical programs in the container.
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
+
+  # # Developer container
+  dev:
+    extends: stonefish_base
+    image: roscon25-stonefish:dev
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all 
+              capabilities: [ gpu ]
+    user: developer
+    environment:
+      - DISPLAY=${DISPLAY}
+      - TERM=xterm-256color
+      - DEBUG_COLORS=true
+      - COLORTERM=truecolor
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all 
+    network_mode: host
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    # args:
+    #   - UID=${UID:-1000}
+    #   - GID=${UID:-1000}
+    #   - USERNAME=dev
+    volumes:
+      # Allows graphical programs in the container.
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
+      # Mount the source code
+      - ./stonefish_ros2_hw_interface:/home/developer/ros2_ws/src/stonefish_ros2_hw_interface/:rw
+      - ./bluerov_roscon_description:/home/developer/ros2_ws/src/bluerov_roscon_description/:rw
+      - ./bluerov_stonefish:/home/developer/ros2_ws/src/bluerov_stonefish/:rw
+      - ./auv_architecture:/home/developer/ros2_ws/src/auv_architecture/:rw
+      - ./auv_controllers:/home/developer/ros2_ws/src/auv_controllers/:rw
+      - ./rqt_slides:/home/developer/ros2_ws/src/rqt_slides/:rw
+      - ./roscontrol_test:/home/developer/ros2_ws/src/roscontrol_test/:rw
+    command: sleep infinity
