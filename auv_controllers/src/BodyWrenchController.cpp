@@ -101,6 +101,14 @@ namespace auv_controllers
 
     controller_interface::CallbackReturn BodyWrenchController::on_deactivate(const rclcpp_lifecycle::State & /*previous_state*/)
     {
+        bool success = false;
+        for (auto &command : command_interfaces_)
+        {
+            success = command.set_value(0.0);
+        }
+
+        if (!success)
+            return controller_interface::CallbackReturn::FAILURE;
 
         return controller_interface::CallbackReturn::SUCCESS;
     }
@@ -205,6 +213,7 @@ namespace auv_controllers
             // casting to void to avoid compiler warning
             static_cast<void>(command_interfaces_[i].set_value(setpoints[i]));
         }
+
         return controller_interface::return_type::OK;
     }
 

@@ -106,6 +106,12 @@ namespace auv_controllers
 
     controller_interface::CallbackReturn BodyPoseController::on_deactivate(const rclcpp_lifecycle::State & /*previous_state*/)
     {
+        RCLCPP_INFO(get_node()->get_logger(), "Deactivating controller");
+        for (size_t i = 0; i < command_interfaces_.size(); ++i)
+        {
+            // casting to void to avoid compiler warning
+            static_cast<void>(command_interfaces_[i].set_value(0.0));
+        }
 
         return controller_interface::CallbackReturn::SUCCESS;
     }
