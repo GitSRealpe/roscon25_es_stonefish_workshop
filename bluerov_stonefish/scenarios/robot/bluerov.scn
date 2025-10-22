@@ -296,7 +296,7 @@
       <ros_publisher topic="/$(arg robot_name)/follower_camera"/>
     </sensor>
 
-    <sensor name="depth_cam" rate="15.0" type="depthcamera">
+    <sensor name="depth_cam" rate="30.0" type="depthcamera">
       <specs resolution_x="200" resolution_y="200" horizontal_fov="60.0" depth_min="0.2" depth_max="3.0"/>
       <noise depth="0.000"/>
       <origin xyz="0.2 0.0 0.0" rpy="${pi/4} 0 1.57"/>
@@ -311,13 +311,22 @@
       <ros_publisher topic="/$(arg robot_name)/label_cam"/>
     </sensor>
 
-    <sensor name="event_cam" type="ebc" rate="30.0">
+    <sensor name="event_cam" rate="30.0" type="ebc">
       <specs resolution_x="480" resolution_y="340" horizontal_fov="60.0"
         contrast_threshold_pos="0.28" contrast_threshold_neg="0.28" refractory_period_ns="200"/>
       <noise contrast_threshold_pos="0.01" contrast_threshold_neg="0.01"/>
       <link name="Vehicle"/>
       <origin xyz="0.2 0.0 0.0" rpy="${pi/4} 0 1.57"/>
       <ros_publisher topic="/$(arg robot_name)/event_cam"/>
+    </sensor>
+
+    <sensor name="OfCam" rate="30.0" type="opticalflow">
+      <specs resolution_x="800" resolution_y="600" horizontal_fov="60.0"/>
+      <noise velocity_x="10.0" velocity_y="10.0"/>
+      <display velocity_max="10.0"/>
+      <origin xyz="0.2 0.0 0.0" rpy="${pi/4} 0 1.57"/>
+      <link name="Vehicle"/>
+      <ros_publisher topic="/$(arg robot_name)/optical_flow"/>
     </sensor>
 
     <world_transform rpy="0.0 0.0 $(arg yaw)" xyz="$(arg position)"/>
