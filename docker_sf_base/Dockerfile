@@ -1,14 +1,10 @@
 # ROS distribution to use
 ARG ROS_DISTRO=jazzy
 
-#################################
-# ROS Base Image for precaching #
-#################################
-FROM osrf/ros:${ROS_DISTRO}-desktop AS base
 ##############
-# Base Image #
+# Base to precompile Stonefish and Stonefish ros2 #
 ##############
-FROM base AS stonefish_base
+FROM osrf/ros:${ROS_DISTRO}-desktop AS stonefish_base
 RUN userdel -r ubuntu
 ENV ROS_DISTRO=${ROS_DISTRO}
 SHELL ["/bin/bash", "-c"]
@@ -66,34 +62,3 @@ RUN . /opt/ros/${ROS_DISTRO}/setup.sh \
 
 COPY ./entrypoint.sh /
 ENTRYPOINT [ "/entrypoint.sh" ]
-#####################
-# Development Image #
-#####################
-FROM stonefish_base AS dev
-
-# Install extra tools for development
-USER root
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gdb gdbserver nano iputils-ping byobu 
-
-WORKDIR /home/${USERNAME}
-USER ${USERNAME}
-
-RUN echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc && \
-    echo "source ~/ros2_ws/install/setup.bash" >> ~/.bashrc
-
-# export nvidia env variables to use it in multi gpu systems
-RUN echo "export __NV_PRIME_RENDER_OFFLOAD=1" >> ~/.bashrc && \
-    echo "export __GLX_VENDOR_LIBRARY_NAME=nvidia" >> ~/.bashrc && \
-    echo "export DRI_PRIME=1" >> ~/.bashrc
-
-WORKDIR /home/${USERNAME}/ros2_ws
-RUN . /opt/ros/jazzy/setup.sh \
-    && colcon build \
-    && . install/setup.sh
-
-# Set up the entrypoint
-COPY ./entrypoint.sh /
-ENTRYPOINT [ "/entrypoint.sh" ]
-
-RUN echo "PS1='\e[01;32m\u\e[0m@\e[01;31m\h\e[0m:\e[01;34m\w\e[0m\$ '" >> /home/${USERNAME}/.bashrc

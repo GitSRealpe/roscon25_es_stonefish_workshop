@@ -1,0 +1,30 @@
+name: roscon25-stonefish-docker
+
+services:
+  # Base image containing dependencies.
+  stonefish_base:
+    image: roscon25-stonefish:stonefish_base
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ROS_DISTRO: "jazzy"
+      target: stonefish_base
+    # Interactive shell
+    stdin_open: true
+    tty: true
+    # Networking and IPC for ROS
+    network_mode: bridge
+    hostname: roscon25-stonefish-docker
+    ipc: host
+    # Needed to display graphical applications
+    privileged: True
+    environment:
+      # Allows graphical programs in the container.
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      # Allows graphical programs in the container.
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
+
