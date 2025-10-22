@@ -66,5 +66,6 @@ services:
       - ./bluerov_stonefish:/home/developer/ros2_ws/src/bluerov_stonefish/:rw
       - ./auv_architecture:/home/developer/ros2_ws/src/auv_architecture/:rw
       - ./auv_controllers:/home/developer/ros2_ws/src/auv_controllers/:rw
+      - ./rqt_slides:/home/developer/ros2_ws/src/rqt_slides/:rw
       - ./roscontrol_test:/home/developer/ros2_ws/src/roscontrol_test/:rw
     command: sleep infinity
