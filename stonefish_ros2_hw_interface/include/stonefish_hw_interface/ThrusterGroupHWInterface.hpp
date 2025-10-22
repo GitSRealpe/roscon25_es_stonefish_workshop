@@ -23,6 +23,8 @@ namespace stonefish_hw_interface
         ~ThrusterGroupHWInterface();
 
         hardware_interface::CallbackReturn on_init(const hardware_interface::HardwareInfo &info) override;
+        hardware_interface::CallbackReturn on_deactivate(const rclcpp_lifecycle::State &previous_state) override;
+        hardware_interface::CallbackReturn on_shutdown(const rclcpp_lifecycle::State &previous_state) override;
 
         hardware_interface::CallbackReturn on_configure(const rclcpp_lifecycle::State &previous_state) override;
 

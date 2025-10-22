@@ -42,6 +42,22 @@ namespace stonefish_hw_interface
         return hardware_interface::CallbackReturn::SUCCESS;
     }
 
+    hardware_interface::CallbackReturn ThrusterGroupHWInterface::on_deactivate(const rclcpp_lifecycle::State & /*previous_state*/)
+    {
+        std_msgs::msg::Float64MultiArray msg;
+        msg.data = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        thruster_group_publisher_->publish(msg);
+        return hardware_interface::CallbackReturn::SUCCESS;
+    }
+
+    hardware_interface::CallbackReturn ThrusterGroupHWInterface::on_shutdown(const rclcpp_lifecycle::State & /*previous_state*/)
+    {
+        std_msgs::msg::Float64MultiArray msg;
+        msg.data = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        thruster_group_publisher_->publish(msg);
+        return hardware_interface::CallbackReturn::SUCCESS;
+    }
+
     hardware_interface::CallbackReturn ThrusterGroupHWInterface::on_configure(const rclcpp_lifecycle::State & /*previous_state*/)
     {
         // parameter are read here
