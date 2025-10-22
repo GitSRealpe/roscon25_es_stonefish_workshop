@@ -65,6 +65,9 @@ namespace rqt_slides
     ui_.slide_title->setText(QString(slide->FirstAttribute()->Value()));
     ui_.slide_content->setText(QString(guion_->getSlideHTMLContent(slide).c_str()));
     updateTopicList();
+    ui_.topics_combo_box->setCurrentIndex(ui_.topics_combo_box->findText("/bluerov_roscon/main_camera/image_color"));
+    // ui_.topics_combo_box->setCurrentIndex(1);
+    // std::cout << ui_.topics_combo_box->currentIndex() << "\n";
 
     pub_rpose = node_->create_publisher<geometry_msgs::msg::Pose>("/slides/pose_command", 10);
   }
@@ -304,12 +307,14 @@ namespace rqt_slides
       try
       {
         auto subscription_options = rclcpp::SubscriptionOptions();
-        subscription_options.qos_overriding_options = rclcpp::QosOverridingOptions::with_default_policies();
+
+        // subscription_options.qos_overriding_options = rclcpp::QosOverridingOptions::with_default_policies();
+
         subscriber_ = image_transport::create_subscription(
             node_.get(),
             topic.toStdString(),
             std::bind(&ImageView::callbackImage, this, std::placeholders::_1),
-            hints.getTransport());
+            hints.getTransport(), rmw_qos_profile_default, subscription_options);
         qDebug("ImageView::onTopicChanged() to topic '%s' with transport '%s'", topic.toStdString().c_str(), subscriber_.getTransport().c_str());
       }
       catch (image_transport::TransportLoadException &e)
