@@ -58,9 +58,55 @@
                 </ul>
             </html>
         </contenido>
-        <image_topic>/bluerov_roscon/follower_camera/image_color</image_topic>
+        <image_topic>/bluerov_roscon/main_camera/image_color</image_topic>
         <robot_pose xyz="2.5 0.7 5.5" rpy="0.0 0.0 -1.5708"/>
     </slide>
+
+    <slide titulo="Color camera">
+        <contenido>
+            <html>
+                <p>
+                    Basic RGB camera sensor, with parameters such as:
+                    <ul>
+                        <li>Publish rate</li>
+                        <li>Resolution and FoV</li>
+                    </ul>
+                </p>
+            </html>
+        </contenido>
+        <image_topic>/bluerov_roscon/main_camera/image_color</image_topic>
+    </slide>
+
+    <slide titulo="Depth camera">
+        <contenido>
+            <html>
+                <p>Depth camera which outputs a grayscale image where black and white represent the minimum and maximum values for depth in the image. Params: </p>
+                <ul>
+                    <li>Publish rate</li>
+                    <li>Resolution and FoV</li>
+                    <li>Depth min and max values</li>
+                    <li>Noise in the depth measurements</li>
+                </ul>
+            </html>
+        </contenido>
+        <image_topic>/bluerov_roscon/depth/image_depth</image_topic>
+    </slide>
+
+    <slide titulo="Event based camera">
+        <contenido>
+            <html>
+                <p>
+                    Each pixel detects variations in brightness and generates an “event”, composed of polarity, and a time stamp.
+                </p>
+                <p>
+                    Because of its simplicity its has good performance in low ligth enviroments, and also in fast paced motions. (widely used in aerial drones for fast motions).
+                </p>
+
+            </html>
+        </contenido>
+        <image_topic>/bluerov_roscon/event_image</image_topic>
+    </slide>
+
     <slide titulo="Sonar based sensors">
         <contenido>
             <html>
@@ -74,6 +120,7 @@
             </html>
         </contenido>
         <image_topic>/bluerov_roscon/follower_camera/image_color</image_topic>
+        <robot_pose xyz="2.5 5.0 5.0" rpy="0.0 0.0 -1.57"/>
     </slide>
 
     <slide titulo="Virtual sensors">
@@ -82,9 +129,11 @@
                 <p>Even sensors used only for in simulation purposes</p>
                 <ul>
                     <li>Segmentation camera</li>
+                    <li>Optical flow camera</li>
                 </ul>
             </html>
         </contenido>
-        <image_topic>/label_cam/image_color</image_topic>
+        <image_topic>/bluerov_roscon/label_cam/image_color</image_topic>
+        <robot_pose xyz="2.5 5.0 2.0" rpy="0.0 0.0 -1.57"/>
     </slide>
 </guion>
