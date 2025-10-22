@@ -2,16 +2,16 @@
 <scenario>
 
     <looks>
-        <look name="crab" gray="1.0" roughness="0.4" metalness="0.5" texture="objects/crab.png"/>
+        <look name="crab" gray="1.0" roughness="0.4" metalness="0.5" texture="objects/crab/crab.png"/>
     </looks>
 
     <animated name="AnimMesh" type="model" collisions="false">
         <physical>
-            <mesh filename="objects/crab_phy.obj" scale="0.1"/>
+            <mesh filename="objects/crab/crab_phy.obj" scale="0.1"/>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </physical>
         <visual>
-            <mesh filename="objects/crab.obj" scale="0.1"/>
+            <mesh filename="objects/crab/crab.obj" scale="0.1"/>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </visual>
         <material name="Neutral"/>
