@@ -286,14 +286,21 @@
       <link name="Vehicle"/>
       <origin rpy="${pi/6} 0.0 ${pi/4}" xyz="-0.05 0.25 -0.50"/>
       <specs resolution_x="800" resolution_y="600" horizontal_fov="60.0"/>
-      <ros_publisher topic="/$(arg robot_name)/main_camera"/>
+      <ros_publisher topic="/$(arg robot_name)/front_camera"/>
     </sensor>
 
     <sensor name="camera2" type="camera" rate="30.0">
       <link name="Vehicle"/>
+      <origin rpy="${pi/6} 0.0 ${pi/4}" xyz="-0.05 0.25 -0.50"/>
+      <specs resolution_x="800" resolution_y="600" horizontal_fov="60.0"/>
+      <ros_publisher topic="/$(arg robot_name)/side_camera"/>
+    </sensor>
+
+    <sensor name="camera3" type="camera" rate="30.0">
+      <link name="Vehicle"/>
       <origin rpy="${pi/4} 0.0 ${pi/2}" xyz="-0.7 0.0 -0.7"/>
       <specs resolution_x="800" resolution_y="600" horizontal_fov="60.0"/>
-      <ros_publisher topic="/$(arg robot_name)/follower_camera"/>
+      <ros_publisher topic="/$(arg robot_name)/back_camera"/>
     </sensor>
 
     <sensor name="depth_cam" rate="30.0" type="depthcamera">
