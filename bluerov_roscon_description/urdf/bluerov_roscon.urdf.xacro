@@ -20,4 +20,18 @@
   <!-- Used for fixing robot -->
   <!-- <link name="world" /> -->
 
+  <link name="$(arg prefix)/msis_link"/>
+  <joint name="$(arg prefix)/msis_joint" type="fixed">
+    <parent link="$(arg prefix)/base_link"/>
+    <child link="$(arg prefix)/msis_link"/>
+    <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+  </joint>
+
+  <link name="$(arg prefix)/sss_link"/>
+  <joint name="$(arg prefix)/sss_joint" type="fixed">
+    <parent link="$(arg prefix)/base_link"/>
+    <child link="$(arg prefix)/sss_link"/>
+    <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+  </joint>
+
 </robot>
