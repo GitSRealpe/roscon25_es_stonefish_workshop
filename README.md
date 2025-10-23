@@ -15,6 +15,7 @@ Tabla de contenido
   - [Resumen](#resumen)
   - [Instrucciones uso con Docker](#instrucciones-uso-con-docker)
     - [Instalacion previa](#instalacion-previa)
+    - [Compilar y ejecutar el container](#compilar-y-ejecutar-el-container)
   - [Instrucciones uso workspace local](#instrucciones-uso-workspace-local)
     - [Libreria Stonefish](#libreria-stonefish)
     - [Paquetes de ROS](#paquetes-de-ros)
@@ -45,7 +46,27 @@ Ofrecemos un entorno contenerizado (**Docker**) con los recursos necesarios para
 
 Para poder usar el entorno se debe hacer lo siguiente:
 ### Instalacion previa
-<!-- INSTRUCCIONES INSTALAR DOCKER Y COSAS -->
+1. **Entornos Docker**: Debes tener instalado Docker engine en tu ordenador para poder ejecutar el container: [Install Docker engine for Ubuntu](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
+
+2. **Nvidia container Toolkit**: Nvidia dispone de un toolkit espefico para que entornos contenerizados puedan acceder al hardware grafico del host, por lo que es necesarios instalar el toolkit en tu ordenador: [Install Nvidia container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#with-apt-ubuntu-debian)
+
+3. **Clonar este repositorio** Ya estas listo, puedes clonar este repo para ejecutar el Dockerfile asociado y utilizar los paquetes necesarios para el workshop.
+```
+git clone https://github.com/GitSRealpe/roscon25_es_stonefish_workshop.git
+```
+
+### Compilar y ejecutar el container
+Procedemos ahora a ejecutar el container, para esto realizamos:
+   1. `cd roscon25_es_stonefish_workshop`
+   2. `docker compose build` : compilamos el docker el cual usa una imagen precompilada de Stonefish bajo una imagen con ROS 2 Jazzy.
+   3. `./run.sh` : Ejecutamos este shell script como utilidad para iniciar el container
+      1. `ros2 launch bluerov_stonefish bluerov_sim.launch`
+   4. `docker exec -it roscon25-stonefish-docker-dev-run-xxxxxx bash` para abrir otra terminal bash en la misma instancia del contenedor.
+      1. `ros2 launch roscontrol_test testcontroller.launch.py` para lanzar el stack de ros_control del robot.
+   5. `docker exec -it roscon25-stonefish-docker-dev-run-xxxxxx bash` para una terminal adicional
+      1. `ros2 launch bluerov_stonefish slides_deck.launch` para lanzar las slides interactivas del workshop
+
+
 ## Instrucciones uso workspace local
 Si tienes listo un workspace de **ROS 2** en tu ordenador, tambien puedes hacer la instalacion manual de los paquetes, para ello sigue estas instrucciones:
 
