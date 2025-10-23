@@ -14,7 +14,7 @@ main = Main()
 sys.exit(
     main.main(
         sys.argv,
-        standalone="rqt_slides/ImageView",
+        standalone="rqt_slides/Slideshow",
         plugin_argument_provider=add_arguments,
     )
 )

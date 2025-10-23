@@ -17,13 +17,13 @@
 namespace rqt_slides
 {
 
-  ImageView::ImageView()
+  Slideshow::Slideshow()
       : rqt_gui_cpp::Plugin(), widget_(0)
   {
-    setObjectName("ImageView");
+    setObjectName("Slideshow");
   }
 
-  void ImageView::initPlugin(qt_gui_cpp::PluginContext &context)
+  void Slideshow::initPlugin(qt_gui_cpp::PluginContext &context)
   {
     widget_ = new QWidget();
     ui_.setupUi(widget_);
@@ -72,13 +72,13 @@ namespace rqt_slides
     pub_rpose = node_->create_publisher<geometry_msgs::msg::Pose>("/slides/pose_command", 10);
   }
 
-  void ImageView::shutdownPlugin()
+  void Slideshow::shutdownPlugin()
   {
     subscriber_.shutdown();
     pub_rpose.reset();
   }
 
-  void ImageView::prevButtonPress()
+  void Slideshow::prevButtonPress()
   {
     slide_number--;
     if (slide_number <= 0)
@@ -92,7 +92,7 @@ namespace rqt_slides
     changeSlide(slide_number);
   }
 
-  void ImageView::nextButtonPress()
+  void Slideshow::nextButtonPress()
   {
     slide_number++;
 
@@ -107,7 +107,7 @@ namespace rqt_slides
     changeSlide(slide_number);
   }
 
-  void ImageView::changeSlide(int index)
+  void Slideshow::changeSlide(int index)
   {
     tinyxml2::XMLElement *slide = guion_->getSlide(index);
     ui_.slide_title->setText(QString(slide->FirstAttribute()->Value()));
@@ -152,16 +152,16 @@ namespace rqt_slides
 
   // ///////////////////////////////////////////////////////////
 
-  void ImageView::saveSettings(qt_gui_cpp::Settings &plugin_settings, qt_gui_cpp::Settings &instance_settings) const
+  void Slideshow::saveSettings(qt_gui_cpp::Settings &plugin_settings, qt_gui_cpp::Settings &instance_settings) const
   {
     (void)plugin_settings;
     QString topic = ui_.topics_combo_box->currentText();
-    // qDebug("ImageView::saveSettings() topic '%s'", topic.toStdString().c_str());
+    // qDebug("Slideshow::saveSettings() topic '%s'", topic.toStdString().c_str());
     instance_settings.setValue("topic", topic);
     instance_settings.setValue("zoom1", ui_.zoom_1_push_button->isChecked());
   }
 
-  void ImageView::restoreSettings(const qt_gui_cpp::Settings &plugin_settings, const qt_gui_cpp::Settings &instance_settings)
+  void Slideshow::restoreSettings(const qt_gui_cpp::Settings &plugin_settings, const qt_gui_cpp::Settings &instance_settings)
   {
     (void)plugin_settings;
     bool zoom1_checked = instance_settings.value("zoom1", false).toBool();
@@ -175,12 +175,12 @@ namespace rqt_slides
     }
     else
     {
-      // qDebug("ImageView::restoreSettings() topic '%s'", topic.toStdString().c_str());
+      // qDebug("Slideshow::restoreSettings() topic '%s'", topic.toStdString().c_str());
       selectTopic(topic);
     }
   }
 
-  void ImageView::updateTopicList()
+  void Slideshow::updateTopicList()
   {
     QSet<QString> message_types;
     message_types.insert("sensor_msgs/Image");
@@ -195,7 +195,7 @@ namespace rqt_slides
     std::vector<std::string> declared = it.getDeclaredTransports();
     for (std::vector<std::string>::const_iterator it = declared.begin(); it != declared.end(); it++)
     {
-      // qDebug("ImageView::updateTopicList() declared transport '%s'", it->c_str());
+      // qDebug("Slideshow::updateTopicList() declared transport '%s'", it->c_str());
       QString transport = it->c_str();
 
       // strip prefix from transport name
@@ -225,7 +225,7 @@ namespace rqt_slides
     selectTopic(selected);
   }
 
-  QSet<QString> ImageView::getTopics(const QSet<QString> &message_types, const QSet<QString> &message_sub_types, const QList<QString> &transports)
+  QSet<QString> Slideshow::getTopics(const QSet<QString> &message_types, const QSet<QString> &message_sub_types, const QList<QString> &transports)
   {
     std::map<std::string, std::vector<std::string>> topic_info = node_->get_topic_names_and_types();
 
@@ -246,7 +246,7 @@ namespace rqt_slides
 
           // add raw topic
           topics.insert(topic);
-          // qDebug("ImageView::getTopics() raw topic '%s'", topic.toStdString().c_str());
+          // qDebug("Slideshow::getTopics() raw topic '%s'", topic.toStdString().c_str());
 
           // add transport specific sub-topics
           for (QList<QString>::const_iterator jt = transports.begin(); jt != transports.end(); jt++)
@@ -255,7 +255,7 @@ namespace rqt_slides
             {
               QString sub = topic + " " + *jt;
               topics.insert(sub);
-              // qDebug("ImageView::getTopics() transport specific sub-topic '%s'", sub.toStdString().c_str());
+              // qDebug("Slideshow::getTopics() transport specific sub-topic '%s'", sub.toStdString().c_str());
             }
           }
         }
@@ -267,7 +267,7 @@ namespace rqt_slides
           {
             topic.replace(index, 1, " ");
             topics.insert(topic);
-            // qDebug("ImageView::getTopics() transport specific sub-topic '%s'", topic.toStdString().c_str());
+            // qDebug("Slideshow::getTopics() transport specific sub-topic '%s'", topic.toStdString().c_str());
           }
         }
       }
@@ -275,7 +275,7 @@ namespace rqt_slides
     return topics;
   }
 
-  void ImageView::selectTopic(const QString &topic)
+  void Slideshow::selectTopic(const QString &topic)
   {
     int index = ui_.topics_combo_box->findText(topic);
     if (index == -1)
@@ -289,7 +289,7 @@ namespace rqt_slides
     ui_.topics_combo_box->setCurrentIndex(index);
   }
 
-  void ImageView::onTopicChanged(int index)
+  void Slideshow::onTopicChanged(int index)
   {
     conversion_mat_.release();
     subscriber_.shutdown();
@@ -313,9 +313,9 @@ namespace rqt_slides
         subscriber_ = image_transport::create_subscription(
             node_.get(),
             topic.toStdString(),
-            std::bind(&ImageView::callbackImage, this, std::placeholders::_1),
+            std::bind(&Slideshow::callbackImage, this, std::placeholders::_1),
             hints.getTransport(), rmw_qos_profile_default, subscription_options);
-        qDebug("ImageView::onTopicChanged() to topic '%s' with transport '%s'", topic.toStdString().c_str(), subscriber_.getTransport().c_str());
+        qDebug("Slideshow::onTopicChanged() to topic '%s' with transport '%s'", topic.toStdString().c_str(), subscriber_.getTransport().c_str());
       }
       catch (image_transport::TransportLoadException &e)
       {
@@ -324,7 +324,7 @@ namespace rqt_slides
     }
   }
 
-  void ImageView::onZoom1(bool checked)
+  void Slideshow::onZoom1(bool checked)
   {
     if (checked)
     {
@@ -343,7 +343,7 @@ namespace rqt_slides
     }
   }
 
-  void ImageView::callbackImage(const sensor_msgs::msg::Image::ConstSharedPtr &msg)
+  void Slideshow::callbackImage(const sensor_msgs::msg::Image::ConstSharedPtr &msg)
   {
     try
     {
@@ -388,14 +388,14 @@ namespace rqt_slides
         }
         else
         {
-          qWarning("ImageView.callback_image() could not convert image from '%s' to 'rgb8' (%s)", msg->encoding.c_str(), e.what());
+          qWarning("Slideshow.callback_image() could not convert image from '%s' to 'rgb8' (%s)", msg->encoding.c_str(), e.what());
           ui_.image_frame->setImage(QImage());
           return;
         }
       }
       catch (cv_bridge::Exception &e)
       {
-        qWarning("ImageView.callback_image() while trying to convert image from '%s' to 'rgb8' an exception was thrown (%s)", msg->encoding.c_str(), e.what());
+        qWarning("Slideshow.callback_image() while trying to convert image from '%s' to 'rgb8' an exception was thrown (%s)", msg->encoding.c_str(), e.what());
         ui_.image_frame->setImage(QImage());
         return;
       }
@@ -415,4 +415,4 @@ namespace rqt_slides
   }
 }
 
-PLUGINLIB_EXPORT_CLASS(rqt_slides::ImageView, rqt_gui_cpp::Plugin)
+PLUGINLIB_EXPORT_CLASS(rqt_slides::Slideshow, rqt_gui_cpp::Plugin)

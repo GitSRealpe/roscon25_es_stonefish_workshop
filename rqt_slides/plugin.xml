@@ -1,17 +1,17 @@
 <library path="rqt_slides">
-  <class name="rqt_slides/ImageView" type="rqt_slides::ImageView" base_class_type="rqt_gui_cpp::Plugin">
+  <class name="rqt_slides/Slideshow" type="rqt_slides::Slideshow" base_class_type="rqt_gui_cpp::Plugin">
     <description>
-      A GUI plugin to view a sensor_msgs/Image topic.
+      A RQT plugin to view a slides from XML files.
     </description>
     <qtgui>
       <group>
         <label>ROSCON ES</label>
         <icon type="theme">folder</icon>
-        <statustip>Plugins related to visualization.</statustip>
+        <statustip>ROSCON plugins for presentations.</statustip>
       </group>
       <label>Slideshow</label>
-      <icon type="theme">image-x-generic</icon>
-      <statustip>A GUI plugin for viewing sensor_msgs/Image topics.</statustip>
+      <icon type="theme">x-office-presentation</icon>
+      <statustip>A RQT plugin to view a slides from XML files.</statustip>
     </qtgui>
   </class>
 </library>

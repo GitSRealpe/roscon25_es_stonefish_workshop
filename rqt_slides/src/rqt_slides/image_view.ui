@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ImageViewWidget</class>
- <widget class="QWidget" name="ImageViewWidget">
+ <class>SlideshowWidget</class>
+ <widget class="QWidget" name="SlideshowWidget">
   <property name="enabled">
    <bool>true</bool>
   </property>
@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Image View</string>
+   <string>Slideshow</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

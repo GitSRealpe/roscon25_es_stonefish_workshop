@@ -1,5 +1,5 @@
-#ifndef rqt_slides__ImageView_H
-#define rqt_slides__ImageView_H
+#ifndef rqt_slides__Slideshow_H
+#define rqt_slides__Slideshow_H
 
 #include <rqt_gui_cpp/plugin.h>
 
@@ -28,14 +28,14 @@
 namespace rqt_slides
 {
 
-  class ImageView
+  class Slideshow
       : public rqt_gui_cpp::Plugin
   {
 
     Q_OBJECT
 
   public:
-    ImageView();
+    Slideshow();
     virtual void initPlugin(qt_gui_cpp::PluginContext &context);
     virtual void shutdownPlugin();
     virtual void saveSettings(qt_gui_cpp::Settings &plugin_settings, qt_gui_cpp::Settings &instance_settings) const;
@@ -57,7 +57,7 @@ namespace rqt_slides
 
   protected:
     virtual void callbackImage(const sensor_msgs::msg::Image::ConstSharedPtr &msg);
-    Ui::ImageViewWidget ui_;
+    Ui::SlideshowWidget ui_;
     QWidget *widget_;
     image_transport::Subscriber subscriber_;
     cv::Mat conversion_mat_;
@@ -76,4 +76,4 @@ namespace rqt_slides
 
 }
 
-#endif // rqt_slides__ImageView_H
+#endif // rqt_slides__Slideshow_H

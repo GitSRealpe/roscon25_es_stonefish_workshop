@@ -103,7 +103,9 @@ install(FILES plugin.xml
   DESTINATION share/${PROJECT_NAME}
 )
 
-install(DIRECTORY resource
+install(DIRECTORY 
+  resource
+  config
   DESTINATION share/${PROJECT_NAME}
 )
 
