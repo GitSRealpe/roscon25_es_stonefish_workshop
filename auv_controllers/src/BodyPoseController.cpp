@@ -266,7 +266,13 @@ namespace auv_controllers
                 static_cast<void>(command_interfaces_[i].set_value(pid_err.row(i).sum()));
             }
             // handle only yaw for now
-            auto gain = params_.gains.dof_names_map[params_.dof_names[5]];
+            auto gain = params_.gains.dof_names_map[params_.dof_names[3]];
+            static_cast<void>(command_interfaces_[3].set_value(gain.p * err_roll));
+
+            gain = params_.gains.dof_names_map[params_.dof_names[4]];
+            static_cast<void>(command_interfaces_[4].set_value(gain.p * err_pitch));
+
+            gain = params_.gains.dof_names_map[params_.dof_names[5]];
             static_cast<void>(command_interfaces_[5].set_value(gain.p * err_yaw));
         }
 

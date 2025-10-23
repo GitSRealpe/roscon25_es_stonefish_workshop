@@ -38,8 +38,8 @@ auv_wrench_controller:
       [ 0.86603, 0.86603,-0.86603,-0.86603, 0.0, 0.0, 0.0 , 0.0,  # X
         -0.5,     0.5,      -0.5,    0.5,      0.0, 0.0, 0.0, 0.0,  # Y
         0.0,      0.0,      0.0,     0.0,      1.0, 1.0, 1.0, 1.0,  # Z
-        0.0,      0.0,      0.0,     0.0,      0.0, 0.0, 0.0, 0.0,  # roll
-        0.0,      0.0,      0.0,     0.0,      0.0, 0.0, 0.0, 0.0,  # pitch
+        0.0,      -0.0,      0.0,     -0.0,      0.1286, -0.1286, 0.1286, -0.1286,  # roll
+        0.0,      0.0,      -0.0,    -0.0,      -0.120, -0.120, 0.120, 0.120,  # pitch
         -0.16,     0.16,     0.16,    -0.16,     0.0, 0.0, 0.0, 0.0]  # yaw
     
 auv_velocity_controller:
@@ -56,9 +56,9 @@ auv_velocity_controller:
     use_external_measured_states: True
 
     gains:
-      auv_wrench_controller/x: {"p": 2.0, "i": 0.0, "d": 0.0}
-      auv_wrench_controller/y: {"p": 2.0, "i": 0.0, "d": 0.0}
-      auv_wrench_controller/z: {"p": 15.0, "i": 2.0, "d": 0.1}
+      auv_wrench_controller/x: {"p": 1.0, "i": 0.0, "d": 0.0}
+      auv_wrench_controller/y: {"p": 1.0, "i": 0.0, "d": 0.0}
+      auv_wrench_controller/z: {"p": 1.0, "i": 0.0, "d": 0.0}
       auv_wrench_controller/z.saturation: true
       auv_wrench_controller/z.u_clamp_min: -1.5
       auv_wrench_controller/z.u_clamp_max: 1.5
@@ -66,9 +66,9 @@ auv_velocity_controller:
       auv_wrench_controller/z.tracking_time_constant: 0.5
       auv_wrench_controller/z.i_clamp_max: 3.0
       auv_wrench_controller/z.i_clamp_min: -3.0      
-      auv_wrench_controller/roll: {"p": 0.0, "i": 0.0, "d": 0.0}
-      auv_wrench_controller/pitch: {"p": 0.0, "i": 0.0, "d": 0.0}
-      auv_wrench_controller/yaw: {"p": 3.0, "i": 2.0, "d": 0.1}
+      auv_wrench_controller/roll: {"p": 1.0, "i": 0.0, "d": 0.1}
+      auv_wrench_controller/pitch: {"p": 1.0, "i": 0.0, "d": 0.0}
+      auv_wrench_controller/yaw: {"p": 1.0, "i": 0.0, "d": 0.0}
       auv_wrench_controller/yaw.saturation: true
       auv_wrench_controller/yaw.u_clamp_min: -0.785398
       auv_wrench_controller/yaw.u_clamp_max: 0.785398
