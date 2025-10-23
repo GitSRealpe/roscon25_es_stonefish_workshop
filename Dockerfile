@@ -34,4 +34,4 @@ RUN . /opt/ros/${ROS_DISTRO}/setup.sh \
 COPY ./entrypoint.sh /
 ENTRYPOINT [ "/entrypoint.sh" ]
 
-RUN echo "PS1='\033[01;32m\]\u\033[00m\]@\033[01;31m\]\h\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '" >> /home/${USERNAME}/.bashrc
+RUN echo "PS1='\[\033[01;32m\]\u\[\033[00m\]@\[\033[01;31m\]\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '" >> /home/${USERNAME}/.bashrc
