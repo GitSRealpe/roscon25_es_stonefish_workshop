@@ -43,6 +43,7 @@ def generate_launch_description():
             "auv_wrench_controller",
             "auv_velocity_controller",
             "auv_pose_controller",
+            "joint_state_broadcaster",
             "--param-file",
             controllers_file,
             "--activate-as-group",

@@ -11,6 +11,13 @@ controller_manager:
     auv_pose_controller:
       type: auv_controllers/BodyPoseController
 
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+joint_state_broadcaster:
+  ros__parameters:
+    use_local_topics: false
+
 auv_wrench_controller:
   ros__parameters:
     num_thrusters: 8
