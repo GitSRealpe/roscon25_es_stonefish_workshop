@@ -1,0 +1,75 @@
+{
+  "keys": {},
+  "groups": {
+    "mainwindow": {
+      "keys": {
+        "geometry": {
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'01d9d0cb00030000000008fb000000e000000da60000033c000008fb0000010500000da60000033c00000001000000000780000008fb0000010500000da60000033c')",
+          "type": "repr(QByteArray.hex)",
+          "pretty-print": "           <       <            <"
+        },
+        "state": {
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'000000ff00000000fd0000000100000003000004ac00000208fc0100000001fb00000052007200710074005f0073006c0069006400650073005f005f0053006c00690064006500730068006f0077005f005f0031005f005f0053006c00690064006500730068006f00770057006900640067006500740100000000000004ac000000bc00ffffff000004ac0000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
+          "type": "repr(QByteArray.hex)",
+          "pretty-print": "                 Rrqt_slides__Slideshow__1__SlideshowWidget                            6MinimizedDockWidgetsToolbar        "
+        }
+      },
+      "groups": {
+        "toolbar_areas": {
+          "keys": {
+            "MinimizedDockWidgetsToolbar": {
+              "repr": "8",
+              "type": "repr"
+            }
+          },
+          "groups": {}
+        }
+      }
+    },
+    "pluginmanager": {
+      "keys": {
+        "running-plugins": {
+          "repr": "{'rqt_slides/Slideshow': [1]}",
+          "type": "repr"
+        }
+      },
+      "groups": {
+        "plugin__rqt_slides__Slideshow__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__SlideshowWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Slideshow'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "topic": {
+                  "repr": "'/bluerov_roscon/front_camera/image_color'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}

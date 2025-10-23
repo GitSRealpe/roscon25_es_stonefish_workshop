@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <node name="rqt_deck" pkg="rqt_gui" exec="rqt_gui" namespace="bluerov_roscon"
+        args="-p $(find-pkg-share rqt_slides)/config/slides.perspective"/>
+</launch>
