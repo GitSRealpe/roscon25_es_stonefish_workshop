@@ -284,7 +284,7 @@
     <!-- cameras -->
     <sensor name="camera" type="camera" rate="30.0">
       <link name="Vehicle"/>
-      <origin rpy="${pi/6} 0.0 ${pi/4}" xyz="-0.05 0.25 -0.50"/>
+      <origin xyz="0.25 0.0 -0.055" rpy="${pi/2} 0 ${pi/2}"/>
       <specs resolution_x="800" resolution_y="600" horizontal_fov="60.0"/>
       <ros_publisher topic="/$(arg robot_name)/front_camera"/>
     </sensor>
