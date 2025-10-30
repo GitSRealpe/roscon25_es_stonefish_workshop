@@ -113,7 +113,7 @@
     <slide titulo="Sonar based sensors">
         <contenido>
             <html>
-                <p>Sonar based sensors, widely used in the underwater realm, exploiting sound travel properties</p>
+                <p>Sonar based sensors, widely used in the underwater realm, leveraging on sound travel properties</p>
                 <ul>
                     <li>Multibeam sonar</li>
                     <li>Forward looking sonar (FLS)</li>
@@ -126,20 +126,20 @@
         <robot_pose xyz="2.5 6.0 4.0" rpy="0.0 0.0 -1.57"/>
     </slide>
 
-    <slide titulo="Mechanical scanning imaging sonar">
+    <slide titulo="MSIS">
         <contenido>
             <html>
-                <p>Mechanical sonar description</p>
+                <p>Acoustic device with a single rotating acoustic beam. The beam rotates in one plane and generates an acoustic echo intensity map in cylindrical coordinates. This map can be used to detect obstacles or map underwater structures.</p>
             </html>
         </contenido>
         <image_topic>/bluerov_roscon/msis/display</image_topic>
         <robot_pose xyz="2.5 6.0 4.0" rpy="0.0 0.0 -1.57"/>
     </slide>
 
-    <slide titulo="Forward looking sonar">
+    <slide titulo="FLS">
         <contenido>
             <html>
-                <p>Forward looking sonar description</p>
+                <p>The forward-looking sonar (FLS) is an acoustic device utilising multiple acoustic beams arranged in a planar fan pattern, to generate an acoustic echo intensity map in cylindrical coordinates. </p>
             </html>
         </contenido>
         <image_topic>/bluerov_roscon/fls/display</image_topic>
