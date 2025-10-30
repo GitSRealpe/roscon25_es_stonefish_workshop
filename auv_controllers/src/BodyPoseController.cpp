@@ -253,11 +253,20 @@ namespace auv_controllers
                 pid_err(i, 0) = gain.p * dof_error;
                 // integral for steady state error
                 integral_acc[i] += dof_error * dt;
+                // antiwind up: clamp integral accumulator
+                if (integral_acc[i] > gain.i_clamp_max)
+                    integral_acc[i] = gain.i_clamp_max;
+                if (integral_acc[i] < gain.i_clamp_min)
+                    integral_acc[i] = gain.i_clamp_min;
                 pid_err(i, 1) = gain.i * integral_acc[i];
+                // RCLCPP_INFO(get_node()->get_logger(), "out I=%f,", pid_err(i, 1));
                 // derivative smooths
                 pid_err(i, 2) = gain.d * (dof_error - prev_error[i]) / dt;
+                // RCLCPP_INFO(get_node()->get_logger(), "out D=%f,", pid_err(i, 2));
                 prev_error[i] = dof_error;
             }
+
+            prev_t = time;
 
             // Write commands to the hardware interface
             for (size_t i = 0; i < 3; ++i)
@@ -275,8 +284,6 @@ namespace auv_controllers
             gain = params_.gains.dof_names_map[params_.dof_names[5]];
             static_cast<void>(command_interfaces_[5].set_value(gain.p * err_yaw));
         }
-
-        prev_t = time;
 
         return controller_interface::return_type::OK;
     }
