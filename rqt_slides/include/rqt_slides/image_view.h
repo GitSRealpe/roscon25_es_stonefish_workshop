@@ -10,6 +10,7 @@
 
 #include <sensor_msgs/msg/image.hpp>
 #include <geometry_msgs/msg/pose.hpp>
+#include <geometry_msgs/msg/pose_stamped.hpp>
 
 #include <opencv2/core/core.hpp>
 
@@ -65,6 +66,7 @@ namespace rqt_slides
   private:
     QString arg_topic_name;
     rclcpp::Publisher<geometry_msgs::msg::Pose>::SharedPtr pub_rpose;
+    rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr sub_pose;
     bool pub_topic_custom_;
 
     std::shared_ptr<guionUtils::GuionParser> guion_;
@@ -72,6 +74,8 @@ namespace rqt_slides
     int max_slides;
 
     void changeSlide(int index);
+
+    void poseCallback(const geometry_msgs::msg::PoseStamped::ConstSharedPtr &msg);
   };
 
 }

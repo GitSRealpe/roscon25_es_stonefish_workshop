@@ -3,7 +3,8 @@
 #include <pluginlib/class_list_macros.hpp>
 #include <sensor_msgs/image_encodings.hpp>
 #include <geometry_msgs/msg/pose.hpp>
-#include <tf2/LinearMath/Quaternion.h>
+#include <tf2/LinearMath/Quaternion.hpp>
+#include <tf2/LinearMath/Matrix3x3.hpp>
 
 #include <cv_bridge/cv_bridge.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -35,7 +36,7 @@ namespace rqt_slides
     context.addWidget(widget_);
 
     updateTopicList();
-    ui_.topics_combo_box->setCurrentIndex(ui_.topics_combo_box->findText("/bluerov_roscon/main_camera/image_color"));
+    // ui_.topics_combo_box->setCurrentIndex(ui_.topics_combo_box->findText("/bluerov_roscon/main_camera/image_color"));
     connect(ui_.topics_combo_box, SIGNAL(currentIndexChanged(int)), this, SLOT(onTopicChanged(int)));
 
     ui_.refresh_topics_push_button->setIcon(QIcon::fromTheme("view-refresh"));
@@ -45,13 +46,12 @@ namespace rqt_slides
     connect(ui_.zoom_1_push_button, SIGNAL(toggled(bool)), this, SLOT(onZoom1(bool)));
 
     // set topic name if passed in as argument
-    const QStringList &argv = context.argv();
-    if (!argv.empty())
-    {
-      arg_topic_name = argv[0];
-      selectTopic(arg_topic_name);
-    }
-    pub_topic_custom_ = false;
+    // const QStringList &argv = context.argv();
+    // if (!argv.empty())
+    // {
+    //   arg_topic_name = argv[0];
+    //   selectTopic(arg_topic_name);
+    // }
 
     ui_.image_frame->setOuterLayout(ui_.image_layout);
 
@@ -65,11 +65,23 @@ namespace rqt_slides
     ui_.slide_title->setText(QString(slide->FirstAttribute()->Value()));
     ui_.slide_content->setText(QString(guion_->getSlideHTMLContent(slide).c_str()));
     updateTopicList();
-    ui_.topics_combo_box->setCurrentIndex(ui_.topics_combo_box->findText("/bluerov_roscon/main_camera/image_color"));
+    // selectTopic("/bluerov_roscon/main_camera/image_color");
+    tinyxml2::XMLElement *imageTopicElem = slide->FirstChildElement("image_topic");
+    std::cout << imageTopicElem->GetText() << "\n";
+    ui_.topics_combo_box->setCurrentText(imageTopicElem->GetText());
+    selectTopic(imageTopicElem->GetText());
+    // ui_.topics_combo_box->setCurrentIndex(ui_.topics_combo_box->findText("/bluerov_roscon/main_camera/image_color"));
     // ui_.topics_combo_box->setCurrentIndex(1);
     // std::cout << ui_.topics_combo_box->currentIndex() << "\n";
 
     pub_rpose = node_->create_publisher<geometry_msgs::msg::Pose>("/slides/pose_command", 10);
+
+    ui_.x_pos_line->setText(QString(std::to_string(0.0).c_str()));
+    ui_.y_pos_line->setText(QString(std::to_string(0.0).c_str()));
+    ui_.z_pos_line->setText(QString(std::to_string(0.0).c_str()));
+    ui_.yaw_pos_line->setText(QString(std::to_string(0.0).c_str()));
+
+    sub_pose = node_->create_subscription<geometry_msgs::msg::PoseStamped>("/bluerov_roscon/navigator/pose", 1, std::bind(&Slideshow::poseCallback, this, std::placeholders::_1));
   }
 
   void Slideshow::shutdownPlugin()
@@ -150,6 +162,24 @@ namespace rqt_slides
     }
   }
 
+  void Slideshow::poseCallback(const geometry_msgs::msg::PoseStamped::ConstSharedPtr &msg)
+  {
+    ui_.x_pos_line->setText(QString(std::to_string(msg->pose.position.x).c_str()));
+    ui_.y_pos_line->setText(QString(std::to_string(msg->pose.position.y).c_str()));
+    ui_.z_pos_line->setText(QString(std::to_string(msg->pose.position.z).c_str()));
+
+    tf2::Quaternion q(
+        msg->pose.orientation.x,
+        msg->pose.orientation.y,
+        msg->pose.orientation.z,
+        msg->pose.orientation.w);
+    tf2::Matrix3x3 m(q);
+    double roll, pitch, yaw;
+    m.getRPY(roll, pitch, yaw);
+
+    ui_.yaw_pos_line->setText(QString(std::to_string(yaw).c_str()));
+  }
+
   // ///////////////////////////////////////////////////////////
 
   void Slideshow::saveSettings(qt_gui_cpp::Settings &plugin_settings, qt_gui_cpp::Settings &instance_settings) const
@@ -176,7 +206,8 @@ namespace rqt_slides
     else
     {
       // qDebug("Slideshow::restoreSettings() topic '%s'", topic.toStdString().c_str());
-      selectTopic(topic);
+
+      selectTopic("/bluerov_roscon/front_camera/image_color");
     }
   }
 

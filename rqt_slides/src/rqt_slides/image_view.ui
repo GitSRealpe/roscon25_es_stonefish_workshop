@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>884</width>
-    <height>553</height>
+    <width>936</width>
+    <height>586</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,23 +21,17 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <layout class="QGridLayout" name="gridLayout_2">
-       <property name="bottomMargin">
-        <number>10</number>
-       </property>
        <item row="2" column="1">
         <layout class="QGridLayout" name="info_layout">
          <item row="0" column="3">
           <layout class="QVBoxLayout" name="data_layout">
-           <property name="bottomMargin">
-            <number>20</number>
-           </property>
            <item>
             <spacer name="verticalSpacer_2">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
              <property name="sizeType">
-              <enum>QSizePolicy::Minimum</enum>
+              <enum>QSizePolicy::Expanding</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
@@ -101,15 +95,18 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit">
+              <widget class="QLineEdit" name="x_pos_line">
                <property name="enabled">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
+               </property>
+               <property name="readOnly">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -156,15 +153,18 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_2">
+              <widget class="QLineEdit" name="y_pos_line">
                <property name="enabled">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
+               </property>
+               <property name="readOnly">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -214,15 +214,18 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_3">
+              <widget class="QLineEdit" name="z_pos_line">
                <property name="enabled">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
+               </property>
+               <property name="readOnly">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -272,15 +275,18 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_4">
+              <widget class="QLineEdit" name="yaw_pos_line">
                <property name="enabled">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
+               </property>
+               <property name="readOnly">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -308,7 +314,7 @@
               <enum>Qt::Vertical</enum>
              </property>
              <property name="sizeType">
-              <enum>QSizePolicy::Minimum</enum>
+              <enum>QSizePolicy::Expanding</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
@@ -333,13 +339,13 @@
              <property name="minimumSize">
               <size>
                <width>350</width>
-               <height>0</height>
+               <height>200</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>350</width>
-               <height>16777215</height>
+               <height>500</height>
               </size>
              </property>
              <property name="frameShape">
@@ -360,6 +366,12 @@
          </item>
          <item row="0" column="2">
           <widget class="Line" name="line">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
@@ -376,6 +388,9 @@
           <spacer name="horizontalSpacer">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Maximum</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -419,6 +434,9 @@
           <spacer name="horizontalSpacer_2">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Maximum</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -467,9 +485,6 @@
        </item>
        <item row="3" column="1">
         <layout class="QHBoxLayout" name="buttons_layout">
-         <property name="bottomMargin">
-          <number>20</number>
-         </property>
          <item>
           <widget class="QPushButton" name="prev_button">
            <property name="text">
@@ -583,8 +598,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>236</width>
-              <height>494</height>
+              <width>288</width>
+              <height>527</height>
              </rect>
             </property>
             <property name="sizePolicy">
