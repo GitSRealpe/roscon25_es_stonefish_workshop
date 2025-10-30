@@ -32,7 +32,8 @@ private:
 
     void goalCallback(const geometry_msgs::msg::Pose::SharedPtr msg)
     {
-        RCLCPP_INFO(this->get_logger(), "Got goal command");
+        RCLCPP_INFO(this->get_logger(), "Got goal command x=%f, y=%f, z=%f",
+                    msg->position.x, msg->position.y, msg->position.z);
         goal_.pose = *msg;
     }
 
