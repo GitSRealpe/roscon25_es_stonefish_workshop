@@ -339,8 +339,8 @@
     <!-- sonar sensors -->
 
     <sensor name="msis_link" type="msis">
-      <specs step="1" bins="500" horizontal_beam_width="2.0" vertical_beam_width="30.0"/>
-      <settings range_min="0.5" range_max="10.0" rotation_min="-30.0" rotation_max="30.0" gain="1.5"/>
+      <specs step="1" bins="500" horizontal_beam_width="2.0" vertical_beam_width="60.0"/>
+      <settings range_min="0.5" range_max="10.0" rotation_min="-60.0" rotation_max="60.0" gain="1.5"/>
       <noise multiplicative="0.02" additive="0.03"/>
       <display colormap="hot"/>
       <origin xyz="0.25 0.0 -0.055" rpy="${pi/2} 0 ${pi/2}"/>
