@@ -3,5 +3,5 @@
     <!-- <node name="rqt_deck" pkg="rqt_gui" exec="rqt_gui" namespace="bluerov_roscon"
         args="-p $(find-pkg-share rqt_slides)/config/slides.perspective"/> -->
 
-    <node name="rqt_deck" pkg="rqt_slides" exec="rqt_slides" namespace="bluerov_roscon"/>
+    <node name="rqt_deck" pkg="rqt_slides" exec="rqt_slides"/>
 </launch>
