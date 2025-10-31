@@ -30,7 +30,7 @@
     <slide titulo="Introduction.B">
         <contenido>
             <html>
-                <p>Its a ligthweigth, standalone C++ library, which offers easy to use API to build dynamic simulations, or also can be defined through simple descriptions in a XML file</p>
+                <p>Its a ligthweigth, standalone C++ library, intended for easy definition of simulations through simple descriptions in XML files, it also offers a C++ API to build dynamic simulations.</p>
             </html>
         </contenido>
         <image_topic>/bluerov_roscon/back_camera/image_color</image_topic>
@@ -39,10 +39,20 @@
     <slide titulo="Introduction.C">
         <contenido>
             <html>
-                <p>And with seamless integration, it also pivots on the foundations of ROS (1 and 2!), allowing to develop and test many marine robotics applications that have high physics requirements.</p>
+                <p>And with seamless integration, it also leverages on the strength of ROS (1 and 2!), allowing to develop and test many marine robotics applications on platforms powered by the ROS ecosystem.</p>
             </html>
         </contenido>
         <image_topic>/bluerov_roscon/back_camera/image_color</image_topic>
+    </slide>
+
+    <slide titulo="General Scenario">
+        <contenido>
+            <html>
+                <p>Meshes of both visual and collsision geometries are loaded from .obj files, with their textures maps, are to be stored in the project package folder</p>
+            </html>
+        </contenido>
+        <image_topic>/bluerov_roscon/back_camera/image_color</image_topic>
+        <robot_pose xyz="2.5 5.0 3.0" rpy="0.0 0.0 -1.57"/>
     </slide>
 
     <slide titulo="Vision sensors">
