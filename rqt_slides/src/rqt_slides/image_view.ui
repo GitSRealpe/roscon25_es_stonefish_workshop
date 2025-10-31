@@ -111,6 +111,13 @@
               </widget>
              </item>
              <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>m</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <spacer name="horizontalSpacer_4">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -165,6 +172,13 @@
                </property>
                <property name="readOnly">
                 <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>m</string>
                </property>
               </widget>
              </item>
@@ -230,6 +244,13 @@
               </widget>
              </item>
              <item>
+              <widget class="QLabel" name="label_8">
+               <property name="text">
+                <string>m</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <spacer name="horizontalSpacer_7">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -287,6 +308,13 @@
                </property>
                <property name="readOnly">
                 <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_9">
+               <property name="text">
+                <string>rad</string>
                </property>
               </widget>
              </item>
@@ -598,7 +626,7 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>288</width>
+              <width>259</width>
               <height>527</height>
              </rect>
             </property>
