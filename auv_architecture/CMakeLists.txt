@@ -10,6 +10,8 @@ find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 # find_package(Eigen3 REQUIRED)
 
+find_package(OpenCV REQUIRED COMPONENTS highgui imgcodecs imgproc videoio)
+
 set(THIS_PACKAGE_INCLUDE_DEPENDS
   rclcpp
   std_msgs
@@ -17,6 +19,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   stonefish_ros2
   cv_bridge
   nav_msgs
+  image_transport
 )
 
 foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
@@ -59,6 +62,14 @@ ament_target_dependencies(auv_navigator_node rclcpp nav_msgs geometry_msgs)
 add_executable(auv_pilot_node scripts/auv_pilot_node.cpp)
 ament_target_dependencies(auv_pilot_node rclcpp nav_msgs geometry_msgs)
 
+add_executable(image_transport_test scripts/image_transport_test.cpp)
+# ament_target_dependencies(image_transport_test rclcpp sensor_msgs cv_bridge image_transport)
+target_link_libraries(image_transport_test
+  cv_bridge::cv_bridge
+  image_transport::image_transport
+  opencv_highgui
+  rclcpp::rclcpp)
+
 # Build the renderer executable
 add_executable(event_render_node scripts/event_render_node.cpp)
 ament_target_dependencies(event_render_node PUBLIC rclcpp std_msgs stonefish_ros2 cv_bridge)
@@ -76,6 +87,7 @@ install(TARGETS
   auv_navigator_node
   auv_pilot_node
   event_render_node
+  image_transport_test
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 
