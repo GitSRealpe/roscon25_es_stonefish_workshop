@@ -42,7 +42,8 @@ RUN sudo apt update && sudo apt install -y --no-install-recommends \
     ros-${ROS_DISTRO}-control-toolbox \
     ros-${ROS_DISTRO}-pid-controller \
     ros-${ROS_DISTRO}-joint-state-broadcaster \
-    ros-${ROS_DISTRO}-rqt
+    ros-${ROS_DISTRO}-rqt \
+    ros-${ROS_DISTRO}-image-transport-plugins
 
 # stonefish dependencies
 RUN sudo apt update && sudo apt install -y --no-install-recommends \
