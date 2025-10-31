@@ -67,7 +67,6 @@ namespace rqt_slides
     QString arg_topic_name;
     rclcpp::Publisher<geometry_msgs::msg::Pose>::SharedPtr pub_rpose;
     rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr sub_pose;
-    bool pub_topic_custom_;
 
     std::shared_ptr<guionUtils::GuionParser> guion_;
     int slide_number = 0;
