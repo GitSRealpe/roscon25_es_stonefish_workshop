@@ -36,7 +36,7 @@ namespace rqt_slides
     context.addWidget(widget_);
 
     updateTopicList();
-    // ui_.topics_combo_box->setCurrentIndex(ui_.topics_combo_box->findText("/bluerov_roscon/main_camera/image_color"));
+    ui_.topics_combo_box->setCurrentIndex(ui_.topics_combo_box->findText("/bluerov_roscon/front_camera/image_color"));
     connect(ui_.topics_combo_box, SIGNAL(currentIndexChanged(int)), this, SLOT(onTopicChanged(int)));
 
     ui_.refresh_topics_push_button->setIcon(QIcon::fromTheme("view-refresh"));
@@ -65,12 +65,12 @@ namespace rqt_slides
     ui_.slide_title->setText(QString(slide->FirstAttribute()->Value()));
     ui_.slide_content->setText(QString(guion_->getSlideHTMLContent(slide).c_str()));
     updateTopicList();
-    // selectTopic("/bluerov_roscon/main_camera/image_color");
+    // selectTopic("/bluerov_roscon/front_camera/image_color");
     tinyxml2::XMLElement *imageTopicElem = slide->FirstChildElement("image_topic");
     std::cout << imageTopicElem->GetText() << "\n";
     ui_.topics_combo_box->setCurrentText(imageTopicElem->GetText());
     selectTopic(imageTopicElem->GetText());
-    // ui_.topics_combo_box->setCurrentIndex(ui_.topics_combo_box->findText("/bluerov_roscon/main_camera/image_color"));
+    // ui_.topics_combo_box->setCurrentIndex(ui_.topics_combo_box->findText("/bluerov_roscon/front_camera/image_color"));
     // ui_.topics_combo_box->setCurrentIndex(1);
     // std::cout << ui_.topics_combo_box->currentIndex() << "\n";
 
@@ -335,18 +335,17 @@ namespace rqt_slides
     if (!topic.isEmpty())
     {
       const image_transport::TransportHints hints(node_.get(), transport.toStdString());
+      // const image_transport::TransportHints hints(node_.get(), "compressed");
       try
       {
         auto subscription_options = rclcpp::SubscriptionOptions();
-
-        // subscription_options.qos_overriding_options = rclcpp::QosOverridingOptions::with_default_policies();
-
         subscriber_ = image_transport::create_subscription(
             node_.get(),
             topic.toStdString(),
             std::bind(&Slideshow::callbackImage, this, std::placeholders::_1),
             hints.getTransport(), rmw_qos_profile_default, subscription_options);
-        qDebug("Slideshow::onTopicChanged() to topic '%s' with transport '%s'", topic.toStdString().c_str(), subscriber_.getTransport().c_str());
+        // qDebug("Slideshow::onTopicChanged() to topic '%s' with transport '%s'", topic.toStdString().c_str(), subscriber_.getTransport().c_str());
+        // RCLCPP_INFO(node_->get_logger(), "Slideshow::onTopicChanged() to topic '%s' with transport '%s'", topic.toStdString().c_str(), subscriber_.getTransport().c_str());
       }
       catch (image_transport::TransportLoadException &e)
       {
@@ -376,72 +375,108 @@ namespace rqt_slides
 
   void Slideshow::callbackImage(const sensor_msgs::msg::Image::ConstSharedPtr &msg)
   {
+    cv::Mat cv_image;
+    const std::string &encoding = msg->encoding;
+
     try
     {
-      // First let cv_bridge do its magic
-      cv_bridge::CvImageConstPtr cv_ptr = cv_bridge::toCvShare(msg, sensor_msgs::image_encodings::RGB8);
-      conversion_mat_ = cv_ptr->image;
-    }
-    catch (cv_bridge::Exception &e)
-    {
-      try
+      // Step 1: Try direct conversion to RGB8 (most common case)
+      if (encoding == sensor_msgs::image_encodings::RGB8)
       {
-        // If we're here, there is no conversion that makes sense, but let's try to imagine a few first
+        cv_bridge::CvImageConstPtr cv_ptr = cv_bridge::toCvShare(msg, sensor_msgs::image_encodings::BGR8);
+        cv_image = cv_ptr->image;
+      }
+      // Step 2: Handle BGR8 (very common from cameras)
+      else if (encoding == sensor_msgs::image_encodings::BGR8)
+      {
+        cv_bridge::CvImageConstPtr cv_ptr = cv_bridge::toCvShare(msg, sensor_msgs::image_encodings::BGR8);
+        cv::cvtColor(cv_ptr->image, cv_image, cv::COLOR_BGR2RGB);
+      }
+      // Step 3: Monochrome 8-bit
+      else if (encoding == sensor_msgs::image_encodings::MONO8 ||
+               encoding == sensor_msgs::image_encodings::TYPE_8UC1)
+      {
         cv_bridge::CvImageConstPtr cv_ptr = cv_bridge::toCvShare(msg);
-        if (msg->encoding == "CV_8UC3")
-        {
-          // assuming it is rgb
-          conversion_mat_ = cv_ptr->image;
-        }
-        else if (msg->encoding == "8UC1")
-        {
-          // convert gray to rgb
-          cv::cvtColor(cv_ptr->image, conversion_mat_, CV_GRAY2RGB);
-        }
-        else if (msg->encoding == "16UC1" || msg->encoding == "32FC1")
-        {
-          // scale / quantify
-          double min = 0;
-          double max = 3.0;
-          if (msg->encoding == "16UC1")
-            max *= 1000;
-          // dynamically adjust range based on min/max in image
-          cv::minMaxLoc(cv_ptr->image, &min, &max);
-          if (min == max)
-          {
-            // completely homogeneous images are displayed in gray
-            min = 0;
-            max = 2;
-          }
-          cv::Mat img_scaled_8u;
-          cv::Mat(cv_ptr->image - min).convertTo(img_scaled_8u, CV_8UC1, 255. / (max - min));
-          cv::cvtColor(img_scaled_8u, conversion_mat_, CV_GRAY2RGB);
-        }
-        else
-        {
-          qWarning("Slideshow.callback_image() could not convert image from '%s' to 'rgb8' (%s)", msg->encoding.c_str(), e.what());
-          ui_.image_frame->setImage(QImage());
-          return;
-        }
+        cv::cvtColor(cv_ptr->image, cv_image, cv::COLOR_GRAY2RGB);
       }
-      catch (cv_bridge::Exception &e)
+      // Step 4: 16-bit depth (common: 16UC1)
+      else if (encoding == sensor_msgs::image_encodings::TYPE_16UC1 ||
+               encoding == sensor_msgs::image_encodings::MONO16)
       {
-        qWarning("Slideshow.callback_image() while trying to convert image from '%s' to 'rgb8' an exception was thrown (%s)", msg->encoding.c_str(), e.what());
-        ui_.image_frame->setImage(QImage());
-        return;
+        cv_bridge::CvImageConstPtr cv_ptr = cv_bridge::toCvShare(msg);
+        const cv::Mat &depth = cv_ptr->image;
+        double max_val = 3000.0; // Default: 4 meters
+        cv::Mat scaled;
+        double scale = 255.0 / max_val;
+        depth.convertTo(scaled, CV_8U, scale);
+        cv::cvtColor(scaled, cv_image, cv::COLOR_GRAY2RGB);
+      }
+      // Step 5: 32-bit float depth (e.g., from RealSense)
+      else if (encoding == sensor_msgs::image_encodings::TYPE_32FC1)
+      {
+        cv_bridge::CvImageConstPtr cv_ptr = cv_bridge::toCvShare(msg);
+        const cv::Mat &depth = cv_ptr->image;
+        double min_val, max_val;
+        cv::minMaxLoc(depth, &min_val, &max_val);
+        if (max_val <= min_val)
+          max_val = min_val + 1.0;
+
+        cv::Mat scaled;
+        cv::Mat(depth - min_val).convertTo(scaled, CV_8U, 255.0 / (max_val - min_val));
+        cv::cvtColor(scaled, cv_image, cv::COLOR_GRAY2RGB);
+      }
+      // Step 6: Fallback — let cv_bridge try
+      else
+      {
+        cv_bridge::CvImageConstPtr cv_ptr = cv_bridge::toCvShare(msg, sensor_msgs::image_encodings::RGB8);
+        cv_image = cv_ptr->image;
       }
     }
+    catch (const cv_bridge::Exception &e)
+    {
+      qWarning("Slideshow: Failed to convert image from '%s': %s", encoding.c_str(), e.what());
+      ui_.image_frame->setImage(QImage());
+      return;
+    }
 
-    // image must be copied since it uses the conversion_mat_ for storage which is asynchronously overwritten in the next callback invocation
-    QImage image(conversion_mat_.data, conversion_mat_.cols, conversion_mat_.rows, conversion_mat_.step[0], QImage::Format_RGB888);
-    ui_.image_frame->setImage(image);
+    // Convert to QImage (zero-copy if possible)
+    if (cv_image.empty())
+    {
+      ui_.image_frame->setImage(QImage());
+      return;
+    }
 
+    QImage qimage;
+    if (cv_image.type() == CV_8UC3 && cv_image.channels() == 3)
+    {
+      // Fast path: direct RGB888
+      qimage = QImage(cv_image.data, cv_image.cols, cv_image.rows, cv_image.step, QImage::Format_RGB888);
+    }
+    else
+    {
+      // Fallback: ensure RGB8
+      cv::Mat rgb;
+      if (cv_image.channels() == 1)
+        cv::cvtColor(cv_image, rgb, cv::COLOR_GRAY2RGB);
+      else if (cv_image.depth() != CV_8U)
+        cv_image.convertTo(rgb, CV_8U);
+      else
+        rgb = cv_image;
+
+      if (rgb.channels() == 4)
+        cv::cvtColor(rgb, rgb, cv::COLOR_RGBA2RGB);
+
+      qimage = QImage(rgb.data, rgb.cols, rgb.rows, rgb.step, QImage::Format_RGB888).copy();
+    }
+
+    // Note: QImage does NOT copy data unless modified or .copy() is called
+    ui_.image_frame->setImage(qimage.rgbSwapped()); // Qt expects RGB, OpenCV gives BGR sometimes
+
+    // Enable zoom button if needed
     if (!ui_.zoom_1_push_button->isEnabled())
     {
       ui_.zoom_1_push_button->setEnabled(true);
     }
-    // Need to update the zoom 1 every new image in case the image aspect ratio changed,
-    // though could check and see if the aspect ratio changed or not.
     onZoom1(ui_.zoom_1_push_button->isChecked());
   }
 }
