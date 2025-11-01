@@ -33,19 +33,22 @@ void EventsRenderer::publishImage(const cv_bridge::CvImage &image)
 
 void EventsRenderer::dataCallback(const stonefish_ros2::msg::EventArray::SharedPtr message)
 {
-    int num_events = message->events.size();
+    u_int num_events = message->events.size();
 
     cv_bridge::CvImage render_image;
     if (num_events > 0)
+    {
         render_image.header.stamp = message->events[num_events / 2].ts;
+        // RCLCPP_INFO(get_logger(), "nevents: %d", num_events);
+    }
 
     render_image.encoding = "bgr8";
     render_image.image = cv::Mat(message->height, message->width, CV_8UC3, cv::Scalar(255, 255, 255));
 
-    for (int i = 0; i < num_events; ++i)
+    for (u_int i = 0; i < num_events; ++i)
     {
-        const int x = message->events[i].x;
-        const int y = message->events[i].y;
+        const u_int x = message->events[i].x;
+        const u_int y = message->events[i].y;
         render_image.image.at<cv::Vec3b>(cv::Point(x, y)) =
             (message->events[i].polarity ? cv::Vec3b(255, 0, 0) : cv::Vec3b(0, 0, 255));
     }
