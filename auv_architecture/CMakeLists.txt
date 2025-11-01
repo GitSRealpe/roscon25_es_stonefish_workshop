@@ -74,6 +74,8 @@ target_link_libraries(image_transport_test
 add_executable(event_render_node scripts/event_render_node.cpp)
 ament_target_dependencies(event_render_node PUBLIC rclcpp std_msgs stonefish_ros2 cv_bridge)
 target_link_libraries(event_render_node PUBLIC
+     cv_bridge::cv_bridge
+     image_transport::image_transport
     ${PROJECT_NAME})
 
 # Install include directories
