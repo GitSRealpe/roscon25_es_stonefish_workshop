@@ -41,7 +41,7 @@
 
     <!-- sensor nodes -->
 
-    <node name="events_renderer" pkg="auv_architecture" exec="event_render_node">
+    <node name="events_renderer" pkg="auv_architecture" exec="event_render_node" output="screen">
         <remap from="/events_topic" to="/bluerov_roscon/event_cam"/>
         <remap from="/image_topic" to="/bluerov_roscon/event_image"/>
     </node>
