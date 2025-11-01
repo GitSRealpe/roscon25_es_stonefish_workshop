@@ -236,43 +236,30 @@
     </actuator>
 
     <!-- LIGHTS -->
-    <!-- <light name="upright">
-    		<specs radius="0.01"  illuminance="12000.0"/>
-    		<color temperature="5600.0"/>
-    		<origin xyz="0.19 0.205 -.08" rpy="-1.57 3.1416 0"/>
-    		<link name="Vehicle"/>
-		</light>
-		<light name="upleft">
-    		<specs radius="0.01"  illuminance="12000.0"/>
-    		<color temperature="5600.0"/>
-    		<origin xyz="-0.19 0.205 -.08" rpy="-1.57 3.1416 0"/>
-    		<link name="Vehicle"/>
-		</light>
-		<light name="downright">
-    		<specs radius="0.01"  illuminance="12000.0"/>
-    		<color temperature="5600.0"/>
-    		<origin xyz="0.19 0.205 .085" rpy="-1.57 3.1416 0"/>
-    		<link name="Vehicle"/>
-		</light>
-		<light name="downleft">
-    		<specs radius="0.01"  illuminance="12000.0"/>
-    		<color temperature="5600.0"/>
-    		<origin xyz="-0.19 0.205 .085" rpy="-1.57 3.1416 0"/>
-    		<link name="Vehicle"/>
-		</light> -->
-
-    <!-- <light name="upleft">
-			<specs radius="0.01" illuminance="12000.0"/>
-			<color temperature="5600.0"/>
-			<origin xyz="0.105 -0.17 0.22" rpy="0 0 0"/>
-			<link name="Vehicle"/>
-		</light>
-		<light name="downright">
-			<specs radius="0.01" illuminance="12000.0"/>
-			<color temperature="5600.0"/>
-			<origin xyz="0.105 0.17 0.22" rpy="0 0 0"/>
-			<link name="Vehicle"/>
-		</light> -->
+    <light name="upright">
+      <specs radius="0.01" cone_angle="60.0" illuminance="12000.0"/>
+      <color temperature="5600.0"/>
+      <origin xyz="0.175 0.1897 -0.12" rpy="${pi/2.3} 0.0 ${pi/2}"/>
+      <link name="Vehicle"/>
+    </light>
+    <light name="upleft">
+      <specs radius="0.01" cone_angle="60.0" illuminance="12000.0"/>
+      <color temperature="5600.0"/>
+      <origin xyz="0.175 -0.1897 -0.12" rpy="${pi/2.3} 0.0 ${pi/2}"/>
+      <link name="Vehicle"/>
+    </light>
+    <light name="downright">
+      <specs radius="0.01" cone_angle="60.0" illuminance="12000.0"/>
+      <color temperature="5600.0"/>
+      <origin xyz="0.18 0.1897 0.045" rpy="${pi/2.5} 0.0 ${pi/2}"/>
+      <link name="Vehicle"/>
+    </light>
+    <light name="downleft">
+      <specs radius="0.01" cone_angle="60.0" illuminance="12000.0"/>
+      <color temperature="5600.0"/>
+      <origin xyz="0.18 -0.1897 0.045" rpy="${pi/2.5} 0.0 ${pi/2}"/>
+      <link name="Vehicle"/>
+    </light>
 
     <!--   SENSORS   -->
     <sensor name="dynamics" type="odometry" rate="30.0">
@@ -284,7 +271,7 @@
     <!-- cameras -->
     <sensor name="camera" type="camera" rate="30.0">
       <link name="Vehicle"/>
-      <origin xyz="0.25 0.0 -0.055" rpy="${pi/2} 0 ${pi/2}"/>
+      <origin xyz="0.25 0.0 -0.055" rpy="${pi/6} 0 ${pi/2}"/>
       <specs resolution_x="800" resolution_y="600" horizontal_fov="60.0"/>
       <ros_publisher topic="/$(arg robot_name)/front_camera"/>
     </sensor>
@@ -301,6 +288,13 @@
       <origin rpy="${pi/4} 0.0 ${pi/2}" xyz="-0.7 0.0 -0.7"/>
       <specs resolution_x="800" resolution_y="600" horizontal_fov="60.0"/>
       <ros_publisher topic="/$(arg robot_name)/back_camera"/>
+    </sensor>
+
+    <sensor name="camera4" type="camera" rate="30.0">
+      <link name="Vehicle"/>
+      <origin xyz="0.50 0.0 -0.055" rpy="${pi/2} 0 ${-pi/2}"/>
+      <specs resolution_x="800" resolution_y="600" horizontal_fov="90.0"/>
+      <ros_publisher topic="/$(arg robot_name)/llums"/>
     </sensor>
 
     <sensor name="depth_cam" rate="30.0" type="depthcamera">
