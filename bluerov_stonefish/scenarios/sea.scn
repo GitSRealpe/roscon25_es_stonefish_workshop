@@ -4,11 +4,11 @@
         <ned latitude="41.9674245" longitude="2.8361531"/>
         <ocean>
             <water density="1000.0" jerlov="0.0"/>
-            <waves height="0.0"/>
+            <waves height="1.0"/>
             <particles enabled="true"/>
         </ocean>
         <atmosphere>
-            <sun azimuth="-121.0" elevation="50.0"/>
+            <sun azimuth="74.0" elevation="34.0"/>
         </atmosphere>
     </environment>
 
@@ -50,6 +50,7 @@
 
     <include file="$(find bluerov_stonefish)/scenarios/objects/crabcam.scn"/>
     <include file="$(find bluerov_stonefish)/scenarios/objects/structure.scn"/>
+    <include file="$(find bluerov_stonefish)/scenarios/objects/boat.scn"/>
 
     <!-- <include file="$(find bluerov_stonefish)/scenarios/objects/seismograph.scn">
         <arg name="position" value="3.0 0.0 8.0"/>

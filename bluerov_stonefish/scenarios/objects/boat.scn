@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<scenario>
+
+    <looks>
+        <look name="boat" gray="1.0" roughness="0.1" metalness="0.1" texture="objects/boat/boat_text.png"/>
+    </looks>
+
+
+    <dynamic name="boat" type="model" physics="floating" buoyant="true">
+        <physical>
+            <mesh filename="objects/boat/boat.obj" scale="3.0"/>
+            <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        </physical>
+        <visual>
+            <mesh filename="objects/boat/boat.obj" scale="3.0"/>
+            <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+        </visual>
+        <material name="Steel"/>
+        <look name="boat"/>
+        <mass value="30000.0"/>
+        <hydrodynamics viscous_drag="1.0 1.0 1.0" quadratic_drag="1.0 1.0 1.0"/>
+
+        <link name="Link1" type="box" physics="surface">
+            <dimensions xyz="0.1 0.02 0.5"/>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 3.14159"/>
+            <material name="Steel"/>
+            <look name="Green"/>
+        </link>
+
+
+        <sensor name="camera" type="camera" rate="30.0">
+            <link name="Link1"/>
+            <origin xyz="-7.0 5.0 -5.0" rpy="${pi/4} 0.0 ${pi/2}"/>
+            <specs resolution_x="800" resolution_y="600" horizontal_fov="90.0"/>
+            <ros_publisher topic="/boat_camera"/>
+        </sensor>
+
+        <world_transform rpy="0.0 0.0 0.0" xyz="0.0 -5.0 0.0"/>
+    </dynamic>
+
+</scenario>
