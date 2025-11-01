@@ -40,6 +40,7 @@
         <contenido>
             <html>
                 <p>And with seamless integration, it also leverages on the strength of ROS (1 and 2!), allowing to develop and test many marine robotics applications on platforms powered by the ROS ecosystem.</p>
+                <p>Yes!, you are seeing this thanks to ROS many integrations, such as QT5 UIs through RQT, image procesing with OpenCV, and the joint efforts of hundreds of contributors!.</p>
             </html>
         </contenido>
         <image_topic>/bluerov_roscon/back_camera/image_color</image_topic>
@@ -48,10 +49,28 @@
     <slide titulo="General Scenario">
         <contenido>
             <html>
-                <p>Meshes of both visual and collsision geometries are loaded from .obj files, with their textures maps, are to be stored in the project package folder</p>
+                <p>Meshes of both visual and collision geometries are loaded from .obj files, with their textures maps, stored in the project's package folder.</p>
             </html>
         </contenido>
-        <image_topic>/bluerov_roscon/back_camera/image_color</image_topic>
+        <image_topic>/boat_camera/image_color</image_topic>
+        <robot_pose xyz="2.5 5.0 3.0" rpy="0.0 0.0 -1.57"/>
+    </slide>
+
+    <slide titulo="Ligths">
+        <contenido>
+            <html>
+                <p>We can add ligths and attach them to moving links, i.e: robots!</p>
+                <p>We can define for them the following:</p>
+                <ul>
+                    <li>Radius</li>
+                    <li>Cone angle</li>
+                    <li>Illuminance</li>
+                    <li>Color</li>
+                    <li>Link to attach to</li>
+                </ul>
+            </html>
+        </contenido>
+        <image_topic>/bluerov_roscon/llums/image_color</image_topic>
         <robot_pose xyz="2.5 5.0 3.0" rpy="0.0 0.0 -1.57"/>
     </slide>
 
@@ -80,7 +99,9 @@
                     Basic RGB camera sensor, with parameters such as:
                     <ul>
                         <li>Publish rate</li>
-                        <li>Resolution and FoV</li>
+                        <li>Resolution</li>
+                        <li>FoV</li>
+                        <li>ROS topic publisher</li>
                     </ul>
                 </p>
             </html>
@@ -120,6 +141,20 @@
         <robot_pose xyz="2.5 0.7 5.5" rpy="0.0 0.0 -1.5708"/>
     </slide>
 
+    <slide titulo="Virtual sensors">
+        <contenido>
+            <html>
+                <p>Even sensors used only for in simulation purposes</p>
+                <ul>
+                    <li>Segmentation camera</li>
+                    <li>Optical flow camera</li>
+                </ul>
+            </html>
+        </contenido>
+        <image_topic>/bluerov_roscon/label_cam/image_color</image_topic>
+        <robot_pose xyz="2.5 5.0 2.0" rpy="0.0 0.0 -1.57"/>
+    </slide>
+
     <slide titulo="Sonar based sensors">
         <contenido>
             <html>
@@ -139,6 +174,7 @@
     <slide titulo="MSIS">
         <contenido>
             <html>
+                <h3>Mechanical scanning imaging sonar (MSIS)</h3>
                 <p>Acoustic device with a single rotating acoustic beam. The beam rotates in one plane and generates an acoustic echo intensity map in cylindrical coordinates. This map can be used to detect obstacles or map underwater structures.</p>
             </html>
         </contenido>
@@ -156,17 +192,5 @@
         <robot_pose xyz="2.5 6.0 4.0" rpy="0.0 0.0 -1.57"/>
     </slide>
 
-    <slide titulo="Virtual sensors">
-        <contenido>
-            <html>
-                <p>Even sensors used only for in simulation purposes</p>
-                <ul>
-                    <li>Segmentation camera</li>
-                    <li>Optical flow camera</li>
-                </ul>
-            </html>
-        </contenido>
-        <image_topic>/bluerov_roscon/label_cam/image_color</image_topic>
-        <robot_pose xyz="2.5 5.0 2.0" rpy="0.0 0.0 -1.57"/>
-    </slide>
+
 </guion>
