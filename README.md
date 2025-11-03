@@ -61,9 +61,9 @@ Procedemos ahora a ejecutar el container, para esto realizamos:
    2. `docker compose build` : compilamos el docker el cual usa una imagen precompilada de Stonefish bajo una imagen con ROS 2 Jazzy.
    3. `./run.sh` : Ejecutamos este shell script como utilidad para iniciar el container
       1. `ros2 launch bluerov_stonefish bluerov_sim.launch`
-   4. `docker exec -it roscon25-stonefish-docker-dev-run-xxxxxx bash` para abrir otra terminal bash en la misma instancia del contenedor.
+   4. En una pestana nueva de la terminal: `docker exec -it roscon25-stonefish-docker-dev-run-xxxxxx bash` para abrir otra terminal bash en la misma instancia del contenedor.
       1. `ros2 launch roscontrol_test testcontroller.launch.py` para lanzar el stack de ros_control del robot.
-   5. `docker exec -it roscon25-stonefish-docker-dev-run-xxxxxx bash` para una terminal adicional
+   5. Nuevamente, en otra pestana nueva de la terminal: `docker exec -it roscon25-stonefish-docker-dev-run-xxxxxx bash` para una terminal adicional
       1. `ros2 launch bluerov_stonefish slides_deck.launch` para lanzar las slides interactivas del workshop
 
 
